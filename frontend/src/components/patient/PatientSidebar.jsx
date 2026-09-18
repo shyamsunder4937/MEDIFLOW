@@ -22,7 +22,7 @@ const NAV_ITEMS = [
   { label: 'Appointments',  icon: CalendarDays,    href: '/patient/appointments'   },
   { label: 'My Queue',      icon: ListOrdered,     href: '/patient/queue'          },
   { label: 'My Journey',    icon: Compass,         href: '/patient/journey'        },
-  { label: 'Lab Results',   icon: FlaskConical,    href: '/patient/lab'            },
+  { label: 'Lab Results',   icon: FlaskConical,    href: '/patient/lab-results'    },
   { label: 'Pharmacy',      icon: Pill,            href: '/patient/pharmacy'       },
   { label: 'Notifications', icon: Bell,            href: '/patient/notifications', badge: 2 },
   { label: 'Profile',       icon: UserCircle,      href: '/patient/profile'        },

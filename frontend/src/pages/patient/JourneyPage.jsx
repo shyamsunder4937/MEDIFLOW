@@ -1,24 +1,82 @@
-import React from 'react';
-import { Compass } from 'lucide-react';
+import React, { useState } from 'react';
 import { PatientLayout } from '../../layouts/PatientLayout';
+import {
+  journeyData,
+  journeyStages,
+  nextSteps,
+  recentActivity,
+  hospitalReceptionInfo,
+} from '../../data/patientMockData';
+import { JourneyVisitHeader } from '../../components/journey/JourneyVisitHeader';
+import { JourneyProgressCard } from '../../components/journey/JourneyProgressCard';
+import { CurrentStageCard } from '../../components/journey/CurrentStageCard';
+import { NextStepsCard } from '../../components/journey/NextStepsCard';
+import { VisitDetailsCard } from '../../components/journey/VisitDetailsCard';
+import { ActivityTimelineCard } from '../../components/journey/ActivityTimelineCard';
+import { JourneyHelpCard } from '../../components/journey/JourneyHelpCard';
+import { JourneyReceptionModal, JourneyHelpModal } from '../../components/journey/JourneyModals';
 
-export const JourneyPage = () => (
-  <PatientLayout>
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-5">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#CCFBF1] text-[#0F766E]">
-          <Compass className="h-8 w-8" />
+export const JourneyPage = () => {
+  const [isReceptionModalOpen, setIsReceptionModalOpen] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+
+  return (
+    <PatientLayout
+      title="My Hospital Journey"
+      subtitle="Track your progress from registration to completion."
+    >
+      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-5 sm:space-y-6">
+        
+        {/* ── 1. Current Visit Header Card ── */}
+        <JourneyVisitHeader visit={journeyData} />
+
+        {/* ── 2. Journey Progress Bar & Stepper (8 Stages) ── */}
+        <JourneyProgressCard stages={journeyStages} />
+
+        {/* ── 3. Main Split Grid (Current Stage, Next Steps, Visit Details, Activity) ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
+          
+          {/* Left Column (7 of 12 on desktop): Current Stage, Next Steps, Recent Activity */}
+          <div className="lg:col-span-7 space-y-5 sm:space-y-6">
+            {/* Current Stage Card */}
+            <CurrentStageCard journeyData={journeyData} />
+
+            {/* What Happens Next Card */}
+            <NextStepsCard steps={nextSteps} />
+
+            {/* Recent Activity Timeline Card */}
+            <ActivityTimelineCard activities={recentActivity} />
+          </div>
+
+          {/* Right Column (5 of 12 on desktop): Visit Details & Help Support */}
+          <div className="lg:col-span-5 space-y-5 sm:space-y-6">
+            {/* Official Visit Details Card */}
+            <VisitDetailsCard visit={journeyData} />
+
+            {/* Need Help Information Card */}
+            <JourneyHelpCard
+              onOpenReceptionModal={() => setIsReceptionModalOpen(true)}
+              onOpenHelpModal={() => setIsHelpModalOpen(true)}
+            />
+          </div>
+
         </div>
-        <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold text-[#0F172A]">My Journey</h1>
-          <p className="text-sm text-[#64748B] max-w-sm">
-            Your full hospital journey — from registration to discharge — will be detailed here in Phase 2.
-          </p>
-        </div>
-        <span className="rounded-full bg-[#F8FAFC] border border-[#E2E8F0] px-4 py-1.5 text-xs font-semibold text-[#64748B]">
-          Coming Soon — Phase 2
-        </span>
+
+        {/* ── Interactive Modals (Client-side Phase 1) ── */}
+        <JourneyReceptionModal
+          isOpen={isReceptionModalOpen}
+          onClose={() => setIsReceptionModalOpen(false)}
+          receptionInfo={hospitalReceptionInfo}
+        />
+
+        <JourneyHelpModal
+          isOpen={isHelpModalOpen}
+          onClose={() => setIsHelpModalOpen(false)}
+        />
+
       </div>
-    </div>
-  </PatientLayout>
-);
+    </PatientLayout>
+  );
+};
+
+export default JourneyPage;

@@ -65,7 +65,7 @@ export const LabStatusCard = () => {
 
         {/* CTA */}
         <Link
-          to="/patient/lab"
+          to="/patient/lab-results"
           className="mt-auto flex items-center justify-center gap-1.5 text-xs font-semibold text-[#0F766E] hover:underline underline-offset-2 pt-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E] rounded"
         >
           View Lab Results <ArrowRight className="h-3.5 w-3.5" />

@@ -1,0 +1,24 @@
+{
+  "name": "ai-project-monorepo",
+  "version": "1.0.0",
+  "description": "Full-Stack AI Application with React, Node.js, LangGraph, Socket.IO, MongoDB, and Recharts",
+  "scripts": {
+    "dev": "npm run dev:backend & npm run dev:frontend",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "build": "npm --prefix frontend run build",
+    "install:all": "npm --prefix frontend install && npm --prefix backend install"
+  },
+  "keywords": [
+    "react",
+    "tailwindcss",
+    "nodejs",
+    "express",
+    "mongodb",
+    "gemini",
+    "openai",
+    "langgraph",
+    "socketio",
+    "recharts"
+  ]
+}

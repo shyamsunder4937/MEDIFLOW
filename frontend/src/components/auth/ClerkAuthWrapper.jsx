@@ -1,7 +1,9 @@
 import React from 'react';
 import { SignIn, SignUp } from '@clerk/clerk-react';
 
-export const ClerkAuthWrapper = ({ mode = 'signin' }) => {
+export const ClerkAuthWrapper = ({ mode = 'signin', selectedRole = 'patient' }) => {
+  const targetDashboard = selectedRole === 'doctor' ? '/doctor/dashboard' : '/patient/dashboard';
+
   const customAppearance = {
     variables: {
       colorPrimary: '#0F766E',
@@ -39,7 +41,8 @@ export const ClerkAuthWrapper = ({ mode = 'signin' }) => {
           routing="path"
           path="/sign-up"
           signInUrl="/sign-in"
-          fallbackRedirectUrl="/patient/dashboard"
+          fallbackRedirectUrl={targetDashboard}
+          forceRedirectUrl={targetDashboard}
         />
       ) : (
         <SignIn
@@ -47,7 +50,8 @@ export const ClerkAuthWrapper = ({ mode = 'signin' }) => {
           routing="path"
           path="/sign-in"
           signUpUrl="/sign-up"
-          fallbackRedirectUrl="/patient/dashboard"
+          fallbackRedirectUrl={targetDashboard}
+          forceRedirectUrl={targetDashboard}
         />
       )}
     </div>

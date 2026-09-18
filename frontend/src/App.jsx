@@ -10,10 +10,10 @@ import { PatientDashboard }    from './pages/patient/PatientDashboard';
 import { AppointmentsPage }    from './pages/patient/AppointmentsPage';
 import { QueuePage }           from './pages/patient/QueuePage';
 import { JourneyPage }         from './pages/patient/JourneyPage';
-import { LabPage }             from './pages/patient/LabPage';
+import { LabResultsPage }      from './pages/patient/LabResultsPage';
 import { PharmacyPage }        from './pages/patient/PharmacyPage';
 import { NotificationsPage }   from './pages/patient/NotificationsPage';
-import { ProfilePage }         from './pages/patient/ProfilePage';
+import { ProfilePage, PatientSettingsPage, PatientHelpPage } from './pages/patient/ProfilePage';
 
 // Doctor dashboard + sub-pages
 import { DoctorDashboard }         from './pages/doctor/DoctorDashboard';
@@ -40,10 +40,13 @@ export function App() {
         <Route path="/patient/appointments"  element={<AppointmentsPage />} />
         <Route path="/patient/queue"         element={<QueuePage />} />
         <Route path="/patient/journey"       element={<JourneyPage />} />
-        <Route path="/patient/lab"           element={<LabPage />} />
+        <Route path="/patient/lab"           element={<LabResultsPage />} />
+        <Route path="/patient/lab-results"   element={<LabResultsPage />} />
         <Route path="/patient/pharmacy"      element={<PharmacyPage />} />
         <Route path="/patient/notifications" element={<NotificationsPage />} />
         <Route path="/patient/profile"       element={<ProfilePage />} />
+        <Route path="/patient/settings"      element={<PatientSettingsPage />} />
+        <Route path="/patient/help"          element={<PatientHelpPage />} />
 
         {/* ── Doctor Portal ── */}
         <Route path="/doctor/dashboard"         element={<DoctorDashboard />} />

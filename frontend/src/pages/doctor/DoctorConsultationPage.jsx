@@ -13,10 +13,8 @@ import {
   ArrowLeft,
   Save,
   CheckCircle2,
-  AlertCircle,
   Info,
   UserX,
-  Sparkles,
 } from 'lucide-react';
 
 export const DoctorConsultationPage = () => {

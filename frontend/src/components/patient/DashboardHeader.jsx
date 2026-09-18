@@ -1,5 +1,6 @@
 import React from 'react';
 import { UserButton, useUser } from '@clerk/clerk-react';
+import { useNavigate } from 'react-router-dom';
 import { Bell, Menu } from 'lucide-react';
 import { mockNotifications } from '../../data/mockPatientData';
 
@@ -11,6 +12,7 @@ const getGreeting = () => {
 };
 
 export const DashboardHeader = ({ onMenuOpen, title, subtitle }) => {
+  const navigate = useNavigate();
   const { user, isLoaded } = useUser();
   const unreadCount = mockNotifications.filter((n) => !n.read).length;
   const firstName = isLoaded && user ? user.firstName || 'Patient' : 'Patient';
@@ -45,7 +47,8 @@ export const DashboardHeader = ({ onMenuOpen, title, subtitle }) => {
       <div className="flex items-center gap-2 flex-shrink-0">
         {/* Notification bell */}
         <button
-          className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[#E2E8F0] text-[#64748B] hover:bg-slate-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E]"
+          onClick={() => navigate('/patient/notifications')}
+          className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[#E2E8F0] text-[#64748B] hover:bg-slate-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E] cursor-pointer"
           aria-label={`${unreadCount} unread notifications`}
         >
           <Bell className="h-4 w-4" />

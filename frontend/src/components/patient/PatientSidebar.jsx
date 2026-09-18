@@ -38,7 +38,15 @@ export const PatientSidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
-    await signOut();
+    sessionStorage.removeItem('mediflow_auth');
+    localStorage.removeItem('mediflow_user_role');
+    try {
+      if (signOut) {
+        await signOut();
+      }
+    } catch {
+      // ignore in demo mode
+    }
     navigate('/sign-in');
   };
 

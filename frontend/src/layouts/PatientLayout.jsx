@@ -8,8 +8,11 @@ export const PatientLayout = ({ children, title, subtitle }) => {
   const { isLoaded, isSignedIn } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // While Clerk loads, show a subtle loading screen
-  if (!isLoaded) {
+  // Check if testing in demo mode
+  const isDemoAuth = typeof window !== 'undefined' && sessionStorage.getItem('mediflow_auth') === 'demo';
+
+  // While Clerk loads, show a subtle loading screen if not in demo mode
+  if (!isLoaded && !isDemoAuth) {
     return (
       <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
@@ -20,10 +23,9 @@ export const PatientLayout = ({ children, title, subtitle }) => {
     );
   }
 
-  // If Clerk key is present and user is NOT signed in, redirect to sign-in
-  // (If no Clerk key is set, isSignedIn will be null/false but we allow render for dev)
+  // If Clerk key is present and user is NOT signed in and not in demo mode, redirect to sign-in
   const hasClerkKey = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-  if (hasClerkKey && !isSignedIn) {
+  if (hasClerkKey && !isSignedIn && !isDemoAuth) {
     return <Navigate to="/sign-in" replace />;
   }
 

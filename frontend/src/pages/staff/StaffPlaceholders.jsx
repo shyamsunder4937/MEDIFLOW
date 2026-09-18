@@ -1,7 +1,6 @@
 import React from 'react';
 import { StaffLayout } from '../../layouts/StaffLayout';
 import {
-  ListOrdered,
   Users,
   CalendarDays,
   Stethoscope,
@@ -31,16 +30,6 @@ const PlaceholderWrapper = ({ title, subtitle, icon: Icon, badge, description })
       </div>
     </div>
   </StaffLayout>
-);
-
-export const StaffQueuePage = () => (
-  <PlaceholderWrapper
-    title="Staff Queue Management"
-    subtitle="Live queue triage and counter dispatcher controls."
-    icon={ListOrdered}
-    badge="Queue Management Module"
-    description="Full queue controls, patient token calling, priority triage reordering, and counter assignment will be built here."
-  />
 );
 
 export const StaffPatientsPage = () => (

@@ -26,8 +26,8 @@ import { DoctorProfilePage, DoctorSettingsPage, DoctorHelpPage } from './pages/d
 
 // Staff dashboard + sub-pages
 import { StaffDashboard } from './pages/staff/StaffDashboard';
+import { StaffQueuePage } from './pages/staff/StaffQueuePage';
 import {
-  StaffQueuePage,
   StaffPatientsPage,
   StaffAppointmentsPage,
   StaffDoctorsPage,

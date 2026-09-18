@@ -2,7 +2,12 @@ import React from 'react';
 import { SignIn, SignUp } from '@clerk/clerk-react';
 
 export const ClerkAuthWrapper = ({ mode = 'signin', selectedRole = 'patient' }) => {
-  const targetDashboard = selectedRole === 'doctor' ? '/doctor/dashboard' : '/patient/dashboard';
+  const targetDashboard =
+    selectedRole === 'doctor'
+      ? '/doctor/dashboard'
+      : selectedRole === 'staff'
+      ? '/staff/dashboard'
+      : '/patient/dashboard';
 
   const customAppearance = {
     variables: {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Activity, ArrowRight, Stethoscope, User, ShieldCheck } from 'lucide-react';
+import { Activity, ArrowRight, Stethoscope, User, Building2, ShieldCheck } from 'lucide-react';
 import { BrandPanel } from '../components/auth/BrandPanel';
 import { RoleSelector } from '../components/auth/RoleSelector';
 import { ClerkAuthWrapper } from '../components/auth/ClerkAuthWrapper';
@@ -14,6 +14,8 @@ export const SignInPage = () => {
     localStorage.setItem('mediflow_user_role', selectedRole);
     if (selectedRole === 'doctor') {
       navigate('/doctor/dashboard');
+    } else if (selectedRole === 'staff') {
+      navigate('/staff/dashboard');
     } else {
       navigate('/patient/dashboard');
     }
@@ -70,6 +72,11 @@ export const SignInPage = () => {
                     <Stethoscope className="h-4 w-4 text-[#CCFBF1]" />
                     Doctor Portal Selected
                   </>
+                ) : selectedRole === 'staff' ? (
+                  <>
+                    <Building2 className="h-4 w-4 text-[#CCFBF1]" />
+                    Staff Portal Selected
+                  </>
                 ) : (
                   <>
                     <User className="h-4 w-4 text-[#CCFBF1]" />
@@ -87,7 +94,7 @@ export const SignInPage = () => {
               className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-white text-[#0F766E] hover:bg-[#CCFBF1] text-xs font-bold transition-all active:scale-[0.99] shadow-xs cursor-pointer"
             >
               <span>
-                Enter {selectedRole === 'doctor' ? 'Doctor Dashboard' : 'Patient Dashboard'} (Instant Demo)
+                Enter {selectedRole === 'doctor' ? 'Doctor Dashboard' : selectedRole === 'staff' ? 'Staff Dashboard' : 'Patient Dashboard'} (Instant Demo)
               </span>
               <ArrowRight className="h-3.5 w-3.5" />
             </button>

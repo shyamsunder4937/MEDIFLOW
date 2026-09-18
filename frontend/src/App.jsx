@@ -24,6 +24,20 @@ import { DoctorPatientDetailPage } from './pages/doctor/DoctorPatientDetailPage'
 import { DoctorLabResultsPage }    from './pages/doctor/DoctorLabResultsPage';
 import { DoctorProfilePage, DoctorSettingsPage, DoctorHelpPage } from './pages/doctor/DoctorProfilePage';
 
+// Staff dashboard + sub-pages
+import { StaffDashboard } from './pages/staff/StaffDashboard';
+import {
+  StaffQueuePage,
+  StaffPatientsPage,
+  StaffAppointmentsPage,
+  StaffDoctorsPage,
+  StaffLabPage,
+  StaffPharmacyPage,
+  StaffNotificationsPage,
+  StaffHelpPage,
+  StaffSettingsPage,
+} from './pages/staff/StaffPlaceholders';
+
 export function App() {
   return (
     <BrowserRouter>
@@ -60,6 +74,18 @@ export function App() {
         <Route path="/doctor/profile"           element={<DoctorProfilePage />} />
         <Route path="/doctor/settings"          element={<DoctorSettingsPage />} />
         <Route path="/doctor/help"              element={<DoctorHelpPage />} />
+
+        {/* ── Hospital Staff Portal ── */}
+        <Route path="/staff/dashboard"     element={<StaffDashboard />} />
+        <Route path="/staff/queue"         element={<StaffQueuePage />} />
+        <Route path="/staff/patients"      element={<StaffPatientsPage />} />
+        <Route path="/staff/appointments"  element={<StaffAppointmentsPage />} />
+        <Route path="/staff/doctors"       element={<StaffDoctorsPage />} />
+        <Route path="/staff/lab"           element={<StaffLabPage />} />
+        <Route path="/staff/pharmacy"      element={<StaffPharmacyPage />} />
+        <Route path="/staff/notifications" element={<StaffNotificationsPage />} />
+        <Route path="/staff/help"          element={<StaffHelpPage />} />
+        <Route path="/staff/settings"      element={<StaffSettingsPage />} />
 
         {/* ── Catch-all fallback ── */}
         <Route path="*" element={<Navigate to="/sign-in" replace />} />

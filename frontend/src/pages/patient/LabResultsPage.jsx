@@ -5,7 +5,7 @@ import {
   currentVisitLabStatus,
   labResults,
   pendingTests,
-} from '../../data/patientMockData';
+} from '../../data/patientMockData.js';
 import { LabSummaryCards } from '../../components/lab/LabSummaryCards';
 import { CurrentVisitLabCard } from '../../components/lab/CurrentVisitLabCard';
 import { LabResultFilters } from '../../components/lab/LabResultFilters';

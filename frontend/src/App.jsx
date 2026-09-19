@@ -10,6 +10,7 @@ import { PatientDashboard }    from './pages/patient/PatientDashboard';
 import { AppointmentsPage }    from './pages/patient/AppointmentsPage';
 import { QueuePage }           from './pages/patient/QueuePage';
 import { JourneyPage }         from './pages/patient/JourneyPage';
+import { LabPage }             from './pages/patient/LabPage';
 import { LabResultsPage }      from './pages/patient/LabResultsPage';
 import { PharmacyPage }        from './pages/patient/PharmacyPage';
 import { NotificationsPage }   from './pages/patient/NotificationsPage';
@@ -59,7 +60,7 @@ export function App() {
         <Route path="/patient/appointments"  element={<AppointmentsPage />} />
         <Route path="/patient/queue"         element={<QueuePage />} />
         <Route path="/patient/journey"       element={<JourneyPage />} />
-        <Route path="/patient/lab"           element={<LabResultsPage />} />
+        <Route path="/patient/lab"           element={<LabPage />} />
         <Route path="/patient/lab-results"   element={<LabResultsPage />} />
         <Route path="/patient/pharmacy"      element={<PharmacyPage />} />
         <Route path="/patient/notifications" element={<NotificationsPage />} />

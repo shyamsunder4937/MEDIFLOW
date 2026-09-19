@@ -169,3 +169,44 @@ export const mockQuickActions = [
   { label: 'Lab Results',      icon: 'FlaskConical', href: '/patient/lab-results'  },
   { label: 'Pharmacy',         icon: 'Pill',         href: '/patient/pharmacy'      },
 ];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MediFlow AI — Mock Patient Profile Data (Phase 1)
+// All information is demo/mock data for interface demonstration only.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const patientProfile = {
+  name: 'Rahul Kumar',
+  role: 'Patient',
+  patientId: 'MF-2026-00127',
+  email: 'rahul.kumar@example.com',
+  phone: '+91 98765 43210',
+  dateOfBirth: '15 March 2005',
+  age: 21,
+  gender: 'Male',
+  bloodGroup: 'O+',
+  address: 'Kalasalingam University Campus',
+  city: 'Krishnankoil',
+  state: 'Tamil Nadu',
+  postalCode: '626126',
+  country: 'India',
+  accountStatus: 'Active',
+  accountCreated: 'August 2026',
+  authProvider: 'Clerk',
+};
+
+export const emergencyContact = {
+  name: 'Raj Kumar',
+  relationship: 'Father',
+  phone: '+91 98765 12345',
+  email: 'raj.kumar@example.com',
+};
+
+export const notificationPreferences = {
+  appointmentReminders: true,
+  queueUpdates: true,
+  labResults: true,
+  pharmacyUpdates: true,
+  emailNotifications: true,
+  smsNotifications: false,
+};

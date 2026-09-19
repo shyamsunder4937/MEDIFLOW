@@ -19,7 +19,7 @@ import {
   pharmacyPickupInfo,
   pharmacyJourneyStages,
   pharmacyOrders,
-} from '../../data/patientMockData';
+} from '../../data/patientMockData.js';
 import { Pill, CheckCircle2 } from 'lucide-react';
 
 // ── Pharmacy Empty State ──────────────────────────────────────────────────────

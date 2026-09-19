@@ -6,7 +6,7 @@ import {
   nextSteps,
   recentActivity,
   hospitalReceptionInfo,
-} from '../../data/patientMockData';
+} from '../../data/patientMockData.js';
 import { JourneyVisitHeader } from '../../components/journey/JourneyVisitHeader';
 import { JourneyProgressCard } from '../../components/journey/JourneyProgressCard';
 import { CurrentStageCard } from '../../components/journey/CurrentStageCard';

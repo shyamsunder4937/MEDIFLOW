@@ -1,7 +1,7 @@
 {
-  "name": "ai-backend",
-  "version": "1.0.0",
-  "description": "Full-stack AI Agent & Analytics backend with Express, Socket.IO, LangGraph, and MongoDB",
+  "name": "mediflow-backend",
+  "version": "2.0.0",
+  "description": "MediFlow AI - Backend API for hospital workflow coordination platform (Phase 2)",
   "main": "src/server.js",
   "type": "module",
   "scripts": {
@@ -10,20 +10,21 @@
   },
   "dependencies": {
     "@clerk/express": "^1.3.38",
-    "@google/generative-ai": "^0.24.0",
-    "@langchain/core": "^0.3.40",
-    "@langchain/google-genai": "^0.1.8",
-    "@langchain/langgraph": "^0.2.45",
-    "@langchain/openai": "^0.4.4",
-    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.5",
-    "socket.io": "^4.8.1"
+    "mongoose": "^8.9.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
-  }
+  },
+  "keywords": [
+    "healthcare",
+    "hospital",
+    "queue-management",
+    "patient-workflow",
+    "mediflow"
+  ],
+  "author": "MediFlow AI Team",
+  "license": "ISC"
 }

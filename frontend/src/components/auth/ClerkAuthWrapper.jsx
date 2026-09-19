@@ -1,13 +1,10 @@
 import React from 'react';
 import { SignIn, SignUp } from '@clerk/clerk-react';
 
-export const ClerkAuthWrapper = ({ mode = 'signin', selectedRole = 'patient' }) => {
-  const targetDashboard =
-    selectedRole === 'doctor'
-      ? '/doctor/dashboard'
-      : selectedRole === 'staff'
-      ? '/staff/dashboard'
-      : '/patient/dashboard';
+export const ClerkAuthWrapper = ({ mode = 'signin' }) => {
+  // Redirect to auth-redirect page after successful authentication
+  // This page will determine the user's role and redirect accordingly
+  const redirectUrl = '/auth-redirect';
 
   const customAppearance = {
     variables: {
@@ -46,8 +43,8 @@ export const ClerkAuthWrapper = ({ mode = 'signin', selectedRole = 'patient' }) 
           routing="path"
           path="/sign-up"
           signInUrl="/sign-in"
-          fallbackRedirectUrl={targetDashboard}
-          forceRedirectUrl={targetDashboard}
+          fallbackRedirectUrl={redirectUrl}
+          forceRedirectUrl={redirectUrl}
         />
       ) : (
         <SignIn
@@ -55,8 +52,8 @@ export const ClerkAuthWrapper = ({ mode = 'signin', selectedRole = 'patient' }) 
           routing="path"
           path="/sign-in"
           signUpUrl="/sign-up"
-          fallbackRedirectUrl={targetDashboard}
-          forceRedirectUrl={targetDashboard}
+          fallbackRedirectUrl={redirectUrl}
+          forceRedirectUrl={redirectUrl}
         />
       )}
     </div>

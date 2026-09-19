@@ -1,9 +1,18 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
+// Auth components
+import { AuthRedirect } from './components/auth/AuthRedirect';
+import { RoleProtectedRoute } from './components/auth/ProtectedRoute';
+
 // Auth pages
 import { SignInPage }  from './pages/SignInPage';
 import { SignUpPage }  from './pages/SignUpPage';
+import { DevDemoPage } from './pages/DevDemoPage';
+
+// Admin pages
+import { AdminLoginPage } from './pages/admin/AdminLoginPage';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
 
 // Patient dashboard + sub-pages
 import { PatientDashboard }    from './pages/patient/PatientDashboard';
@@ -39,10 +48,9 @@ import { StaffLabDetailPage } from './pages/staff/StaffLabDetailPage';
 import { StaffPharmacyPage } from './pages/staff/StaffPharmacyPage';
 import { StaffPharmacyDetailPage } from './pages/staff/StaffPharmacyDetailPage';
 import { StaffNotificationsPage } from './pages/staff/StaffNotificationsPage';
-import {
-  StaffHelpPage,
-  StaffSettingsPage,
-} from './pages/staff/StaffPlaceholders';
+import { StaffHelpPage, StaffSettingsPage } from './pages/staff/StaffPlaceholders';
+
+import { USER_ROLES } from './utils/roleConfig';
 
 export function App() {
   return (
@@ -54,6 +62,21 @@ export function App() {
         {/* ── Authentication ── */}
         <Route path="/sign-in/*" element={<SignInPage />} />
         <Route path="/sign-up/*" element={<SignUpPage />} />
+        <Route path="/auth-redirect" element={<AuthRedirect />} />
+        
+        {/* ── Development Demo (Phase 1 Only) ── */}
+        <Route path="/dev-demo" element={<DevDemoPage />} />
+
+        {/* ── Admin Portal ── */}
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <RoleProtectedRoute requiredRole={USER_ROLES.ADMIN}>
+              <AdminDashboard />
+            </RoleProtectedRoute>
+          }
+        />
 
         {/* ── Patient Portal ── */}
         <Route path="/patient/dashboard"     element={<PatientDashboard />} />

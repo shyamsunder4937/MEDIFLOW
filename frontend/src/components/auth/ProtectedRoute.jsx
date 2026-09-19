@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth, useUser } from '@clerk/clerk-react';
 import { Activity } from 'lucide-react';
-import { getUserRole, hasRole, getRoleRedirectPath } from '../../utils/roleConfig';
+import { getUserRole, getRoleRedirectPath } from '../../utils/roleConfig';
 
 /**
  * ProtectedRoute Component
@@ -31,6 +31,22 @@ export const ProtectedRoute = ({ children }) => {
 export const RoleProtectedRoute = ({ children, requiredRole }) => {
   const { isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
+
+  const isDemoAuth =
+    typeof window !== 'undefined' &&
+    sessionStorage.getItem('mediflow_auth') === 'demo';
+
+  const mockRole =
+    typeof window !== 'undefined'
+      ? localStorage.getItem('mediflow_user_role')
+      : null;
+
+  const hasClerkKey = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+  // Allow direct access in demo mode or if local dev mockRole matches
+  if (isDemoAuth || mockRole === requiredRole || !hasClerkKey) {
+    return children;
+  }
 
   // Show loading state while Clerk loads
   if (!isLoaded) {

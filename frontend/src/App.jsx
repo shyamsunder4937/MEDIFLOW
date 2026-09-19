@@ -13,6 +13,14 @@ import { DevDemoPage } from './pages/DevDemoPage';
 // Admin pages
 import { AdminLoginPage } from './pages/admin/AdminLoginPage';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { AdminUsersPage } from './pages/admin/AdminUsersPage';
+import { AdminDoctorsPage } from './pages/admin/AdminDoctorsPage';
+import { AdminDepartmentsPage } from './pages/admin/AdminDepartmentsPage';
+import { AdminWorkflowPage } from './pages/admin/AdminWorkflowPage';
+import { AdminAIAgentPage } from './pages/admin/AdminAIAgentPage';
+import { AdminNotificationsPage } from './pages/admin/AdminNotificationsPage';
+import { AdminProfilePage } from './pages/admin/AdminProfilePage';
+import { AdminGenericPlaceholderPage } from './pages/admin/AdminPlaceholders';
 
 // Patient dashboard + sub-pages
 import { PatientDashboard }    from './pages/patient/PatientDashboard';
@@ -77,6 +85,64 @@ export function App() {
             </RoleProtectedRoute>
           }
         />
+        <Route
+          path="/admin/users"
+          element={
+            <RoleProtectedRoute requiredRole={USER_ROLES.ADMIN}>
+              <AdminUsersPage />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/doctors"
+          element={
+            <RoleProtectedRoute requiredRole={USER_ROLES.ADMIN}>
+              <AdminDoctorsPage />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/departments"
+          element={
+            <RoleProtectedRoute requiredRole={USER_ROLES.ADMIN}>
+              <AdminDepartmentsPage />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/workflow"
+          element={
+            <RoleProtectedRoute requiredRole={USER_ROLES.ADMIN}>
+              <AdminWorkflowPage />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/ai-agent"
+          element={
+            <RoleProtectedRoute requiredRole={USER_ROLES.ADMIN}>
+              <AdminAIAgentPage />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/notifications"
+          element={
+            <RoleProtectedRoute requiredRole={USER_ROLES.ADMIN}>
+              <AdminNotificationsPage />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/profile"
+          element={
+            <RoleProtectedRoute requiredRole={USER_ROLES.ADMIN}>
+              <AdminProfilePage />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route path="/admin/help"          element={<RoleProtectedRoute requiredRole={USER_ROLES.ADMIN}><AdminGenericPlaceholderPage /></RoleProtectedRoute>} />
+        <Route path="/admin/settings"      element={<RoleProtectedRoute requiredRole={USER_ROLES.ADMIN}><AdminGenericPlaceholderPage /></RoleProtectedRoute>} />
 
         {/* ── Patient Portal ── */}
         <Route path="/patient/dashboard"     element={<PatientDashboard />} />

@@ -1,0 +1,316 @@
+import React, { useState, useEffect } from 'react';
+import {
+  X,
+  Stethoscope,
+  Mail,
+  Phone,
+  Building2,
+  Clock,
+  MapPin,
+  Briefcase,
+  AlertCircle,
+  Save,
+} from 'lucide-react';
+
+export const EditDoctorModal = ({ doctor, isOpen, onClose, onSave }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    specialization: 'General Medicine',
+    department: 'General Medicine',
+    experience: '8 years',
+    availability: '09:00 AM - 05:00 PM',
+    room: 'Room 102 (OPD Block A)',
+    status: 'Available',
+  });
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (doctor) {
+      setFormData({
+        name: doctor.name || '',
+        email: doctor.email || '',
+        phone: doctor.phone || '+91 98765 11000',
+        specialization: doctor.specialization || 'General Medicine',
+        department: doctor.department || 'General Medicine',
+        experience: doctor.experience || '5 years',
+        availability: doctor.availability || '09:00 AM - 05:00 PM',
+        room: doctor.room || 'Room 102 (OPD Block A)',
+        status: doctor.status || 'Available',
+      });
+      setError('');
+    }
+  }, [doctor, isOpen]);
+
+  if (!isOpen || !doctor) return null;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.name.trim()) {
+      setError('Doctor name is required.');
+      return;
+    }
+    if (!formData.email.trim() || !formData.email.includes('@')) {
+      setError('Please provide a valid email address.');
+      return;
+    }
+
+    onSave({
+      ...doctor,
+      ...formData,
+    });
+    onClose();
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
+      aria-labelledby="edit-doctor-modal-title"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto">
+        {/* Modal Header */}
+        <div className="flex items-center justify-between px-6 py-5 border-b border-[#E2E8F0] sticky top-0 bg-white/95 backdrop-blur-sm z-10">
+          <div>
+            <h3
+              id="edit-doctor-modal-title"
+              className="text-lg font-bold text-[#0F172A]"
+            >
+              Edit Doctor Profile
+            </h3>
+            <p className="text-xs text-[#64748B] font-mono mt-0.5">
+              Doctor ID: {doctor.id}
+            </p>
+          </div>
+
+          <button
+            onClick={onClose}
+            className="flex h-8 w-8 items-center justify-center rounded-xl text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A] transition-colors"
+            aria-label="Close modal"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        {/* Modal Form */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {error && (
+            <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center gap-2">
+              <AlertCircle className="h-4 w-4 text-rose-600 flex-shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          {/* Full Name */}
+          <div>
+            <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+              Doctor Full Name <span className="text-rose-500">*</span>
+            </label>
+            <div className="relative">
+              <Stethoscope className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
+              <input
+                type="text"
+                required
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+                placeholder="e.g. Dr. Priya Sharma"
+                className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-[#E2E8F0] rounded-xl text-xs sm:text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 focus:border-[#0F766E]"
+              />
+            </div>
+          </div>
+
+          {/* Email & Phone */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+                Email Address <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  placeholder="e.g. doctor@mediflow.ai"
+                  className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-[#E2E8F0] rounded-xl text-xs sm:text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 focus:border-[#0F766E]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+                Phone Number
+              </label>
+              <div className="relative">
+                <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
+                <input
+                  type="text"
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
+                  placeholder="e.g. +91 98765 11000"
+                  className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-[#E2E8F0] rounded-xl text-xs sm:text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 focus:border-[#0F766E]"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Specialization & Department */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+                Specialization <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <select
+                  value={formData.specialization}
+                  onChange={(e) =>
+                    setFormData({ ...formData, specialization: e.target.value })
+                  }
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-[#E2E8F0] rounded-xl text-xs sm:text-sm font-semibold text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 focus:border-[#0F766E] cursor-pointer"
+                >
+                  <option value="General Medicine">General Medicine</option>
+                  <option value="Cardiology">Cardiology</option>
+                  <option value="Pediatrics">Pediatrics</option>
+                  <option value="Orthopedics">Orthopedics</option>
+                  <option value="Emergency Medicine">Emergency Medicine</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+                Department <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <select
+                  value={formData.department}
+                  onChange={(e) =>
+                    setFormData({ ...formData, department: e.target.value })
+                  }
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-[#E2E8F0] rounded-xl text-xs sm:text-sm font-semibold text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 focus:border-[#0F766E] cursor-pointer"
+                >
+                  <option value="General Medicine">General Medicine</option>
+                  <option value="Cardiology">Cardiology</option>
+                  <option value="Pediatrics">Pediatrics</option>
+                  <option value="Orthopedics">Orthopedics</option>
+                  <option value="Emergency">Emergency</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Experience & Consultation Room */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+                Clinical Experience
+              </label>
+              <div className="relative">
+                <Briefcase className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
+                <input
+                  type="text"
+                  value={formData.experience}
+                  onChange={(e) =>
+                    setFormData({ ...formData, experience: e.target.value })
+                  }
+                  placeholder="e.g. 8 years"
+                  className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-[#E2E8F0] rounded-xl text-xs sm:text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 focus:border-[#0F766E]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+                Consultation Room / Location
+              </label>
+              <div className="relative">
+                <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
+                <input
+                  type="text"
+                  value={formData.room}
+                  onChange={(e) =>
+                    setFormData({ ...formData, room: e.target.value })
+                  }
+                  placeholder="e.g. Room 102 (OPD Block A)"
+                  className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-[#E2E8F0] rounded-xl text-xs sm:text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 focus:border-[#0F766E]"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Working Hours */}
+          <div>
+            <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+              Working Hours / Shift
+            </label>
+            <div className="relative">
+              <Clock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
+              <input
+                type="text"
+                value={formData.availability}
+                onChange={(e) =>
+                  setFormData({ ...formData, availability: e.target.value })
+                }
+                placeholder="e.g. 09:00 AM - 05:00 PM"
+                className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-[#E2E8F0] rounded-xl text-xs sm:text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 focus:border-[#0F766E]"
+              />
+            </div>
+          </div>
+
+          {/* Status */}
+          <div>
+            <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+              Duty Status <span className="text-rose-500">*</span>
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              {['Available', 'In Consultation', 'On Break', 'Unavailable', 'Inactive'].map((st) => (
+                <button
+                  type="button"
+                  key={st}
+                  onClick={() => setFormData({ ...formData, status: st })}
+                  className={`py-2 px-2 text-center rounded-xl text-[11px] font-semibold border transition-all cursor-pointer ${
+                    formData.status === st
+                      ? 'border-[#0F766E] bg-[#CCFBF1]/50 text-[#0F766E] shadow-xs'
+                      : 'border-[#E2E8F0] bg-slate-50 text-[#64748B] hover:bg-slate-100'
+                  }`}
+                >
+                  {st}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Modal Footer Buttons */}
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-[#E2E8F0]">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2.5 rounded-xl border border-[#E2E8F0] text-xs font-semibold text-[#64748B] hover:text-[#0F172A] hover:bg-slate-50 transition-colors cursor-pointer"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#0F766E] text-white text-xs font-bold rounded-xl hover:bg-[#115E59] transition-all shadow-xs cursor-pointer"
+            >
+              <Save className="h-3.5 w-3.5" />
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default EditDoctorModal;

@@ -27,13 +27,18 @@ import { DoctorProfilePage, DoctorSettingsPage, DoctorHelpPage } from './pages/d
 // Staff dashboard + sub-pages
 import { StaffDashboard } from './pages/staff/StaffDashboard';
 import { StaffQueuePage } from './pages/staff/StaffQueuePage';
+import { StaffPatientsPage } from './pages/staff/StaffPatientsPage';
+import { StaffPatientDetailPage } from './pages/staff/StaffPatientDetailPage';
+import { StaffAppointmentsPage } from './pages/staff/StaffAppointmentsPage';
+import { StaffAppointmentDetailPage } from './pages/staff/StaffAppointmentDetailPage';
+import { StaffDoctorsPage } from './pages/staff/StaffDoctorsPage';
+import { StaffDoctorDetailPage } from './pages/staff/StaffDoctorDetailPage';
+import { StaffLabPage } from './pages/staff/StaffLabPage';
+import { StaffLabDetailPage } from './pages/staff/StaffLabDetailPage';
+import { StaffPharmacyPage } from './pages/staff/StaffPharmacyPage';
+import { StaffPharmacyDetailPage } from './pages/staff/StaffPharmacyDetailPage';
+import { StaffNotificationsPage } from './pages/staff/StaffNotificationsPage';
 import {
-  StaffPatientsPage,
-  StaffAppointmentsPage,
-  StaffDoctorsPage,
-  StaffLabPage,
-  StaffPharmacyPage,
-  StaffNotificationsPage,
   StaffHelpPage,
   StaffSettingsPage,
 } from './pages/staff/StaffPlaceholders';
@@ -79,10 +84,15 @@ export function App() {
         <Route path="/staff/dashboard"     element={<StaffDashboard />} />
         <Route path="/staff/queue"         element={<StaffQueuePage />} />
         <Route path="/staff/patients"      element={<StaffPatientsPage />} />
-        <Route path="/staff/appointments"  element={<StaffAppointmentsPage />} />
-        <Route path="/staff/doctors"       element={<StaffDoctorsPage />} />
+        <Route path="/staff/patients/:id"  element={<StaffPatientDetailPage />} />
+        <Route path="/staff/appointments"      element={<StaffAppointmentsPage />} />
+        <Route path="/staff/appointments/:id"  element={<StaffAppointmentDetailPage />} />
+        <Route path="/staff/doctors"           element={<StaffDoctorsPage />} />
+        <Route path="/staff/doctors/:id"       element={<StaffDoctorDetailPage />} />
         <Route path="/staff/lab"           element={<StaffLabPage />} />
+        <Route path="/staff/lab/:id"       element={<StaffLabDetailPage />} />
         <Route path="/staff/pharmacy"      element={<StaffPharmacyPage />} />
+        <Route path="/staff/pharmacy/:id"  element={<StaffPharmacyDetailPage />} />
         <Route path="/staff/notifications" element={<StaffNotificationsPage />} />
         <Route path="/staff/help"          element={<StaffHelpPage />} />
         <Route path="/staff/settings"      element={<StaffSettingsPage />} />

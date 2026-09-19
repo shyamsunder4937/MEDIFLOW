@@ -1,16 +1,9 @@
 import React from 'react';
 import { StaffLayout } from '../../layouts/StaffLayout';
 import {
-  Users,
-  CalendarDays,
-  Stethoscope,
-  FlaskConical,
-  Pill,
-  Bell,
   HelpCircle,
   Settings,
 } from 'lucide-react';
-
 const PlaceholderWrapper = ({ title, subtitle, icon: Icon, badge, description }) => (
   <StaffLayout title={title} subtitle={subtitle}>
     <div className="p-4 sm:p-6 lg:p-7 max-w-4xl mx-auto py-12">
@@ -32,65 +25,6 @@ const PlaceholderWrapper = ({ title, subtitle, icon: Icon, badge, description })
   </StaffLayout>
 );
 
-export const StaffPatientsPage = () => (
-  <PlaceholderWrapper
-    title="Staff Patients Directory"
-    subtitle="Hospital-wide patient lookup and registration records."
-    icon={Users}
-    badge="Patient Records Module"
-    description="Comprehensive search, registration intake, emergency admission tracking, and patient KYC verification will be built here."
-  />
-);
-
-export const StaffAppointmentsPage = () => (
-  <PlaceholderWrapper
-    title="Staff Appointments Management"
-    subtitle="Schedule, check-in, and manage OPD doctor bookings."
-    icon={CalendarDays}
-    badge="Appointments Module"
-    description="Centralized appointment scheduler, slot management, walk-in bookings, and cancellation overrides will be built here."
-  />
-);
-
-export const StaffDoctorsPage = () => (
-  <PlaceholderWrapper
-    title="Doctor Availability & Duty Roster"
-    subtitle="Consultant room allocation and real-time shift status."
-    icon={Stethoscope}
-    badge="Doctor Roster Module"
-    description="Detailed physician schedules, room occupancy management, on-call alerts, and shift assignment will be built here."
-  />
-);
-
-export const StaffLabPage = () => (
-  <PlaceholderWrapper
-    title="Lab Coordination & Diagnostics"
-    subtitle="Sample collection queues and pathology report delivery."
-    icon={FlaskConical}
-    badge="Lab Coordination Module"
-    description="Phlebotomy check-in, barcode scanning, test status monitoring, and critical value dispatch alerts will be built here."
-  />
-);
-
-export const StaffPharmacyPage = () => (
-  <PlaceholderWrapper
-    title="Pharmacy Coordination & Dispensation"
-    subtitle="Prescription packing and pickup counter throughput."
-    icon={Pill}
-    badge="Pharmacy Module"
-    description="Prescription order processing, token display boards, stock check flags, and medication pickup verifications will be built here."
-  />
-);
-
-export const StaffNotificationsPage = () => (
-  <PlaceholderWrapper
-    title="Staff Operational Notifications"
-    subtitle="Hospital-wide broadcasts, emergency alerts, and department chimes."
-    icon={Bell}
-    badge="Notifications Module"
-    description="Real-time operational alerts, code blue notifications, queue threshold warnings, and direct paging will be built here."
-  />
-);
 
 export const StaffHelpPage = () => (
   <PlaceholderWrapper

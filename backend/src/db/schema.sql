@@ -252,3 +252,50 @@ CREATE TRIGGER trg_check_patient_user_role
 -- RLS for patients
 ALTER TABLE public.patients ENABLE ROW LEVEL SECURITY;
 
+
+-- ─────────────────────────────────────────────────────────────────────────
+-- 9. ROW LEVEL SECURITY POLICIES FOR PATIENTS
+-- ─────────────────────────────────────────────────────────────────────────
+
+-- Note: RLS policies work in conjunction with Clerk authentication
+-- Backend middleware validates Clerk tokens and maps to Supabase user_id
+-- These policies provide defense-in-depth at the database layer
+
+-- Patients can read their own record
+DROP POLICY IF EXISTS "Patients can view own profile" ON public.patients;
+CREATE POLICY "Patients can view own profile"
+  ON public.patients FOR SELECT
+  USING (user_id IN (SELECT id FROM public.users WHERE clerk_user_id = auth.jwt() ->> 'sub'));
+
+-- Patients can update their own allowed fields
+DROP POLICY IF EXISTS "Patients can update own profile" ON public.patients;
+CREATE POLICY "Patients can update own profile"
+  ON public.patients FOR UPDATE
+  USING (user_id IN (SELECT id FROM public.users WHERE clerk_user_id = auth.jwt() ->> 'sub'));
+
+-- Admins can read all patient records
+DROP POLICY IF EXISTS "Admins can view all patients" ON public.patients;
+CREATE POLICY "Admins can view all patients"
+  ON public.patients FOR SELECT
+  USING (EXISTS (
+    SELECT 1 FROM public.users 
+    WHERE clerk_user_id = auth.jwt() ->> 'sub' 
+    AND role = 'admin'
+  ));
+
+-- Admins can update patient records
+DROP POLICY IF EXISTS "Admins can update patients" ON public.patients;
+CREATE POLICY "Admins can update patients"
+  ON public.patients FOR UPDATE
+  USING (EXISTS (
+    SELECT 1 FROM public.users 
+    WHERE clerk_user_id = auth.jwt() ->> 'sub' 
+    AND role = 'admin'
+  ));
+
+-- System can insert patient records (during signup/profile creation)
+DROP POLICY IF EXISTS "System can create patient profiles" ON public.patients;
+CREATE POLICY "System can create patient profiles"
+  ON public.patients FOR INSERT
+  WITH CHECK (true);
+

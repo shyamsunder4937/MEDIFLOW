@@ -1,20 +1,19 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // MediFlow AI - Authentication & Authorization Middleware
-// Uses Clerk for authentication verification
+// Uses Clerk for authentication verification + Supabase for user lookup
 // ═══════════════════════════════════════════════════════════════════════════
 
-import { clerkClient } from '@clerk/express';
-import User from '../models/User.js';
+import { supabase } from '../config/supabase.js';
 
 /**
  * Middleware: Require Clerk Authentication
- * Verifies that the request has a valid Clerk session
- * Attaches authenticated user info to req.auth
+ * Verifies that the request has a valid Clerk session.
+ * Fetches the corresponding user from Supabase and attaches to req.user.
  */
 export const requireAuth = async (req, res, next) => {
   try {
-    // Clerk middleware should have already verified the session
-    // and attached req.auth with userId
+    // Clerk middleware (clerkMiddleware()) must be mounted before this.
+    // It populates req.auth with the verified session data.
     if (!req.auth || !req.auth.userId) {
       return res.status(401).json({
         success: false,
@@ -22,13 +21,17 @@ export const requireAuth = async (req, res, next) => {
       });
     }
 
-    // Fetch user from our database using Clerk ID
-    const user = await User.findOne({ clerkId: req.auth.userId });
+    // Fetch user from Supabase by Clerk ID
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('clerk_user_id', req.auth.userId)
+      .single();
 
-    if (!user) {
+    if (error || !user) {
       return res.status(404).json({
         success: false,
-        message: 'User not found in database',
+        message: 'User not found in database. Please sync your account.',
       });
     }
 
@@ -40,8 +43,12 @@ export const requireAuth = async (req, res, next) => {
       });
     }
 
-    // Attach user to request for use in controllers
-    req.user = user;
+    // Attach user to request for use in controllers (with name and clerkId alias)
+    req.user = {
+      ...user,
+      name: user.full_name,
+      clerkId: user.clerk_user_id,
+    };
     next();
   } catch (error) {
     console.error('Authentication error:', error);
@@ -54,12 +61,12 @@ export const requireAuth = async (req, res, next) => {
 
 /**
  * Middleware: Authorize Specific Roles
- * Ensures authenticated user has one of the required roles
- * 
+ * Ensures authenticated user has one of the required roles.
+ *
  * Usage:
  *   router.get('/admin', requireAuth, authorizeRoles('admin'), controller)
  *   router.get('/medical', requireAuth, authorizeRoles('doctor', 'staff'), controller)
- * 
+ *
  * @param {...string} roles - Allowed roles (patient, doctor, staff, admin)
  */
 export const authorizeRoles = (...roles) => {
@@ -97,19 +104,28 @@ export const medicalStaffOnly = authorizeRoles('doctor', 'staff');
 
 /**
  * Optional Auth Middleware
- * Attaches user if authenticated but doesn't reject if not
- * Useful for endpoints that work differently for authenticated users
+ * Attaches user if authenticated but doesn't reject if not.
+ * Useful for endpoints that behave differently for authenticated users.
  */
 export const optionalAuth = async (req, res, next) => {
   try {
     if (req.auth && req.auth.userId) {
-      const user = await User.findOne({ clerkId: req.auth.userId });
+      const { data: user } = await supabase
+        .from('users')
+        .select('*')
+        .eq('clerk_user_id', req.auth.userId)
+        .single();
+
       if (user && user.status === 'active') {
-        req.user = user;
+        req.user = {
+          ...user,
+          name: user.full_name,
+          clerkId: user.clerk_user_id,
+        };
       }
     }
     next();
-  } catch (error) {
+  } catch {
     // Don't fail the request, just continue without user
     next();
   }

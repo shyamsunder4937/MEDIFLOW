@@ -26,29 +26,22 @@ export const errorHandler = (err, req, res, next) => {
     message: err.message || 'Internal Server Error',
     ...(process.env.NODE_ENV === 'development' && {
       stack: err.stack,
-      error: err,
     }),
   };
 
-  // Handle specific error types
-  if (err.name === 'ValidationError') {
-    errorResponse.message = 'Validation Error';
-    errorResponse.errors = Object.values(err.errors).map((e) => e.message);
+  // Handle Supabase / PostgreSQL unique constraint violations
+  if (err.code === '23505') {
+    errorResponse.message = 'A record with this value already exists';
+    return res.status(409).json(errorResponse);
+  }
+
+  // Handle Supabase / PostgreSQL not-null constraint violations
+  if (err.code === '23502') {
+    errorResponse.message = `Missing required field`;
     return res.status(400).json(errorResponse);
   }
 
-  if (err.name === 'CastError') {
-    errorResponse.message = 'Invalid ID format';
-    return res.status(400).json(errorResponse);
-  }
-
-  if (err.code === 11000) {
-    const field = Object.keys(err.keyPattern)[0];
-    errorResponse.message = `Duplicate value for field: ${field}`;
-    return res.status(400).json(errorResponse);
-  }
-
-  // JWT errors
+  // JWT errors (from Clerk)
   if (err.name === 'JsonWebTokenError') {
     errorResponse.message = 'Invalid token';
     return res.status(401).json(errorResponse);
@@ -76,11 +69,11 @@ export const errorHandler = (err, req, res, next) => {
 /**
  * Async Handler Wrapper
  * Wraps async route handlers to catch errors automatically
- * 
+ *
  * Usage:
  *   router.get('/users', asyncHandler(async (req, res) => {
- *     const users = await User.find();
- *     res.json(users);
+ *     const { data } = await supabase.from('users').select('*');
+ *     res.json(data);
  *   }));
  */
 export const asyncHandler = (fn) => (req, res, next) => {

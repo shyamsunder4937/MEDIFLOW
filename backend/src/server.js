@@ -1,21 +1,21 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // MediFlow AI - Main Server
-// Phase 2: Backend Foundation with MongoDB, Express, and Clerk Authentication
+// Backend Foundation with Supabase (PostgreSQL), Express, and Clerk Auth
 // ═══════════════════════════════════════════════════════════════════════════
 
+import 'dotenv/config';
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import { clerkMiddleware } from '@clerk/express';
-import { connectDB } from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 // Import routes
 import healthRoutes from './routes/healthRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-
-// Load environment variables
-dotenv.config();
+import departmentRoutes from './routes/departmentRoutes.js';
+import doctorRoutes from './routes/doctorRoutes.js';
+import staffRoutes from './routes/staffRoutes.js';
+import patientRoutes from './routes/patientRoutes.js';
 
 // Initialize Express app
 const app = express();
@@ -54,6 +54,10 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/health', healthRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/departments', departmentRoutes);
+app.use('/api/doctors', doctorRoutes);
+app.use('/api/staff', staffRoutes);
+app.use('/api/patients', patientRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -73,32 +77,20 @@ app.use(notFound);
 app.use(errorHandler);
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Database Connection & Server Startup
+// Server Startup
+// Supabase uses an HTTP client — no explicit DB connection step needed.
 // ═══════════════════════════════════════════════════════════════════════════
 
-const startServer = async () => {
-  try {
-    // Connect to MongoDB
-    await connectDB();
-
-    // Start Express server
-    app.listen(PORT, () => {
-      console.log('═══════════════════════════════════════════════════════════');
-      console.log('🚀 MediFlow AI Backend Server');
-      console.log('═══════════════════════════════════════════════════════════');
-      console.log(`📡 Server running on port ${PORT}`);
-      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
-      console.log('═══════════════════════════════════════════════════════════');
-    });
-  } catch (error) {
-    console.error('❌ Failed to start server:', error);
-    process.exit(1);
-  }
-};
-
-// Start the server
-startServer();
+app.listen(PORT, () => {
+  console.log('═══════════════════════════════════════════════════════════');
+  console.log('🚀 MediFlow AI Backend Server');
+  console.log('═══════════════════════════════════════════════════════════');
+  console.log(`📡 Server running on port ${PORT}`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🗄️  Database:    Supabase (PostgreSQL)`);
+  console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
+  console.log('═══════════════════════════════════════════════════════════');
+});
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {

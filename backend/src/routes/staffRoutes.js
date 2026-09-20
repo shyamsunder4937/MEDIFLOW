@@ -1,26 +1,28 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// MediFlow AI - User Routes
+// MediFlow AI - Staff Routes (Module 2: Hospital Structure)
 // ═══════════════════════════════════════════════════════════════════════════
 
 import express from 'express';
 import {
-  getCurrentUser,
-  updateCurrentUser,
-  syncUserFromClerk,
-  getUsers,
-} from '../controllers/userController.js';
+  getStaff,
+  getStaffById,
+  createStaff,
+  updateStaff,
+  changeStaffDepartment,
+  changeStaffWorkingStatus,
+} from '../controllers/staffController.js';
 import { requireAuth, adminOnly } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// List users (Admin only)
-router.get('/', requireAuth, adminOnly, getUsers);
+// Public / Staff read routes
+router.get('/', getStaff);
+router.get('/:id', getStaffById);
 
-// Protected routes (require authentication)
-router.get('/me', requireAuth, getCurrentUser);
-router.put('/me', requireAuth, updateCurrentUser);
-
-// Sync user from Clerk (called from frontend after Clerk authentication)
-router.post('/sync', syncUserFromClerk);
+// Protected routes
+router.post('/', requireAuth, adminOnly, createStaff);
+router.put('/:id', requireAuth, updateStaff);
+router.patch('/:id/department', requireAuth, adminOnly, changeStaffDepartment);
+router.patch('/:id/working-status', requireAuth, changeStaffWorkingStatus);
 
 export default router;

@@ -15,12 +15,26 @@ export const AuthRedirect = () => {
 
   useEffect(() => {
     if (isLoaded && isSignedIn && user) {
-      // Phase 1: Determine role by email
-      const email = user.primaryEmailAddress?.emailAddress;
+      const email = user.primaryEmailAddress?.emailAddress || '';
       const role = getRoleByEmail(email);
       
-      // Store role in localStorage for Phase 1
+      // Store role in localStorage
       localStorage.setItem('mediflow_user_role', role);
+      
+      // Sync user profile to backend (Supabase)
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      fetch(`${apiUrl}/users/sync`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          clerkId: user.id,
+          email,
+          name: user.fullName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || email.split('@')[0],
+          role,
+          avatarUrl: user.imageUrl,
+          phone: user.primaryPhoneNumber?.phoneNumber || null,
+        }),
+      }).catch((err) => console.warn('Supabase user sync error:', err));
       
       // Get redirect path
       const redirectPath = getRoleRedirectPath(role);

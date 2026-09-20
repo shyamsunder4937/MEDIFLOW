@@ -1,26 +1,26 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// MediFlow AI - User Routes
+// MediFlow AI - Department Routes (Module 2: Hospital Structure)
 // ═══════════════════════════════════════════════════════════════════════════
 
 import express from 'express';
 import {
-  getCurrentUser,
-  updateCurrentUser,
-  syncUserFromClerk,
-  getUsers,
-} from '../controllers/userController.js';
+  getDepartments,
+  getDepartmentById,
+  createDepartment,
+  updateDepartment,
+  toggleDepartmentStatus,
+} from '../controllers/departmentController.js';
 import { requireAuth, adminOnly } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// List users (Admin only)
-router.get('/', requireAuth, adminOnly, getUsers);
+// Public routes (Read departments)
+router.get('/', getDepartments);
+router.get('/:id', getDepartmentById);
 
-// Protected routes (require authentication)
-router.get('/me', requireAuth, getCurrentUser);
-router.put('/me', requireAuth, updateCurrentUser);
-
-// Sync user from Clerk (called from frontend after Clerk authentication)
-router.post('/sync', syncUserFromClerk);
+// Admin-only management routes
+router.post('/', requireAuth, adminOnly, createDepartment);
+router.put('/:id', requireAuth, adminOnly, updateDepartment);
+router.patch('/:id/status', requireAuth, adminOnly, toggleDepartmentStatus);
 
 export default router;

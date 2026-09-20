@@ -2,7 +2,7 @@
 // MediFlow AI - Health Check Controller
 // ═══════════════════════════════════════════════════════════════════════════
 
-import mongoose from 'mongoose';
+import { pingDB } from '../config/supabase.js';
 
 /**
  * @route   GET /api/health
@@ -11,8 +11,8 @@ import mongoose from 'mongoose';
  */
 export const getHealthStatus = async (req, res) => {
   try {
-    // Check MongoDB connection
-    const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+    // Ping Supabase to verify database connectivity
+    const isDBConnected = await pingDB();
 
     res.status(200).json({
       success: true,
@@ -20,7 +20,7 @@ export const getHealthStatus = async (req, res) => {
       timestamp: new Date().toISOString(),
       status: {
         server: 'online',
-        database: dbStatus,
+        database: isDBConnected ? 'connected' : 'disconnected',
       },
       version: '2.0.0',
       environment: process.env.NODE_ENV || 'development',

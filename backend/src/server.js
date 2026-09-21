@@ -17,6 +17,7 @@ import doctorRoutes from './routes/doctorRoutes.js';
 import staffRoutes from './routes/staffRoutes.js';
 import patientRoutes from './routes/patientRoutes.js';
 import appointmentRoutes from './routes/appointmentRoutes.js';
+import queueRoutes from './routes/queueRoutes.js';
 
 // Initialize Express app
 const app = express();
@@ -60,6 +61,7 @@ app.use('/api/doctors', doctorRoutes);
 app.use('/api/staff', staffRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/queues', queueRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {

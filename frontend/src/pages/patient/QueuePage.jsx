@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PatientLayout } from '../../layouts/PatientLayout';
 import { mockQueueData } from '../../data/mockQueueData';
 import { QueueOverviewCard } from '../../components/queue/QueueOverviewCard';
@@ -10,15 +10,156 @@ import { QueueUpdate } from '../../components/queue/QueueUpdate';
 import { QueueActions } from '../../components/queue/QueueActions';
 import { ContactReceptionModal } from '../../components/queue/ContactReceptionModal';
 import { LeaveQueueModal } from '../../components/queue/LeaveQueueModal';
-import { CheckCircle2, RotateCcw } from 'lucide-react';
+import { CheckCircle2, RotateCcw, Loader2, AlertCircle } from 'lucide-react';
+import { getMyQueue, getQueuePosition, getDepartmentQueue } from '../../services/queueService';
 
 export const QueuePage = () => {
-  // Local state initialized with mockQueueData
-  const [queueState, setQueueState] = useState(mockQueueData);
+  // Local state
+  const [queueState, setQueueState] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [showUpdateBanner, setShowUpdateBanner] = useState(true);
   const [isReceptionModalOpen, setIsReceptionModalOpen] = useState(false);
   const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+
+  // Load queue data on mount
+  useEffect(() => {
+    loadQueueData();
+    
+    // Refresh every 30 seconds
+    const interval = setInterval(loadQueueData, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const loadQueueData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Get patient's queue
+      const queue = await getMyQueue();
+      
+      // Get queue position
+      const position = await getQueuePosition(queue.id);
+      
+      // Get department queue for live queue context
+      const deptQueue = await getDepartmentQueue(queue.department_id, queue.queue_date, 'waiting,called,in_consultation');
+      
+      // Transform to UI format
+      const transformedData = transformQueueToUI(queue, position, deptQueue.data);
+      setQueueState(transformedData);
+      
+    } catch (err) {
+      console.error('Failed to load queue:', err);
+      setError(err.message || 'Failed to load queue data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const transformQueueToUI = (queue, position, deptQueueData) => {
+    const formattedNumber = `#${String(queue.queue_number).padStart(2, '0')}`;
+    
+    // Status mapping
+    const statusMap = {
+      'waiting': 'Waiting',
+      'called': 'Called',
+      'in_consultation': 'In Consultation',
+      'completed': 'Completed',
+      'cancelled': 'Cancelled',
+      'no_show': 'No Show'
+    };
+
+    // Calculate estimated wait time (12 min per patient)
+    const estimatedWait = position.patientsAhead * 12;
+    
+    // Build live queue (show 3 before and 3 after current)
+    const currentIdx = deptQueueData.findIndex(q => q.id === queue.id);
+    const start = Math.max(0, currentIdx - 2);
+    const end = Math.min(deptQueueData.length, currentIdx + 4);
+    const liveQueue = deptQueueData.slice(start, end).map(q => ({
+      queueNumber: q.queue_number,
+      formattedNumber: `#${String(q.queue_number).padStart(2, '0')}`,
+      name: q.patientName?.split(' ')[0] || 'Patient',
+      status: statusMap[q.status] || q.status,
+      waitTime: q.status === 'waiting' ? `${Math.max(0, (q.queue_number - queue.queue_number) * 12)} min estimated wait` :
+                q.status === 'in_consultation' ? 'In progress' :
+                q.status === 'completed' ? 'Finished' : 'Waiting',
+      isCurrent: q.id === queue.id
+    }));
+
+    // Journey stages
+    const journeyStages = [
+      {
+        id: 'registration',
+        title: 'Registration',
+        status: 'completed',
+        time: new Date(queue.check_in_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+        description: 'Check-in completed',
+      },
+      {
+        id: 'waiting',
+        title: 'Waiting',
+        status: queue.status === 'waiting' ? 'current' : 'completed',
+        time: queue.status === 'waiting' ? new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 
+              queue.called_at ? new Date(queue.called_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Pending',
+        description: queue.status === 'waiting' ? `${position.patientsAhead} patients ahead` : 'Called',
+      },
+      {
+        id: 'consultation',
+        title: 'Consultation',
+        status: queue.status === 'in_consultation' ? 'current' : queue.status === 'completed' ? 'completed' : 'upcoming',
+        time: queue.consultation_started_at ? new Date(queue.consultation_started_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 
+              queue.appointmentTime || 'Scheduled',
+        description: `Consultation with ${queue.doctorName || 'Doctor'} in ${queue.doctorRoom || 'Room'}`,
+      },
+      {
+        id: 'completed',
+        title: 'Completed',
+        status: queue.status === 'completed' ? 'completed' : 'upcoming',
+        time: queue.completed_at ? new Date(queue.completed_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Pending',
+        description: 'Prescription & follow-up instructions',
+      },
+    ];
+
+    return {
+      queueNumber: queue.queue_number,
+      formattedQueueNumber: formattedNumber,
+      patientsAhead: position.patientsAhead,
+      totalInQueue: deptQueueData.length,
+      estimatedWait,
+      status: statusMap[queue.status] || queue.status,
+      lastUpdated: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+      doctor: {
+        name: queue.doctorName || 'Doctor',
+        department: queue.departmentName || 'Department',
+        room: queue.doctorRoom || 'TBA',
+        roomFull: `${queue.departmentName || 'Department'}, ${queue.doctorRoom || 'Room TBA'}`,
+        status: 'Available',
+        specialization: queue.doctor?.specialization || 'Medical Specialist',
+        experience: queue.doctor?.qualification || 'MBBS, MD',
+        currentlyServing: deptQueueData.find(q => q.status === 'in_consultation')?.patientName || 'Waiting',
+      },
+      liveQueue,
+      journeyStages,
+      recentUpdate: {
+        title: 'Queue Updated',
+        message: queue.status === 'called' ? 'You have been called!' : 
+                 `You are number ${formattedNumber}`,
+        timeAgo: 'Just now',
+        timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+      },
+      hospitalInfo: {
+        centerName: 'MediFlow Multi-Specialty Hospital',
+        wing: queue.departmentName || 'OPD',
+        receptionDesk: `${queue.departmentName || 'Department'} Reception`,
+        receptionistName: 'Reception Staff',
+        receptionPhone: '+91 (080) 4123-8900',
+        helpDeskExt: 'Ext. 2041',
+      },
+    };
+  };
 
   const showToast = (message) => {
     setToastMessage(message);
@@ -27,27 +168,66 @@ export const QueuePage = () => {
     }, 4000);
   };
 
-  const handleConfirmLeave = () => {
-    setQueueState((prev) => ({
-      ...prev,
-      status: 'Left Queue',
-      formattedQueueNumber: '—',
-      patientsAhead: 0,
-      estimatedWait: 0,
-      liveQueue: prev.liveQueue.map((item) =>
-        item.isCurrent
-          ? { ...item, status: 'Left Queue', waitTime: 'Left queue by patient choice' }
-          : item
-      ),
-    }));
-    showToast('You have stepped out of the queue. Rejoin anytime below.');
+  const handleConfirmLeave = async () => {
+    // Note: Leave queue functionality would call cancelQueue API
+    // For now, just show message
+    showToast('Queue cancellation feature coming soon');
   };
 
   const handleRejoinQueue = () => {
-    setQueueState(mockQueueData);
-    showToast('Rejoined queue as #07 in General Medicine.');
+    loadQueueData();
+    showToast('Refreshing queue data...');
   };
 
+  // Loading state
+  if (loading && !queueState) {
+    return (
+      <PatientLayout
+        title="My Queue"
+        subtitle="Track your position and estimated waiting time."
+      >
+        <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto">
+          <div className="flex flex-col items-center justify-center py-20 space-y-4">
+            <Loader2 className="h-10 w-10 animate-spin text-[#0F766E]" />
+            <p className="text-sm text-[#64748B]">Loading queue information...</p>
+          </div>
+        </div>
+      </PatientLayout>
+    );
+  }
+
+  // Error state
+  if (error && !queueState) {
+    return (
+      <PatientLayout
+        title="My Queue"
+        subtitle="Track your position and estimated waiting time."
+      >
+        <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto">
+          <div className="flex flex-col items-center justify-center py-20 space-y-4 text-center">
+            <div className="h-16 w-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+              <AlertCircle className="h-8 w-8" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-[#0F172A] mb-2">No Active Queue Found</h3>
+              <p className="text-sm text-[#64748B] max-w-md mb-4">
+                You don't have an active queue entry for today. Check in at the hospital reception desk after your appointment time.
+              </p>
+              <button
+                onClick={loadQueueData}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#115E59] transition-colors"
+              >
+                <RotateCcw className="h-4 w-4" />
+                Refresh
+              </button>
+            </div>
+          </div>
+        </div>
+      </PatientLayout>
+    );
+  }
+
+  // Render queue
   return (
     <PatientLayout
       title="My Queue"

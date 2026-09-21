@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CalendarPlus,
   CalendarDays,
@@ -6,7 +6,9 @@ import {
   Clock,
   Sparkles,
   Filter,
-  Check
+  Check,
+  Loader2,
+  AlertTriangle
 } from 'lucide-react';
 import { PatientLayout } from '../../layouts/PatientLayout';
 import { AppointmentTabs } from '../../components/appointments/AppointmentTabs';
@@ -15,12 +17,83 @@ import { EmptyState } from '../../components/appointments/EmptyState';
 import { BookAppointmentModal } from '../../components/appointments/BookAppointmentModal';
 import { AppointmentDetailsModal } from '../../components/appointments/AppointmentDetailsModal';
 import { CancelConfirmModal, RescheduleModal } from '../../components/appointments/AppointmentActionModals';
-import { initialAppointments, mockDepartments } from '../../data/mockAppointmentsData';
+import { getMyAppointments, cancelAppointment } from '../../services/appointmentService';
+
+// Helper: Format appointments to match existing UI structure
+const formatAppointmentForUI = (apt) => {
+  // Format date
+  const date = new Date(apt.appointment_date);
+  const dateShort = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  const dateLong = date.toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' });
+
+  // Format time
+  const startTime = new Date(`2000-01-01T${apt.start_time}`).toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  });
+
+  // Determine tab based on status and date
+  let tab = 'upcoming';
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const apptDate = new Date(apt.appointment_date);
+  apptDate.setHours(0, 0, 0, 0);
+
+  if (apt.status === 'cancelled') {
+    tab = 'cancelled';
+  } else if (apt.status === 'completed' || apptDate < today) {
+    tab = 'past';
+  }
+
+  // Map appointment_type to display type
+  const typeMap = {
+    consultation: 'Initial Consultation',
+    follow_up: 'Follow-up',
+    routine_checkup: 'Routine Checkup',
+  };
+
+  // Map status to display status
+  const statusMap = {
+    scheduled: 'Scheduled',
+    confirmed: 'Confirmed',
+    completed: 'Completed',
+    cancelled: 'Cancelled',
+    no_show: 'No Show',
+  };
+
+  return {
+    id: apt.appointment_number,
+    appointmentId: apt.id, // Keep UUID for backend calls
+    department: apt.departmentName || 'Department',
+    doctor: apt.doctorName || 'Doctor',
+    specialization: apt.doctorSpecialization || '',
+    date: dateLong,
+    dateShort: dateShort,
+    time: startTime,
+    hospital: 'MediFlow Medical Center',
+    room: apt.doctorRoom || 'TBD',
+    status: statusMap[apt.status] || apt.status,
+    tab: tab,
+    type: typeMap[apt.appointment_type] || apt.appointment_type,
+    reason: apt.reason || 'Consultation',
+    cancellationReason: apt.notes && apt.status === 'cancelled' ? apt.notes : undefined,
+    journeyStages: [
+      { id: 1, name: 'Registration', status: 'pending', time: 'Pending check-in' },
+      { id: 2, name: 'Doctor Consultation', status: 'pending', time: startTime },
+      { id: 3, name: 'Laboratory', status: 'pending', time: 'Scheduled' },
+      { id: 4, name: 'Doctor Review', status: 'pending', time: 'Scheduled' },
+      { id: 5, name: 'Pharmacy', status: 'pending', time: 'Scheduled' },
+    ],
+  };
+};
 
 export const AppointmentsPage = () => {
-  // Appointment list state (allows live additions and updates)
-  const [appointments, setAppointments] = useState(initialAppointments);
-  const [activeTab, setActiveTab] = useState('upcoming'); // 'upcoming' | 'past' | 'cancelled'
+  // Appointment list state
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState('upcoming');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Modals state
@@ -39,6 +112,26 @@ export const AppointmentsPage = () => {
       setToastMessage(null);
     }, 4000);
   };
+
+  // Load appointments on mount
+  useEffect(() => {
+    const loadAppointments = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await getMyAppointments();
+        const formattedAppointments = response.data.map(formatAppointmentForUI);
+        setAppointments(formattedAppointments);
+      } catch (err) {
+        console.error('Failed to load appointments:', err);
+        setError(err.message || 'Failed to load appointments');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAppointments();
+  }, []);
 
   // Counts for tabs
   const tabCounts = {
@@ -67,10 +160,18 @@ export const AppointmentsPage = () => {
   };
 
   const handleAppointmentBooked = (newAppointment) => {
-    // Add new appointment to list at the beginning
-    setAppointments((prev) => [newAppointment, ...prev]);
-    setActiveTab('upcoming');
-    showToast(`Appointment ${newAppointment.id} booked successfully.`);
+    // Reload appointments after booking
+    getMyAppointments()
+      .then((response) => {
+        const formattedAppointments = response.data.map(formatAppointmentForUI);
+        setAppointments(formattedAppointments);
+        setActiveTab('upcoming');
+        showToast(`Appointment booked successfully.`);
+      })
+      .catch((err) => {
+        console.error('Failed to reload appointments:', err);
+        showToast('Appointment booked, but failed to refresh list');
+      });
   };
 
   const handleViewDetails = (apt) => {
@@ -83,21 +184,35 @@ export const AppointmentsPage = () => {
     setIsCancelModalOpen(true);
   };
 
-  const handleConfirmCancel = (id, reason) => {
-    setAppointments((prev) =>
-      prev.map((apt) => {
-        if (apt.id === id) {
-          return {
-            ...apt,
-            status: 'Cancelled',
-            tab: 'cancelled',
-            cancellationReason: reason,
-          };
-        }
-        return apt;
-      })
-    );
-    showToast(`Appointment ${id} cancelled.`);
+  const handleConfirmCancel = async (id, reason) => {
+    try {
+      // Find the appointment by display ID (appointment_number)
+      const apt = appointments.find((a) => a.id === id);
+      if (!apt || !apt.appointmentId) {
+        throw new Error('Appointment not found');
+      }
+
+      await cancelAppointment(apt.appointmentId, reason);
+      
+      // Update local state
+      setAppointments((prev) =>
+        prev.map((a) => {
+          if (a.id === id) {
+            return {
+              ...a,
+              status: 'Cancelled',
+              tab: 'cancelled',
+              cancellationReason: reason,
+            };
+          }
+          return a;
+        })
+      );
+      showToast(`Appointment ${id} cancelled.`);
+    } catch (err) {
+      console.error('Failed to cancel appointment:', err);
+      showToast(err.message || 'Failed to cancel appointment');
+    }
   };
 
   const handleOpenReschedule = (apt) => {
@@ -106,6 +221,8 @@ export const AppointmentsPage = () => {
   };
 
   const handleConfirmReschedule = (id, newDate, newTime) => {
+    // Note: Rescheduling requires backend update - for now just show toast
+    // This would need to be connected to updateAppointment service
     setAppointments((prev) =>
       prev.map((apt) => {
         if (apt.id === id) {
@@ -125,6 +242,47 @@ export const AppointmentsPage = () => {
   const handleBookAgain = (pastApt) => {
     setIsBookModalOpen(true);
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <PatientLayout
+        title="Appointments"
+        subtitle="Manage your upcoming and previous hospital appointments."
+      >
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center space-y-3">
+            <Loader2 className="h-8 w-8 animate-spin text-[#0F766E] mx-auto" />
+            <p className="text-sm text-[#64748B]">Loading your appointments...</p>
+          </div>
+        </div>
+      </PatientLayout>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <PatientLayout
+        title="Appointments"
+        subtitle="Manage your upcoming and previous hospital appointments."
+      >
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center space-y-3 max-w-md">
+            <AlertTriangle className="h-12 w-12 text-amber-500 mx-auto" />
+            <h3 className="text-lg font-bold text-[#0F172A]">Unable to Load Appointments</h3>
+            <p className="text-sm text-[#64748B]">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 rounded-xl bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#115E59] transition"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </PatientLayout>
+    );
+  }
 
   return (
     <PatientLayout

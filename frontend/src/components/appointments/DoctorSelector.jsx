@@ -1,12 +1,31 @@
 import React from 'react';
-import { Star, CheckCircle, Stethoscope, MapPin, AlertCircle } from 'lucide-react';
-import { mockDoctors } from '../../data/mockAppointmentsData';
+import { Star, CheckCircle, Stethoscope, MapPin, AlertCircle, Loader2 } from 'lucide-react';
 
-export const DoctorSelector = ({ selectedDepartment, selectedDoctor, onSelectDoctor }) => {
-  // Filter doctors for the selected department
-  const filteredDoctors = mockDoctors.filter(
-    (doc) => doc.departmentId === selectedDepartment?.id
-  );
+export const DoctorSelector = ({ doctors = [], selectedDepartment, selectedDoctor, onSelectDoctor, isLoading }) => {
+  if (isLoading && doctors.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 space-y-3">
+        <Loader2 className="h-8 w-8 animate-spin text-[#0F766E]" />
+        <p className="text-sm text-[#64748B]">Loading doctors...</p>
+      </div>
+    );
+  }
+
+  if (!isLoading && doctors.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 space-y-3 text-center">
+        <div className="h-12 w-12 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center">
+          <Stethoscope className="h-6 w-6" />
+        </div>
+        <p className="text-sm font-semibold text-[#0F172A]">No doctors available</p>
+        <p className="text-xs text-[#64748B] max-w-xs">
+          There are currently no available doctors in {selectedDepartment?.name || 'this department'}.
+        </p>
+      </div>
+    );
+  }
+
+  const availableCount = doctors.filter(d => d.working_status === 'available').length;
 
   return (
     <div className="space-y-4">
@@ -18,14 +37,21 @@ export const DoctorSelector = ({ selectedDepartment, selectedDoctor, onSelectDoc
           </p>
         </div>
         <span className="text-xs text-[#64748B]">
-          {filteredDoctors.filter((d) => d.available).length} of {filteredDoctors.length} available
+          {availableCount} of {doctors.length} available
         </span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        {filteredDoctors.map((doc) => {
+        {doctors.map((doc) => {
           const isSelected = selectedDoctor?.id === doc.id;
-          const isAvailable = doc.available;
+          const isAvailable = doc.working_status === 'available' && doc.user?.status === 'active';
+
+          // Generate initials from doctor's name
+          const fullName = doc.user?.full_name || 'Doctor';
+          const nameParts = fullName.split(' ');
+          const initials = nameParts.length >= 2
+            ? `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}`
+            : fullName.substring(0, 2);
 
           return (
             <button
@@ -59,31 +85,31 @@ export const DoctorSelector = ({ selectedDepartment, selectedDoctor, onSelectDoc
                         : 'bg-teal-50 text-[#0F766E]'
                     }`}
                   >
-                    {doc.avatarInitials}
+                    {initials.toUpperCase()}
                   </div>
 
                   <div className="min-w-0 pr-5">
                     <div className="text-sm font-bold text-[#0F172A] truncate">
-                      {doc.name}
+                      {fullName}
                     </div>
                     <div className="text-xs text-[#64748B] truncate mt-0.5">
-                      {doc.specialization}
+                      {doc.specialization || 'Consultant Specialist'}
                     </div>
                     <div className="text-[11px] text-[#94A3B8] mt-0.5">
-                      {doc.experience}
+                      {doc.qualification || 'MBBS, MD'}
                     </div>
                   </div>
                 </div>
 
-                {/* Room location & rating */}
+                {/* Room location */}
                 <div className="mt-3 flex items-center justify-between text-xs text-[#64748B]">
                   <div className="flex items-center gap-1">
                     <MapPin className="h-3 w-3 text-[#94A3B8]" />
-                    <span className="truncate">{doc.room}</span>
+                    <span className="truncate">{doc.room_number || 'Room TBA'}</span>
                   </div>
                   <div className="flex items-center gap-1 text-amber-600 font-semibold">
                     <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                    <span>{doc.rating}</span>
+                    <span>4.8</span>
                   </div>
                 </div>
               </div>

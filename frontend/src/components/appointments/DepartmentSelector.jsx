@@ -6,9 +6,9 @@ import {
   Sparkles,
   Baby,
   Activity,
-  CheckCircle
+  CheckCircle,
+  Loader2
 } from 'lucide-react';
-import { mockDepartments } from '../../data/mockAppointmentsData';
 
 const iconMap = {
   Stethoscope,
@@ -19,7 +19,37 @@ const iconMap = {
   Activity
 };
 
-export const DepartmentSelector = ({ selectedDepartment, onSelectDepartment }) => {
+// Map department names to icon names
+const departmentIconMap = {
+  'General Medicine': 'Stethoscope',
+  'Cardiology': 'HeartPulse',
+  'Orthopedics': 'Bone',
+  'Dermatology': 'Sparkles',
+  'Pediatrics': 'Baby',
+  'Gastroenterology': 'Activity'
+};
+
+export const DepartmentSelector = ({ departments = [], selectedDepartment, onSelectDepartment, isLoading }) => {
+  if (isLoading && departments.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 space-y-3">
+        <Loader2 className="h-8 w-8 animate-spin text-[#0F766E]" />
+        <p className="text-sm text-[#64748B]">Loading departments...</p>
+      </div>
+    );
+  }
+
+  if (!isLoading && departments.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 space-y-3 text-center">
+        <div className="h-12 w-12 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center">
+          <Stethoscope className="h-6 w-6" />
+        </div>
+        <p className="text-sm text-[#64748B]">No departments available at this time.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       <div>
@@ -30,9 +60,15 @@ export const DepartmentSelector = ({ selectedDepartment, onSelectDepartment }) =
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {mockDepartments.map((dept) => {
-          const Icon = iconMap[dept.iconName] || Stethoscope;
+        {departments.map((dept) => {
+          const iconName = departmentIconMap[dept.name] || 'Stethoscope';
+          const Icon = iconMap[iconName] || Stethoscope;
           const isSelected = selectedDepartment?.id === dept.id;
+
+          // Count available doctors from the doctors array (if populated)
+          const availableDoctorsCount = Array.isArray(dept.doctors) 
+            ? dept.doctors.filter(d => d.working_status === 'available').length 
+            : 0;
 
           return (
             <button
@@ -66,14 +102,14 @@ export const DepartmentSelector = ({ selectedDepartment, onSelectDepartment }) =
                   {dept.name}
                 </div>
                 <div className="text-xs text-[#64748B] line-clamp-2 leading-relaxed">
-                  {dept.description}
+                  {dept.description || 'Specialized medical care'}
                 </div>
               </div>
 
               <div className="mt-3.5 pt-2.5 border-t border-[#E2E8F0]/70 flex items-center justify-between text-[11px]">
                 <span className="text-[#64748B]">Available doctors</span>
                 <span className="font-semibold text-[#0F766E]">
-                  {dept.availableDoctorsCount} Active
+                  {availableDoctorsCount > 0 ? `${availableDoctorsCount} Active` : 'Loading...'}
                 </span>
               </div>
             </button>

@@ -9,7 +9,6 @@ import { PickupInformationCard }   from '../../components/pharmacy/PickupInforma
 import { PharmacyContactModal }    from '../../components/pharmacy/PharmacyContactModal';
 import { OrderHistory }            from '../../components/pharmacy/OrderHistory';
 import { PharmacyJourneyCard }     from '../../components/pharmacy/PharmacyJourneyCard';
-import { PharmacyInformationCard } from '../../components/pharmacy/PharmacyInformationCard';
 import { OrderDetailsModal }       from '../../components/pharmacy/OrderDetailsModal';
 import {
   prescriptionSummary,
@@ -20,7 +19,8 @@ import {
   pharmacyJourneyStages,
   pharmacyOrders,
 } from '../../data/patientMockData.js';
-import { Pill, CheckCircle2 } from 'lucide-react';
+import { Pill, CheckCircle2, Download } from 'lucide-react';
+import { generatePrescriptionPDF } from '../../utils/prescriptionPdfGenerator.js';
 
 // ── Pharmacy Empty State ──────────────────────────────────────────────────────
 const PharmacyEmptyState = () => (
@@ -97,16 +97,27 @@ export const PharmacyPage = () => {
 
           {/* Left — Active Prescriptions */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
               <div>
                 <h2 className="text-base sm:text-lg font-bold text-[#17221B]">Active Prescriptions</h2>
                 <p className="text-xs text-[#64748B]">
                   Fictional demo medications — follow doctor's instructions
                 </p>
               </div>
-              <span className="text-xs font-semibold text-[#64748B] bg-[#F8FAFC] border border-[#E2E8F0] px-2.5 py-0.5 rounded-full">
-                {prescriptions.length} Prescriptions
-              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => generatePrescriptionPDF(prescriptions)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#15803D] bg-[#F0FDF4] hover:bg-[#15803D] hover:text-white border border-[#15803D]/20 transition-colors shadow-2xs cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
+                  title="Download Patient Medicine List as PDF"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  <span>Download PDF</span>
+                </button>
+                <span className="text-xs font-semibold text-[#64748B] bg-[#F8FAFC] border border-[#E2E8F0] px-2.5 py-1 rounded-lg">
+                  {prescriptions.length} Prescriptions
+                </span>
+              </div>
             </div>
 
             {prescriptions.length > 0 ? (
@@ -159,9 +170,6 @@ export const PharmacyPage = () => {
           />
         </section>
 
-        {/* ── 6. Supporting Information ── */}
-        <PharmacyInformationCard />
-
         {/* ── Modals ── */}
         <PrescriptionDetailsModal
           isOpen={isPrescriptionModalOpen}
@@ -185,3 +193,4 @@ export const PharmacyPage = () => {
 };
 
 export default PharmacyPage;
+

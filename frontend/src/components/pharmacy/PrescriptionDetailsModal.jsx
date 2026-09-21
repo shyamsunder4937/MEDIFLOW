@@ -12,7 +12,9 @@ import {
   Clock,
   Info,
   ArrowRight,
+  Download,
 } from 'lucide-react';
+import { generatePrescriptionPDF } from '../../utils/prescriptionPdfGenerator.js';
 
 export const PrescriptionDetailsModal = ({ isOpen, onClose, prescription }) => {
   useEffect(() => {
@@ -191,17 +193,26 @@ export const PrescriptionDetailsModal = ({ isOpen, onClose, prescription }) => {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-5 sm:px-6 py-3.5 border-t border-[#E2E8F0] bg-[#F8FAFC]">
+        <div className="flex items-center justify-end gap-2.5 px-5 sm:px-6 py-3.5 border-t border-[#E2E8F0] bg-[#F8FAFC]">
           <button
+            type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-[#475569] bg-white border border-[#CBD5E1] hover:bg-slate-50 active:scale-[0.98] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
+            className="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-[#475569] bg-white border border-[#CBD5E1] hover:bg-slate-50 active:scale-[0.98] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] cursor-pointer"
           >
             Close
+          </button>
+          <button
+            type="button"
+            onClick={() => generatePrescriptionPDF(prescription)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-[#15803D] bg-[#F0FDF4] hover:bg-[#15803D] hover:text-white border border-[#15803D]/20 active:scale-[0.98] transition-all shadow-2xs cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
+          >
+            <Download className="h-4 w-4" />
+            <span>Download PDF</span>
           </button>
           <Link
             to="/patient/journey"
             onClick={onClose}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-white bg-[#15803D] hover:bg-[#166534] active:scale-[0.98] transition-all shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-white bg-[#15803D] hover:bg-[#166534] active:scale-[0.98] transition-all shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
           >
             <span>View Journey</span>
             <ArrowRight className="h-4 w-4" />

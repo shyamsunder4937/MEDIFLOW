@@ -53,7 +53,7 @@ export const DepartmentSelector = ({ departments = [], selectedDepartment, onSel
   return (
     <div className="space-y-4">
       <div>
-        <h4 className="text-sm font-bold text-[#0F172A]">Select Department</h4>
+        <h4 className="text-sm font-bold text-[#17221B]">Select Department</h4>
         <p className="text-xs text-[#64748B] mt-0.5">
           Choose the specialized clinical department for your consultation.
         </p>
@@ -75,30 +75,30 @@ export const DepartmentSelector = ({ departments = [], selectedDepartment, onSel
               key={dept.id}
               type="button"
               onClick={() => onSelectDepartment(dept)}
-              className={`text-left p-4 rounded-2xl border transition-all duration-150 relative flex flex-col justify-between group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E] ${
+              className={`text-left p-4 rounded-xl border transition-all duration-150 relative flex flex-col justify-between group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] cursor-pointer ${
                 isSelected
-                  ? 'border-[#0F766E] bg-[#CCFBF1]/20 shadow-xs ring-1 ring-[#0F766E]'
+                  ? 'border-[#15803D] bg-[#F0FDF4] shadow-xs ring-1 ring-[#15803D]'
                   : 'border-[#E2E8F0] bg-white hover:border-slate-300 hover:bg-slate-50/50'
               }`}
             >
               {isSelected && (
-                <div className="absolute top-3.5 right-3.5 text-[#0F766E]">
-                  <CheckCircle className="h-4 w-4 fill-[#0F766E] text-white" />
+                <div className="absolute top-3.5 right-3.5 text-[#15803D]">
+                  <CheckCircle className="h-4 w-4 fill-[#15803D] text-white" />
                 </div>
               )}
 
               <div>
                 <div
-                  className={`h-10 w-10 rounded-xl flex items-center justify-center transition-colors mb-3 ${
+                  className={`h-9 w-9 rounded-lg flex items-center justify-center transition-colors mb-3 ${
                     isSelected
-                      ? 'bg-[#0F766E] text-white'
-                      : 'bg-teal-50 text-[#0F766E] group-hover:bg-[#CCFBF1]'
+                      ? 'bg-[#15803D] text-white'
+                      : 'bg-[#F0FDF4] text-[#15803D] group-hover:bg-[#dcfce7]'
                   }`}
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon className="h-4 w-4" />
                 </div>
 
-                <div className="text-sm font-bold text-[#0F172A] mb-1">
+                <div className="text-sm font-bold text-[#17221B] mb-1">
                   {dept.name}
                 </div>
                 <div className="text-xs text-[#64748B] line-clamp-2 leading-relaxed">
@@ -106,10 +106,9 @@ export const DepartmentSelector = ({ departments = [], selectedDepartment, onSel
                 </div>
               </div>
 
-              <div className="mt-3.5 pt-2.5 border-t border-[#E2E8F0]/70 flex items-center justify-between text-[11px]">
-                <span className="text-[#64748B]">Available doctors</span>
-                <span className="font-semibold text-[#0F766E]">
-                  {availableDoctorsCount > 0 ? `${availableDoctorsCount} Active` : 'Loading...'}
+              <div className="mt-3.5 pt-2.5 border-t border-[#E2E8F0] flex items-center justify-between text-[11px]">
+                <span className="font-semibold text-[#15803D]">
+                  {availableDoctorsCount > 0 ? `${availableDoctorsCount} Active` : dept.availableDoctorsCount ? `${dept.availableDoctorsCount} Active` : 'Available'}
                 </span>
               </div>
             </button>

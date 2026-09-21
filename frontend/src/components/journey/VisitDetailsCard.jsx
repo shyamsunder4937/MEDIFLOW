@@ -15,11 +15,11 @@ export const VisitDetailsCard = ({ visit }) => {
   ];
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6">
-      {/* Header */}
+    <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-xs p-5 sm:p-6">
+      {/* ── Header ── */}
       <div className="flex items-center justify-between pb-4 border-b border-[#E2E8F0]">
         <div>
-          <h3 className="text-base font-bold text-[#0F172A] tracking-tight">
+          <h3 className="text-base font-bold text-[#17221B] tracking-tight">
             Visit Details
           </h3>
           <p className="text-xs text-[#64748B]">
@@ -27,35 +27,35 @@ export const VisitDetailsCard = ({ visit }) => {
           </p>
         </div>
 
-        <span className="text-xs font-semibold text-[#0F766E] bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-100">
+        <span className="text-xs font-semibold text-[#15803D] bg-[#F0FDF4] border border-[#15803D]/20 px-2.5 py-0.5 rounded-full">
           Encounter Active
         </span>
       </div>
 
-      {/* 2-Column Information Grid */}
-      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {/* ── 2-Column Information Grid ── */}
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         {details.map((item) => {
           const Icon = item.icon;
 
           return (
             <div
               key={item.label}
-              className="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] flex flex-col justify-between"
+              className="bg-slate-50 p-2.5 rounded-lg border border-[#E2E8F0] flex flex-col justify-between"
             >
-              <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#64748B] mb-1">
-                {Icon && <Icon className="h-3 w-3 text-[#0F766E]" />}
+              <div className="flex items-center gap-1.5 text-[10px] font-bold text-[#64748B] uppercase mb-0.5">
+                {Icon && <Icon className="h-3 w-3 text-[#15803D]" />}
                 <span>{item.label}</span>
               </div>
 
               {item.isStatus ? (
-                <div className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-[#16A34A] animate-pulse" />
-                  <span className="text-xs font-bold text-[#16A34A] uppercase tracking-wide">
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="h-2 w-2 rounded-full bg-[#15803D] animate-pulse" />
+                  <span className="text-xs font-bold text-[#15803D] uppercase tracking-wide">
                     {item.value}
                   </span>
                 </div>
               ) : (
-                <div className="text-xs font-bold text-[#0F172A] truncate">
+                <div className="text-xs font-bold text-[#17221B] truncate mt-0.5">
                   {item.value}
                 </div>
               )}

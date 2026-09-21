@@ -28,18 +28,18 @@ export const PharmacyContactModal = ({ isOpen, onClose }) => {
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-2xl border border-[#E2E8F0] z-10 overflow-hidden animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl border border-[#E2E8F0] z-10 overflow-hidden animate-in zoom-in-95 duration-200">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#E2E8F0] bg-[#F8FAFC]">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#CCFBF1] text-[#0F766E]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F0FDF4] text-[#15803D] border border-[#DCFCE7]">
               <PhoneCall className="h-4 w-4" />
             </div>
-            <h3 className="text-base font-bold text-[#0F172A]">Pharmacy Contact</h3>
+            <h3 className="text-base font-bold text-[#17221B]">Pharmacy Contact</h3>
           </div>
           <button
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-[#64748B] hover:bg-slate-200/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E]"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-[#64748B] hover:bg-slate-200/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
             aria-label="Close"
           >
             <X className="h-4 w-4" />
@@ -53,24 +53,24 @@ export const PharmacyContactModal = ({ isOpen, onClose }) => {
           </p>
 
           <div className="space-y-2.5">
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0]">
-              <MapPin className="h-4 w-4 text-[#0F766E] flex-shrink-0" />
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+              <MapPin className="h-4 w-4 text-[#15803D] flex-shrink-0" />
               <div className="text-xs">
-                <p className="font-semibold text-[#0F172A]">MediFlow Hospital Pharmacy</p>
+                <p className="font-semibold text-[#17221B]">MediFlow Hospital Pharmacy</p>
                 <p className="text-[#64748B]">Ground Floor, OPD Block A · Counter 02</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0]">
-              <PhoneCall className="h-4 w-4 text-[#0F766E] flex-shrink-0" />
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+              <PhoneCall className="h-4 w-4 text-[#15803D] flex-shrink-0" />
               <div className="text-xs">
-                <p className="font-semibold text-[#0F172A]">+91 (080) 4123-8900 · Ext. 1101</p>
+                <p className="font-semibold text-[#17221B]">+91 (080) 4123-8900 · Ext. 1101</p>
                 <p className="text-[#64748B]">OPD Hours: 8:00 AM – 8:00 PM</p>
               </div>
             </div>
           </div>
 
-          <p className="text-[11px] text-[#94A3B8] italic">
+          <p className="text-xs text-[#64748B] italic">
             Phone dialling is not enabled in this Phase 1 interface. Please visit the counter directly.
           </p>
         </div>
@@ -79,7 +79,7 @@ export const PharmacyContactModal = ({ isOpen, onClose }) => {
         <div className="flex justify-end px-5 py-3.5 border-t border-[#E2E8F0] bg-[#F8FAFC]">
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-xl text-sm font-semibold text-white bg-[#0F766E] hover:bg-[#115E59] active:scale-[0.98] transition-all shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E]"
+            className="px-5 py-2 rounded-lg text-sm font-semibold text-white bg-[#15803D] hover:bg-[#166534] active:scale-[0.98] transition-all shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
           >
             Close
           </button>

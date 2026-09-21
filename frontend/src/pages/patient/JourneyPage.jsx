@@ -22,38 +22,32 @@ export const JourneyPage = () => {
 
   return (
     <PatientLayout
-      title="My Hospital Journey"
-      subtitle="Track your progress from registration to completion."
+      title="My Journey"
+      subtitle="Track your clinical workflow from registration to completion."
     >
-      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-5 sm:space-y-6">
+      <div className="p-4 sm:p-6 lg:p-7 max-w-6xl mx-auto space-y-6">
         
-        {/* ── 1. Current Visit Header Card ── */}
+        {/* ── 1. Current Journey Status / Visit Header ── */}
         <JourneyVisitHeader visit={journeyData} />
 
-        {/* ── 2. Journey Progress Bar & Stepper (8 Stages) ── */}
+        {/* ── 2. Main Journey Stepper (8 Connected Stages) ── */}
         <JourneyProgressCard stages={journeyStages} />
 
-        {/* ── 3. Main Split Grid (Current Stage, Next Steps, Visit Details, Activity) ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
+        {/* ── 3. Current Stage Details ── */}
+        <CurrentStageCard journeyData={journeyData} />
+
+        {/* ── 4. Supporting Information Grid (Next Steps, Visit Details, Activity, Help) ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
-          {/* Left Column (7 of 12 on desktop): Current Stage, Next Steps, Recent Activity */}
-          <div className="lg:col-span-7 space-y-5 sm:space-y-6">
-            {/* Current Stage Card */}
-            <CurrentStageCard journeyData={journeyData} />
-
-            {/* What Happens Next Card */}
+          {/* Left Column (7 cols): Next Steps & Activity Timeline */}
+          <div className="lg:col-span-7 space-y-6">
             <NextStepsCard steps={nextSteps} />
-
-            {/* Recent Activity Timeline Card */}
             <ActivityTimelineCard activities={recentActivity} />
           </div>
 
-          {/* Right Column (5 of 12 on desktop): Visit Details & Help Support */}
-          <div className="lg:col-span-5 space-y-5 sm:space-y-6">
-            {/* Official Visit Details Card */}
+          {/* Right Column (5 cols): Encounter Record & Help Support */}
+          <div className="lg:col-span-5 space-y-6">
             <VisitDetailsCard visit={journeyData} />
-
-            {/* Need Help Information Card */}
             <JourneyHelpCard
               onOpenReceptionModal={() => setIsReceptionModalOpen(true)}
               onOpenHelpModal={() => setIsHelpModalOpen(true)}
@@ -62,7 +56,7 @@ export const JourneyPage = () => {
 
         </div>
 
-        {/* ── Interactive Modals (Client-side Phase 1) ── */}
+        {/* ── Interactive Modals ── */}
         <JourneyReceptionModal
           isOpen={isReceptionModalOpen}
           onClose={() => setIsReceptionModalOpen(false)}
@@ -80,3 +74,4 @@ export const JourneyPage = () => {
 };
 
 export default JourneyPage;
+

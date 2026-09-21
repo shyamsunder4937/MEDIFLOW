@@ -24,12 +24,12 @@ import { Pill, CheckCircle2 } from 'lucide-react';
 
 // ── Pharmacy Empty State ──────────────────────────────────────────────────────
 const PharmacyEmptyState = () => (
-  <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-8 sm:p-12 flex flex-col items-center text-center">
-    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#CCFBF1]/60 text-[#0F766E] mb-4">
-      <Pill className="h-8 w-8" />
+  <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-xs p-8 sm:p-12 flex flex-col items-center text-center">
+    <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#F0FDF4] text-[#15803D] border border-[#DCFCE7] mb-3.5">
+      <Pill className="h-7 w-7" />
     </div>
-    <h3 className="text-base sm:text-lg font-bold text-[#0F172A]">No prescriptions found</h3>
-    <p className="text-xs sm:text-sm text-[#64748B] max-w-sm mt-1.5 leading-relaxed">
+    <h3 className="text-base font-bold text-[#17221B]">No prescriptions found</h3>
+    <p className="text-xs sm:text-sm text-[#64748B] max-w-sm mt-1 leading-relaxed">
       Your prescriptions will appear here after they are created during your hospital visit.
     </p>
   </div>
@@ -65,52 +65,52 @@ export const PharmacyPage = () => {
   return (
     <PatientLayout
       title="Pharmacy"
-      subtitle="Track your prescriptions and medication orders."
+      subtitle="Track your prescriptions, dispensation status, and medication orders."
     >
-      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto space-y-6">
 
         {/* ── Toast ── */}
         {toastMessage && (
-          <div className="fixed top-18 right-6 z-50 flex items-center gap-2.5 bg-[#0F172A] text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium border border-slate-700 animate-in fade-in slide-in-from-top-2 duration-200">
-            <CheckCircle2 className="h-4 w-4 text-[#16A34A] flex-shrink-0" />
+          <div className="fixed top-18 right-6 z-50 flex items-center gap-2.5 bg-[#17221B] text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium border border-slate-700 animate-in fade-in slide-in-from-top-2 duration-200">
+            <CheckCircle2 className="h-4 w-4 text-[#15803D] flex-shrink-0" />
             <span>{toastMessage}</span>
           </div>
         )}
 
-        {/* ── 1. Summary Cards ── */}
+        {/* ── 1. Summary Cards (Primary Overview) ── */}
         <section aria-labelledby="pharmacy-summary-heading">
           <h2 id="pharmacy-summary-heading" className="sr-only">Pharmacy Summary</h2>
           <PharmacySummaryCards summary={prescriptionSummary} />
         </section>
 
-        {/* ── 2. Current Visit Prescription Status ── */}
+        {/* ── 2. Current Visit Prescription Status (Primary Active Status) ── */}
         <section aria-labelledby="current-prescription-heading">
           <h2 id="current-prescription-heading" className="sr-only">Current Visit Prescription</h2>
           <CurrentPrescriptionCard visit={currentPrescriptionVisit} />
         </section>
 
-        {/* ── 8. Prescription Journey (full-width) ── */}
+        {/* ── 3. Prescription Journey Pathway ── */}
         <PharmacyJourneyCard stages={pharmacyJourneyStages} />
 
-        {/* ── 3 + 5 + 6. Main Grid: Prescriptions (left) + Tracking & Pickup (right) ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
+        {/* ── 4. Main Grid: Prescriptions (left) + Tracking & Pickup (right) ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
           {/* Left — Active Prescriptions */}
-          <div className="lg:col-span-7 space-y-5">
+          <div className="lg:col-span-7 space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-lg font-bold text-[#0F172A]">Active Prescriptions</h2>
-                <p className="text-xs text-[#64748B] mt-0.5">
-                  Fictional demo medications — not medical advice
+                <h2 className="text-base sm:text-lg font-bold text-[#17221B]">Active Prescriptions</h2>
+                <p className="text-xs text-[#64748B]">
+                  Fictional demo medications — follow doctor's instructions
                 </p>
               </div>
-              <span className="text-xs font-semibold text-[#64748B] bg-[#F8FAFC] border border-[#E2E8F0] px-3 py-1 rounded-full">
-                {prescriptions.length} Rx
+              <span className="text-xs font-semibold text-[#64748B] bg-[#F8FAFC] border border-[#E2E8F0] px-2.5 py-0.5 rounded-full">
+                {prescriptions.length} Prescriptions
               </span>
             </div>
 
             {prescriptions.length > 0 ? (
-              <div className="space-y-4">
+              <div className="space-y-3.5">
                 {prescriptions.map((rx) => (
                   <PrescriptionCard
                     key={rx.id}
@@ -126,10 +126,10 @@ export const PharmacyPage = () => {
 
           {/* Right — Order Tracking + Pickup Info */}
           <div className="lg:col-span-5 space-y-5">
-            {/* 5. Order Tracking */}
+            {/* Order Tracking */}
             <OrderTrackingCard tracking={pharmacyTracking} />
 
-            {/* 6. Pickup Information */}
+            {/* Pickup Information */}
             <PickupInformationCard
               info={pharmacyPickupInfo}
               onContactPharmacy={() => setIsContactModalOpen(true)}
@@ -137,18 +137,18 @@ export const PharmacyPage = () => {
           </div>
         </div>
 
-        {/* ── 7. Order History ── */}
-        <section className="space-y-4" aria-labelledby="order-history-heading">
+        {/* ── 5. Order History (Secondary Information) ── */}
+        <section className="space-y-3.5" aria-labelledby="order-history-heading">
           <div className="flex items-center justify-between">
             <div>
-              <h2 id="order-history-heading" className="text-lg font-bold text-[#0F172A]">
+              <h2 id="order-history-heading" className="text-base sm:text-lg font-bold text-[#17221B]">
                 Order History
               </h2>
-              <p className="text-xs text-[#64748B] mt-0.5">
+              <p className="text-xs text-[#64748B]">
                 Past pharmacy dispensation records for this patient
               </p>
             </div>
-            <span className="text-xs font-semibold text-[#64748B] bg-[#F8FAFC] border border-[#E2E8F0] px-3 py-1 rounded-full">
+            <span className="text-xs font-semibold text-[#64748B] bg-[#F8FAFC] border border-[#E2E8F0] px-2.5 py-0.5 rounded-full">
               {pharmacyOrders.length} Orders
             </span>
           </div>
@@ -159,7 +159,7 @@ export const PharmacyPage = () => {
           />
         </section>
 
-        {/* ── 9. Information Card ── */}
+        {/* ── 6. Supporting Information ── */}
         <PharmacyInformationCard />
 
         {/* ── Modals ── */}

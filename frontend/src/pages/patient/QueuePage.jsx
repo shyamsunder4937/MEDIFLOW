@@ -231,17 +231,44 @@ export const QueuePage = () => {
   return (
     <PatientLayout
       title="My Queue"
-      subtitle="Track your position and estimated waiting time."
+      subtitle="Track your live outpatient consultation line and waiting position."
     >
-      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-5">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto space-y-6">
         
-        {/* Toast Notification */}
+        {/* ── Toast Notification ── */}
         {toastMessage && (
-          <div className="fixed top-18 right-6 z-50 flex items-center gap-2 bg-[#0F172A] text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium border border-slate-700 animate-in fade-in slide-in-from-top-2 duration-200">
-            <CheckCircle2 className="h-4 w-4 text-[#16A34A] flex-shrink-0" />
-            <span>{toastMessage}</span>
+          <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl border border-slate-700 animate-in fade-in slide-in-from-bottom-3 duration-200">
+            <div className="h-5 w-5 rounded-full bg-[#15803D] text-white flex items-center justify-center flex-shrink-0">
+              <CheckCircle2 className="h-3.5 w-3.5 stroke-[3]" />
+            </div>
+            <div className="text-xs sm:text-sm font-semibold">{toastMessage}</div>
+            <button
+              onClick={() => setToastMessage(null)}
+              className="text-slate-400 hover:text-white text-xs pl-2 cursor-pointer"
+            >
+              ✕
+            </button>
           </div>
         )}
+
+        {/* ── Page Header Bar ── */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-[#17221B] tracking-tight">
+              My Queue
+            </h1>
+            <p className="text-xs sm:text-sm text-[#64748B] mt-0.5">
+              Live consultation status and estimated waiting time for General Medicine OPD.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F0FDF4] border border-[#15803D]/20 text-[#15803D] text-xs font-semibold">
+              <span className="h-2 w-2 rounded-full bg-[#15803D] animate-pulse" />
+              <span>OPD Block B · Room 204</span>
+            </div>
+          </div>
+        </div>
 
         {/* ── Section 1: Queue Update Banner (Notification) ── */}
         {showUpdateBanner && (
@@ -251,58 +278,70 @@ export const QueuePage = () => {
           />
         )}
 
-        {/* Rejoin Prompt if user left queue */}
+        {/* ── Rejoin Prompt if user stepped out of queue ── */}
         {queueState.status === 'Left Queue' && (
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-amber-900">
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-amber-900">
             <div className="text-xs">
-              <strong className="font-bold">You are currently not in queue.</strong> Your previous spot was token #07.
+              <strong className="font-bold text-[#17221B]">You are currently not in queue.</strong> Your previous spot was token #07.
             </div>
             <button
               onClick={handleRejoinQueue}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#0F766E] text-white text-xs font-bold hover:bg-[#115E59] transition-colors shadow-xs"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
             >
               <RotateCcw className="h-3.5 w-3.5" />
-              Rejoin Queue (Demo Reset)
+              <span>Rejoin Queue (Demo Reset)</span>
             </button>
           </div>
         )}
 
         {/* ── Main Layout Grid ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
-          {/* Left Column (Main Focus: 8 of 12 cols on desktop) */}
-          <div className="lg:col-span-8 space-y-5">
-            {/* 1. Main Queue Overview Card */}
-            <QueueOverviewCard queueData={queueState} />
+          {/* Left Column (Primary & Main Content: 8 of 12 cols) */}
+          <div className="lg:col-span-8 space-y-6">
+            {/* 1. PRIMARY QUEUE STATUS: Queue Overview Card */}
+            <section aria-label="Current Queue Position">
+              <QueueOverviewCard queueData={queueState} />
+            </section>
 
-            {/* 2. Live Queue Nearby Positions */}
-            <LiveQueue liveQueue={queueState.liveQueue} />
+            {/* 2. MAIN QUEUE INFORMATION: Live Queue Breakdown */}
+            <section aria-label="Live Queue Breakdown">
+              <LiveQueue liveQueue={queueState.liveQueue} />
+            </section>
 
-            {/* 3. Hospital Stage Journey */}
-            <QueueJourney stages={queueState.journeyStages} />
+            {/* 3. SECONDARY INFORMATION: Hospital Stage Journey */}
+            <section aria-label="Hospital Journey Progress">
+              <QueueJourney stages={queueState.journeyStages} />
+            </section>
           </div>
 
-          {/* Right Column (Secondary / Context: 4 of 12 cols on desktop) */}
-          <div className="lg:col-span-4 space-y-5">
+          {/* Right Column (Secondary Context & Quick Actions: 4 of 12 cols) */}
+          <div className="lg:col-span-4 space-y-6">
             {/* 1. Assigned Doctor Card */}
-            <DoctorInfoCard doctor={queueState.doctor} />
+            <section aria-label="Assigned Specialist">
+              <DoctorInfoCard doctor={queueState.doctor} />
+            </section>
 
-            {/* 2. Estimated Waiting Time Card */}
-            <WaitingTimeCard
-              estimatedWait={queueState.estimatedWait}
-              lastUpdated={queueState.lastUpdated}
-            />
+            {/* 2. Estimated Waiting Time Forecast */}
+            <section aria-label="Waiting Time Forecast">
+              <WaitingTimeCard
+                estimatedWait={queueState.estimatedWait}
+                lastUpdated={queueState.lastUpdated}
+              />
+            </section>
 
             {/* 3. Quick Patient Actions */}
-            <QueueActions
-              onOpenReceptionModal={() => setIsReceptionModalOpen(true)}
-              onOpenLeaveModal={() => setIsLeaveModalOpen(true)}
-            />
+            <section aria-label="Quick Actions">
+              <QueueActions
+                onOpenReceptionModal={() => setIsReceptionModalOpen(true)}
+                onOpenLeaveModal={() => setIsLeaveModalOpen(true)}
+              />
+            </section>
           </div>
 
         </div>
 
-        {/* Modals */}
+        {/* ── Modals ── */}
         <ContactReceptionModal
           isOpen={isReceptionModalOpen}
           onClose={() => setIsReceptionModalOpen(false)}

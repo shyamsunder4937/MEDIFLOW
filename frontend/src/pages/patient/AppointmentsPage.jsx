@@ -8,7 +8,13 @@ import {
   Filter,
   Check,
   Loader2,
-  AlertTriangle
+  AlertTriangle,
+  Stethoscope,
+  MapPin,
+  ArrowRight,
+  RefreshCw,
+  XCircle,
+  Calendar,
 } from 'lucide-react';
 import { PatientLayout } from '../../layouts/PatientLayout';
 import { AppointmentTabs } from '../../components/appointments/AppointmentTabs';
@@ -154,23 +160,29 @@ export const AppointmentsPage = () => {
     );
   });
 
+  // Next primary upcoming appointment (first upcoming record)
+  const nextUpcomingAppointment = appointments.find((a) => a.tab === 'upcoming' && a.status !== 'Cancelled');
+
   // Handlers
   const handleOpenBooking = () => {
     setIsBookModalOpen(true);
   };
 
   const handleAppointmentBooked = (newAppointment) => {
-    // Reload appointments after booking
     getMyAppointments()
       .then((response) => {
         const formattedAppointments = response.data.map(formatAppointmentForUI);
         setAppointments(formattedAppointments);
         setActiveTab('upcoming');
-        showToast(`Appointment booked successfully.`);
+        showToast('Appointment booked successfully.');
       })
       .catch((err) => {
         console.error('Failed to reload appointments:', err);
-        showToast('Appointment booked, but failed to refresh list');
+        if (newAppointment) {
+          setAppointments((prev) => [newAppointment, ...prev]);
+        }
+        setActiveTab('upcoming');
+        showToast('Appointment booked successfully.');
       });
   };
 
@@ -252,7 +264,7 @@ export const AppointmentsPage = () => {
       >
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center space-y-3">
-            <Loader2 className="h-8 w-8 animate-spin text-[#0F766E] mx-auto" />
+            <Loader2 className="h-8 w-8 animate-spin text-[#15803D] mx-auto" />
             <p className="text-sm text-[#64748B]">Loading your appointments...</p>
           </div>
         </div>
@@ -270,11 +282,11 @@ export const AppointmentsPage = () => {
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center space-y-3 max-w-md">
             <AlertTriangle className="h-12 w-12 text-amber-500 mx-auto" />
-            <h3 className="text-lg font-bold text-[#0F172A]">Unable to Load Appointments</h3>
+            <h3 className="text-lg font-bold text-[#17221B]">Unable to Load Appointments</h3>
             <p className="text-sm text-[#64748B]">{error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="px-4 py-2 rounded-xl bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#115E59] transition"
+              className="px-4 py-2 rounded-lg bg-[#15803D] text-white text-sm font-semibold hover:bg-[#166534] transition"
             >
               Retry
             </button>
@@ -289,52 +301,151 @@ export const AppointmentsPage = () => {
       title="Appointments"
       subtitle="Manage your upcoming and previous hospital appointments."
     >
-      <div className="p-4 sm:p-6 sm:pb-12 max-w-7xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto space-y-6">
         {/* ── Toast Notification Banner ── */}
         {toastMessage && (
-          <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#0F172A] text-white px-4 py-3 rounded-2xl shadow-xl border border-slate-700 animate-in fade-in slide-in-from-bottom-4 duration-200">
-            <div className="h-6 w-6 rounded-full bg-emerald-500 text-white flex items-center justify-center flex-shrink-0">
+          <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl border border-slate-700 animate-in fade-in slide-in-from-bottom-3 duration-200">
+            <div className="h-5 w-5 rounded-full bg-[#15803D] text-white flex items-center justify-center flex-shrink-0">
               <Check className="h-3.5 w-3.5 stroke-[3]" />
             </div>
-            <div className="text-xs sm:text-sm font-medium">{toastMessage}</div>
+            <div className="text-xs sm:text-sm font-semibold">{toastMessage}</div>
             <button
               onClick={() => setToastMessage(null)}
-              className="text-slate-400 hover:text-white text-xs pl-2"
+              className="text-slate-400 hover:text-white text-xs pl-2 cursor-pointer"
             >
               ✕
             </button>
           </div>
         )}
 
-        {/* ── Top Action Section ── */}
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 sm:p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#0F766E] bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">
-              <CalendarDays className="h-3.5 w-3.5" />
-              <span>Outpatient Department (OPD) Consultations</span>
-            </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
-              Hospital Appointments
-            </h2>
-            <p className="text-xs sm:text-sm text-[#64748B] max-w-2xl">
-              Schedule in-person visits with specialists, review live consultation statuses, and view complete hospital journey workflows.
+        {/* ── 1. Page Header Bar ── */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-1">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-[#17221B] tracking-tight">
+              Appointments
+            </h1>
+            <p className="text-xs sm:text-sm text-[#64748B] mt-0.5">
+              Manage your upcoming consultations, doctor bookings, and appointment records.
             </p>
           </div>
 
-          {/* Prominent "+ Book New Appointment" Button */}
           <div className="flex-shrink-0">
             <button
               onClick={handleOpenBooking}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl bg-[#0F766E] hover:bg-[#115E59] text-white text-sm font-bold shadow-md hover:shadow-lg transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E] focus-visible:ring-offset-2 active:scale-98"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4.5 py-2.5 rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-xs sm:text-sm font-semibold shadow-xs transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
             >
-              <CalendarPlus className="h-4.5 w-4.5" />
+              <CalendarPlus className="h-4 w-4" />
               <span>+ Book New Appointment</span>
             </button>
           </div>
         </div>
 
-        {/* ── Appointment Tabs & Search Bar ── */}
-        <div className="space-y-4">
+        {/* ── 2. PRIMARY INFORMATION: Next Upcoming Appointment Spotlight ── */}
+        {activeTab === 'upcoming' && nextUpcomingAppointment && !searchQuery.trim() && (
+          <section aria-label="Next Scheduled Appointment">
+            <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+              {/* Card Header */}
+              <div className="px-5 py-3.5 bg-slate-50/70 border-b border-[#E2E8F0] flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20">
+                    <CalendarDays className="h-4 w-4" />
+                  </div>
+                  <span className="text-xs font-bold text-[#17221B] uppercase tracking-wider">
+                    Next Scheduled Appointment
+                  </span>
+                </div>
+
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#15803D] animate-pulse" />
+                  {nextUpcomingAppointment.status}
+                </span>
+              </div>
+
+              {/* Main Info Body */}
+              <div className="p-5 sm:p-6 space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {/* Doctor & Department */}
+                  <div className="space-y-1">
+                    <span className="text-xs font-semibold text-[#64748B] uppercase tracking-wider block">
+                      Consulting Doctor
+                    </span>
+                    <div className="text-base font-bold text-[#17221B] flex items-center gap-1.5">
+                      <Stethoscope className="h-4 w-4 text-[#15803D] flex-shrink-0" />
+                      <span>{nextUpcomingAppointment.doctor}</span>
+                    </div>
+                    <p className="text-xs text-[#64748B]">
+                      {nextUpcomingAppointment.specialization} · {nextUpcomingAppointment.department}
+                    </p>
+                  </div>
+
+                  {/* Date & Time */}
+                  <div className="space-y-1">
+                    <span className="text-xs font-semibold text-[#64748B] uppercase tracking-wider block">
+                      Date & Time
+                    </span>
+                    <div className="text-base font-bold text-[#17221B] flex items-center gap-1.5">
+                      <Calendar className="h-4 w-4 text-[#15803D] flex-shrink-0" />
+                      <span>{nextUpcomingAppointment.date}</span>
+                    </div>
+                    <p className="text-xs text-[#64748B] flex items-center gap-1">
+                      <Clock className="h-3 w-3 text-[#94A3B8]" />
+                      <span>{nextUpcomingAppointment.time}</span>
+                    </p>
+                  </div>
+
+                  {/* Facility / Location */}
+                  <div className="space-y-1">
+                    <span className="text-xs font-semibold text-[#64748B] uppercase tracking-wider block">
+                      Location
+                    </span>
+                    <div className="text-sm font-bold text-[#17221B] flex items-center gap-1.5">
+                      <MapPin className="h-4 w-4 text-[#15803D] flex-shrink-0" />
+                      <span>{nextUpcomingAppointment.hospital}</span>
+                    </div>
+                    <p className="text-xs text-[#64748B]">{nextUpcomingAppointment.room}</p>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex flex-col justify-center gap-2 pt-2 lg:pt-0 border-t lg:border-t-0 border-[#E2E8F0]">
+                    <button
+                      onClick={() => handleViewDetails(nextUpcomingAppointment)}
+                      className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-xs font-semibold shadow-2xs transition-colors cursor-pointer"
+                    >
+                      <span>View Full Details</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleOpenReschedule(nextUpcomingAppointment)}
+                        className="flex-1 inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#E2E8F0] bg-white hover:bg-slate-50 text-[#17221B] text-xs font-semibold transition-colors cursor-pointer"
+                      >
+                        <RefreshCw className="h-3 w-3 text-[#64748B]" />
+                        <span>Reschedule</span>
+                      </button>
+                      <button
+                        onClick={() => handleOpenCancel(nextUpcomingAppointment)}
+                        className="flex-1 inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#E2E8F0] bg-white hover:bg-rose-50 text-rose-600 hover:border-rose-200 text-xs font-semibold transition-colors cursor-pointer"
+                      >
+                        <XCircle className="h-3 w-3" />
+                        <span>Cancel</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {nextUpcomingAppointment.reason && (
+                  <div className="pt-3 border-t border-[#E2E8F0] text-xs text-[#64748B] flex items-center gap-1.5">
+                    <span className="font-semibold text-[#17221B]">Consultation Reason:</span>
+                    <span>{nextUpcomingAppointment.reason}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ── 3. MAIN APPOINTMENT CONTENT: Tabs & Appointment Directory ── */}
+        <section aria-label="Appointment Directory" className="space-y-4">
           <AppointmentTabs
             activeTab={activeTab}
             onTabChange={setActiveTab}
@@ -343,9 +454,9 @@ export const AppointmentsPage = () => {
             onSearchChange={setSearchQuery}
           />
 
-          {/* ── Appointments Cards List / Empty State ── */}
+          {/* Appointments Grid or Empty State */}
           {currentTabAppointments.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {currentTabAppointments.map((appointment) => (
                 <AppointmentCard
                   key={appointment.id}
@@ -365,7 +476,7 @@ export const AppointmentsPage = () => {
               onClearSearch={() => setSearchQuery('')}
             />
           )}
-        </div>
+        </section>
       </div>
 
       {/* ── Modals ── */}
@@ -376,7 +487,7 @@ export const AppointmentsPage = () => {
         onAppointmentBooked={handleAppointmentBooked}
       />
 
-      {/* Appointment Details Modal with Hospital Journey */}
+      {/* Appointment Details Modal */}
       <AppointmentDetailsModal
         isOpen={isDetailsModalOpen}
         onClose={() => setIsDetailsModalOpen(false)}

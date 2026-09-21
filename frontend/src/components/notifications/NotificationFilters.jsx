@@ -19,17 +19,17 @@ export const NotificationFilters = ({
   hasUnread,
 }) => {
   return (
-    <div className="bg-white rounded-2xl border border-[#E2E8F0] p-4 shadow-sm space-y-4">
+    <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 shadow-xs space-y-3.5">
       {/* Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin">
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
         {TABS.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E] ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] ${
               activeTab === tab.id
-                ? 'bg-[#0F766E] text-white shadow-sm'
-                : 'bg-slate-50 text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A]'
+                ? 'bg-[#15803D] text-white shadow-xs'
+                : 'bg-[#F8FAFC] text-[#64748B] hover:bg-slate-100 hover:text-[#17221B] border border-[#E2E8F0]'
             }`}
           >
             {tab.label}
@@ -46,8 +46,8 @@ export const NotificationFilters = ({
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search notifications..."
-            className="w-full pl-10 pr-4 py-2.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0F766E] focus:border-transparent transition-all"
+            placeholder="Search notifications by title, description or category..."
+            className="w-full pl-9 pr-4 py-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-xs sm:text-sm text-[#17221B] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#15803D] focus:ring-1 focus:ring-[#15803D] transition-all"
           />
         </div>
 
@@ -55,7 +55,7 @@ export const NotificationFilters = ({
         {hasUnread && (
           <button
             onClick={onMarkAllRead}
-            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#0F766E] text-white text-xs font-semibold rounded-xl hover:bg-[#115E59] transition-colors shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E] whitespace-nowrap"
+            className="flex items-center justify-center gap-1.5 px-3.5 py-2 bg-[#F0FDF4] hover:bg-[#DCFCE7] text-[#15803D] border border-[#BBF7D0] text-xs font-semibold rounded-lg transition-colors shadow-2xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] whitespace-nowrap"
           >
             <CheckCheck className="h-4 w-4" />
             Mark all as read

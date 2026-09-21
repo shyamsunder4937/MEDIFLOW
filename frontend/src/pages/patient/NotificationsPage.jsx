@@ -26,8 +26,8 @@ export const NotificationsPage = () => {
   const showToast = (message) => {
     setToastMessage(message);
     setTimeout(() => {
-      setToastMessage(null);
-    }, 3000);
+      setToastMessage(null), 4000;
+    }, 4000);
   };
 
   // Mark notification as read
@@ -86,47 +86,68 @@ export const NotificationsPage = () => {
   return (
     <PatientLayout
       title="Notifications"
-      subtitle="Stay updated about your appointments, queue and hospital journey."
+      subtitle="Stay updated about your appointments, queue status, and hospital journey."
     >
-      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-5">
+      <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto space-y-6">
         {/* Toast Notification */}
         {toastMessage && (
-          <div className="fixed top-20 right-6 z-50 flex items-center gap-2 bg-[#0F172A] text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium border border-slate-700 animate-in fade-in slide-in-from-top-2 duration-200">
-            <CheckCircle2 className="h-4 w-4 text-[#16A34A] flex-shrink-0" />
+          <div className="fixed top-18 right-6 z-50 flex items-center gap-2.5 bg-[#17221B] text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium border border-slate-700 animate-in fade-in slide-in-from-top-2 duration-200">
+            <CheckCircle2 className="h-4 w-4 text-[#15803D] flex-shrink-0" />
             <span>{toastMessage}</span>
           </div>
         )}
 
-        {/* Section 1: Summary Cards */}
-        <NotificationSummaryCards
-          total={totalNotifications}
-          unread={unreadCount}
-          important={importantCount}
-        />
+        {/* Section 1: Summary Overview */}
+        <section aria-labelledby="notification-summary-heading">
+          <h2 id="notification-summary-heading" className="sr-only">Notification Summary</h2>
+          <NotificationSummaryCards
+            total={totalNotifications}
+            unread={unreadCount}
+            important={importantCount}
+          />
+        </section>
 
-        {/* Section 2: Filters */}
-        <NotificationFilters
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          onMarkAllRead={handleMarkAllRead}
-          hasUnread={unreadCount > 0}
-        />
+        {/* Section 2: Filters & Search */}
+        <section aria-labelledby="notification-filters-heading">
+          <h2 id="notification-filters-heading" className="sr-only">Notification Filters</h2>
+          <NotificationFilters
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            onMarkAllRead={handleMarkAllRead}
+            hasUnread={unreadCount > 0}
+          />
+        </section>
 
         {/* Section 3: Notification List or Empty State */}
-        {filteredNotifications.length > 0 ? (
-          <NotificationList
-            notifications={filteredNotifications}
-            onMarkRead={handleMarkRead}
-            onDismiss={handleDismiss}
-            onViewDetails={handleViewDetails}
-          />
-        ) : (
-          <NotificationEmptyState />
-        )}
+        <section className="space-y-3" aria-labelledby="notification-list-heading">
+          <div className="flex items-center justify-between">
+            <h2 id="notification-list-heading" className="text-base sm:text-lg font-bold text-[#17221B]">
+              {activeTab === 'all'
+                ? 'All Notifications'
+                : activeTab === 'unread'
+                ? 'Unread Notifications'
+                : `${activeTab} Updates`}
+            </h2>
+            <span className="text-xs font-semibold text-[#64748B] bg-[#F8FAFC] border border-[#E2E8F0] px-2.5 py-0.5 rounded-full">
+              {filteredNotifications.length} {filteredNotifications.length === 1 ? 'Alert' : 'Alerts'}
+            </span>
+          </div>
 
-        {/* Section 4: Help Card */}
+          {filteredNotifications.length > 0 ? (
+            <NotificationList
+              notifications={filteredNotifications}
+              onMarkRead={handleMarkRead}
+              onDismiss={handleDismiss}
+              onViewDetails={handleViewDetails}
+            />
+          ) : (
+            <NotificationEmptyState />
+          )}
+        </section>
+
+        {/* Section 4: Secondary Assistance */}
         {notifications.length > 0 && (
           <NotificationHelpCard
             onContactReception={() => setIsReceptionModalOpen(true)}

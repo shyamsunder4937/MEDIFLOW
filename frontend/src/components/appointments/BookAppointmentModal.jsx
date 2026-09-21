@@ -224,15 +224,15 @@ export const BookAppointmentModal = ({ isOpen, onClose, onAppointmentBooked }) =
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 overflow-y-auto bg-slate-900/60 backdrop-blur-xs">
-      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-[#E2E8F0] overflow-hidden flex flex-col max-h-[90vh]">
         {/* ── Modal Header ── */}
-        <div className="px-5 sm:px-7 py-4 sm:py-5 border-b border-[#E2E8F0] flex items-center justify-between bg-white sticky top-0 z-10">
+        <div className="px-5 sm:px-6 py-4 border-b border-[#E2E8F0] flex items-center justify-between bg-white sticky top-0 z-10">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-[#CCFBF1] text-[#0F766E] flex items-center justify-center">
+            <div className="h-9 w-9 rounded-xl bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20 flex items-center justify-center">
               <CalendarPlus className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-bold text-[#0F172A]">
+              <h3 className="text-base sm:text-lg font-bold text-[#17221B]">
                 {isSuccess ? 'Booking Confirmed' : 'Book New Appointment'}
               </h3>
               <p className="text-xs text-[#64748B]">
@@ -245,7 +245,7 @@ export const BookAppointmentModal = ({ isOpen, onClose, onAppointmentBooked }) =
 
           <button
             onClick={handleClose}
-            className="h-8 w-8 rounded-xl flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:bg-slate-100 transition-colors focus:outline-none"
+            className="h-8 w-8 rounded-lg flex items-center justify-center text-[#64748B] hover:text-[#17221B] hover:bg-slate-100 transition-colors focus:outline-none cursor-pointer"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />
@@ -254,7 +254,7 @@ export const BookAppointmentModal = ({ isOpen, onClose, onAppointmentBooked }) =
 
         {/* ── Stepper Bar (visible when not in success screen) ── */}
         {!isSuccess && (
-          <div className="px-5 sm:px-7 py-3 bg-slate-50 border-b border-[#E2E8F0] flex items-center justify-between gap-1 overflow-x-auto no-scrollbar">
+          <div className="px-5 sm:px-6 py-3 bg-slate-50/80 border-b border-[#E2E8F0] flex items-center justify-between gap-1 overflow-x-auto no-scrollbar">
             {STEPS.map((step, idx) => {
               const isActive = currentStep === step.id;
               const isPast = currentStep > step.id;
@@ -265,20 +265,20 @@ export const BookAppointmentModal = ({ isOpen, onClose, onAppointmentBooked }) =
                     type="button"
                     onClick={() => isPast && setCurrentStep(step.id)}
                     disabled={!isPast}
-                    className={`flex items-center gap-1.5 text-xs font-semibold px-2 py-1 rounded-lg transition-colors ${
+                    className={`flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg transition-colors ${
                       isActive
-                        ? 'bg-[#0F766E] text-white'
+                        ? 'bg-[#15803D] text-white'
                         : isPast
-                        ? 'text-[#0F766E] hover:bg-teal-50 cursor-pointer'
+                        ? 'text-[#15803D] hover:bg-[#F0FDF4] cursor-pointer'
                         : 'text-[#94A3B8] cursor-not-allowed'
                     }`}
                   >
                     <span
                       className={`h-4 w-4 rounded-full flex items-center justify-center text-[10px] font-bold ${
                         isActive
-                          ? 'bg-white text-[#0F766E]'
+                          ? 'bg-white text-[#15803D]'
                           : isPast
-                          ? 'bg-[#0F766E] text-white'
+                          ? 'bg-[#15803D] text-white'
                           : 'bg-slate-200 text-slate-500'
                       }`}
                     >
@@ -297,50 +297,50 @@ export const BookAppointmentModal = ({ isOpen, onClose, onAppointmentBooked }) =
         )}
 
         {/* ── Modal Body Content ── */}
-        <div className="p-5 sm:p-7 overflow-y-auto flex-1">
+        <div className="p-5 sm:p-6 overflow-y-auto flex-1">
           {isSuccess ? (
             /* Success State */
             <div className="py-6 flex flex-col items-center text-center space-y-4">
-              <div className="h-16 w-16 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center shadow-xs">
-                <CheckCircle2 className="h-9 w-9" />
+              <div className="h-14 w-14 rounded-2xl bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/25 flex items-center justify-center shadow-xs">
+                <CheckCircle2 className="h-8 w-8" />
               </div>
 
               <div className="space-y-1 max-w-sm">
-                <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-100/70 text-emerald-800">
+                <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20">
                   Appointment Booked Successfully
                 </span>
-                <h4 className="text-xl font-bold text-[#0F172A] pt-1">
+                <h4 className="text-lg font-bold text-[#17221B] pt-1">
                   Appointment ID: {bookedAppointment?.id}
                 </h4>
                 <p className="text-xs text-[#64748B] leading-relaxed">
-                  Your consultation with <span className="font-semibold text-[#0F172A]">{bookedAppointment?.doctor}</span> has been confirmed for <span className="font-semibold text-[#0F172A]">{bookedAppointment?.date}</span> at <span className="font-semibold text-[#0F172A]">{bookedAppointment?.time}</span>.
+                  Your consultation with <span className="font-semibold text-[#17221B]">{bookedAppointment?.doctor}</span> has been confirmed for <span className="font-semibold text-[#17221B]">{bookedAppointment?.date}</span> at <span className="font-semibold text-[#17221B]">{bookedAppointment?.time}</span>.
                 </p>
               </div>
 
               {/* Quick Summary Card */}
-              <div className="w-full max-w-md bg-slate-50 border border-[#E2E8F0] rounded-2xl p-4 text-left text-xs space-y-2">
+              <div className="w-full max-w-md bg-slate-50 border border-[#E2E8F0] rounded-xl p-4 text-left text-xs space-y-2">
                 <div className="flex justify-between border-b border-slate-200 pb-2">
                   <span className="text-[#64748B]">Department:</span>
-                  <span className="font-semibold text-[#0F172A]">{bookedAppointment?.department}</span>
+                  <span className="font-semibold text-[#17221B]">{bookedAppointment?.department}</span>
                 </div>
                 <div className="flex justify-between border-b border-slate-200 pb-2">
                   <span className="text-[#64748B]">Doctor:</span>
-                  <span className="font-semibold text-[#0F172A]">{bookedAppointment?.doctor}</span>
+                  <span className="font-semibold text-[#17221B]">{bookedAppointment?.doctor}</span>
                 </div>
                 <div className="flex justify-between border-b border-slate-200 pb-2">
                   <span className="text-[#64748B]">Date & Time:</span>
-                  <span className="font-semibold text-[#0F172A]">{bookedAppointment?.date} at {bookedAppointment?.time}</span>
+                  <span className="font-semibold text-[#17221B]">{bookedAppointment?.date} at {bookedAppointment?.time}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#64748B]">Hospital Location:</span>
-                  <span className="font-semibold text-[#0F172A]">{bookedAppointment?.room}</span>
+                  <span className="font-semibold text-[#17221B]">{bookedAppointment?.room}</span>
                 </div>
               </div>
 
               <div className="pt-2 flex flex-col sm:flex-row items-center gap-3 w-full max-w-md">
                 <button
                   onClick={handleClose}
-                  className="w-full py-2.5 px-4 rounded-xl bg-[#0F766E] text-white text-xs sm:text-sm font-semibold hover:bg-[#115E59] transition-colors shadow-xs"
+                  className="w-full py-2.5 px-4 rounded-lg bg-[#15803D] text-white text-xs sm:text-sm font-semibold hover:bg-[#166534] transition-colors shadow-xs cursor-pointer"
                 >
                   View in Appointments
                 </button>
@@ -405,15 +405,15 @@ export const BookAppointmentModal = ({ isOpen, onClose, onAppointmentBooked }) =
 
         {/* ── Modal Footer Buttons ── */}
         {!isSuccess && (
-          <div className="px-5 sm:px-7 py-4 border-t border-[#E2E8F0] bg-slate-50 flex items-center justify-between gap-3">
+          <div className="px-5 sm:px-6 py-4 border-t border-[#E2E8F0] bg-slate-50/80 flex items-center justify-between gap-3">
             <button
               type="button"
               onClick={handleBack}
               disabled={currentStep === 1}
-              className={`inline-flex items-center gap-1 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-colors ${
+              className={`inline-flex items-center gap-1 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
                 currentStep === 1
                   ? 'opacity-0 pointer-events-none'
-                  : 'border border-[#E2E8F0] bg-white text-[#0F172A] hover:bg-slate-100'
+                  : 'border border-[#E2E8F0] bg-white text-[#17221B] hover:bg-slate-100'
               }`}
             >
               <ChevronLeft className="h-4 w-4" />
@@ -424,7 +424,7 @@ export const BookAppointmentModal = ({ isOpen, onClose, onAppointmentBooked }) =
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-[#64748B] hover:text-[#0F172A] transition-colors"
+                className="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-[#64748B] hover:text-[#17221B] transition-colors cursor-pointer"
               >
                 Cancel
               </button>
@@ -439,7 +439,7 @@ export const BookAppointmentModal = ({ isOpen, onClose, onAppointmentBooked }) =
                     (currentStep === 3 && !selectedDate) ||
                     (currentStep === 4 && !selectedTime)
                   }
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#0F766E] text-white text-xs sm:text-sm font-semibold hover:bg-[#115E59] disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-xs"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-[#15803D] text-white text-xs sm:text-sm font-semibold hover:bg-[#166534] disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-xs cursor-pointer"
                 >
                   <span>Continue</span>
                   <ChevronRight className="h-4 w-4" />
@@ -449,7 +449,7 @@ export const BookAppointmentModal = ({ isOpen, onClose, onAppointmentBooked }) =
                   type="button"
                   onClick={handleConfirm}
                   disabled={isLoading}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0F766E] text-white text-xs sm:text-sm font-semibold hover:bg-[#115E59] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm focus:ring-2 focus:ring-[#0F766E]"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#15803D] text-white text-xs sm:text-sm font-semibold hover:bg-[#166534] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-xs focus:ring-2 focus:ring-[#15803D] cursor-pointer"
                 >
                   <CheckCircle2 className="h-4 w-4" />
                   <span>{isLoading ? 'Booking...' : 'Confirm Appointment'}</span>

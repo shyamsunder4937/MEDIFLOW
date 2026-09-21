@@ -78,16 +78,16 @@ export const LabResultsPage = () => {
       title="Lab Results"
       subtitle="View your test results and laboratory reports."
     >
-      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 lg:p-7 max-w-6xl mx-auto space-y-6">
         {/* ── Toast Notification Banner ── */}
         {toastMessage && (
-          <div className="fixed top-18 right-6 z-50 flex items-center gap-2.5 bg-[#0F172A] text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium border border-slate-700 animate-in fade-in slide-in-from-top-2 duration-200">
-            <Info className="h-4 w-4 text-[#CCFBF1] flex-shrink-0" />
+          <div className="fixed top-18 right-6 z-50 flex items-center gap-2.5 bg-[#17221B] text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium border border-slate-700 animate-in fade-in slide-in-from-top-2 duration-200">
+            <Info className="h-4 w-4 text-[#15803D] flex-shrink-0" />
             <span>{toastMessage}</span>
           </div>
         )}
 
-        {/* ── 1. Lab Summary (3 Cards) ── */}
+        {/* ── 1. Lab Summary (3 Metric Cards) ── */}
         <section aria-labelledby="lab-summary-heading">
           <h2 id="lab-summary-heading" className="sr-only">Lab Summary</h2>
           <LabSummaryCards summary={labSummary} />
@@ -100,10 +100,10 @@ export const LabResultsPage = () => {
         </section>
 
         {/* ── 3. Lab Results List with Filters ── */}
-        <section className="space-y-4" aria-labelledby="results-list-heading">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <section className="space-y-3.5" aria-labelledby="results-list-heading">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <h2 id="results-list-heading" className="text-lg font-bold text-[#0F172A]">
+              <h2 id="results-list-heading" className="text-base sm:text-lg font-bold text-[#17221B] tracking-tight">
                 Your Lab Results
               </h2>
               <p className="text-xs text-[#64748B] mt-0.5">
@@ -138,16 +138,16 @@ export const LabResultsPage = () => {
           )}
         </section>
 
-        {/* ── 5 & 6. Secondary Grid: Pending Tests + Information Card ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 items-stretch">
-          {/* Section 5: Pending Tests */}
+        {/* ── 4 & 5. Secondary Grid: Pending Tests + Information Card ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+          {/* Section 4: Pending Tests */}
           <PendingTestsCard pendingList={pendingTests} />
 
-          {/* Section 6: About Your Lab Results */}
+          {/* Section 5: About Your Lab Results */}
           <LabInformationCard />
         </div>
 
-        {/* ── 4. Result Details Modal ── */}
+        {/* ── Result Details Modal ── */}
         <LabResultModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
@@ -160,3 +160,4 @@ export const LabResultsPage = () => {
 };
 
 export default LabResultsPage;
+

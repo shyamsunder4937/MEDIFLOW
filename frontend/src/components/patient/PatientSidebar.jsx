@@ -55,11 +55,11 @@ export const PatientSidebar = ({ isOpen, onClose }) => {
       {/* ── Logo ── */}
       <div className="flex items-center justify-between px-5 py-5 border-b border-[#E2E8F0]">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0F766E] text-white shadow-sm flex-shrink-0">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#15803D] text-white shadow-xs flex-shrink-0">
             <Activity className="h-4 w-4" />
           </div>
           <div className="leading-tight">
-            <div className="text-sm font-extrabold tracking-wider text-[#0F172A]">
+            <div className="text-sm font-extrabold tracking-wider text-[#17221B]">
               MEDIFLOW
             </div>
             <div className="text-[10px] text-[#64748B] font-medium">
@@ -70,7 +70,7 @@ export const PatientSidebar = ({ isOpen, onClose }) => {
         {/* Close button — mobile only */}
         <button
           onClick={onClose}
-          className="lg:hidden flex h-7 w-7 items-center justify-center rounded-lg text-[#64748B] hover:bg-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E]"
+          className="lg:hidden flex h-7 w-7 items-center justify-center rounded-lg text-[#64748B] hover:bg-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
           aria-label="Close navigation"
         >
           <X className="h-4 w-4" />
@@ -85,10 +85,10 @@ export const PatientSidebar = ({ isOpen, onClose }) => {
             to={href}
             onClick={onClose}
             className={({ isActive }) =>
-              `group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E] ${
+              `group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] ${
                 isActive
-                  ? 'bg-[#CCFBF1]/60 text-[#0F766E] font-semibold'
-                  : 'text-[#475569] hover:bg-slate-50 hover:text-[#0F172A]'
+                  ? 'bg-[#F0FDF4] text-[#15803D] font-semibold'
+                  : 'text-[#475569] hover:bg-slate-50 hover:text-[#17221B]'
               }`
             }
           >
@@ -96,16 +96,16 @@ export const PatientSidebar = ({ isOpen, onClose }) => {
               <>
                 {/* Active left accent bar */}
                 {isActive && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-0.5 rounded-full bg-[#0F766E]" />
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-[#15803D]" />
                 )}
                 <Icon
                   className={`h-4.5 w-4.5 flex-shrink-0 transition-colors ${
-                    isActive ? 'text-[#0F766E]' : 'text-[#94A3B8] group-hover:text-[#475569]'
+                    isActive ? 'text-[#15803D]' : 'text-[#94A3B8] group-hover:text-[#475569]'
                   }`}
                 />
                 <span className="flex-1">{label}</span>
                 {badge && (
-                  <span className="flex h-4.5 min-w-[18px] items-center justify-center rounded-full bg-[#0F766E] px-1 text-[10px] font-bold text-white">
+                  <span className="flex h-4.5 min-w-[18px] items-center justify-center rounded-full bg-[#15803D] px-1 text-[10px] font-bold text-white">
                     {badge}
                   </span>
                 )}
@@ -122,10 +122,27 @@ export const PatientSidebar = ({ isOpen, onClose }) => {
             key={href}
             to={href}
             onClick={onClose}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#64748B] hover:bg-slate-50 hover:text-[#0F172A] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E]"
+            className={({ isActive }) =>
+              `group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] ${
+                isActive
+                  ? 'bg-[#F0FDF4] text-[#15803D] font-semibold'
+                  : 'text-[#64748B] hover:bg-slate-50 hover:text-[#17221B]'
+              }`
+            }
           >
-            <Icon className="h-4 w-4 flex-shrink-0 text-[#94A3B8]" />
-            {label}
+            {({ isActive }) => (
+              <>
+                {isActive && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-[#15803D]" />
+                )}
+                <Icon
+                  className={`h-4.5 w-4.5 flex-shrink-0 transition-colors ${
+                    isActive ? 'text-[#15803D]' : 'text-[#94A3B8] group-hover:text-[#475569]'
+                  }`}
+                />
+                <span className="flex-1">{label}</span>
+              </>
+            )}
           </NavLink>
         ))}
 

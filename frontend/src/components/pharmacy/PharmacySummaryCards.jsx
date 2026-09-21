@@ -11,11 +11,10 @@ export const PharmacySummaryCards = ({ summary }) => {
       value: activePrescriptions,
       description: 'Prescriptions currently in progress',
       icon: Pill,
-      iconBg: 'bg-[#CCFBF1]/60 text-[#0F766E]',
+      iconBg: 'bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20',
       badge: 'In Progress',
-      badgeClass: 'bg-[#CCFBF1]/70 text-[#0F766E] border-teal-200/70',
-      dot: 'bg-[#0F766E]',
-      dotPulse: false,
+      badgeClass: 'bg-slate-100 text-[#475569] border-[#E2E8F0]',
+      dot: 'bg-[#15803D]',
     },
     {
       id: 'ready',
@@ -23,11 +22,10 @@ export const PharmacySummaryCards = ({ summary }) => {
       value: readyForPickup,
       description: 'Available at hospital pharmacy counter',
       icon: ShoppingBag,
-      iconBg: 'bg-emerald-50 text-[#16A34A]',
+      iconBg: 'bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20',
       badge: 'Collect Now',
-      badgeClass: 'bg-emerald-50 text-[#16A34A] border-emerald-200/70',
-      dot: 'bg-[#16A34A] animate-pulse',
-      dotPulse: true,
+      badgeClass: 'bg-[#F0FDF4] text-[#15803D] border-[#15803D]/20',
+      dot: 'bg-[#15803D] animate-pulse',
     },
     {
       id: 'completed',
@@ -35,30 +33,29 @@ export const PharmacySummaryCards = ({ summary }) => {
       value: completedOrders,
       description: 'Medicines successfully collected',
       icon: CheckCircle2,
-      iconBg: 'bg-emerald-50 text-[#16A34A]',
+      iconBg: 'bg-slate-50 text-[#64748B] border border-slate-200',
       badge: 'All Done',
-      badgeClass: 'bg-emerald-50 text-[#16A34A] border-emerald-200/70',
-      dot: 'bg-[#16A34A]',
-      dotPulse: false,
+      badgeClass: 'bg-slate-100 text-[#475569] border-[#E2E8F0]',
+      dot: 'bg-[#64748B]',
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {cards.map((card) => {
         const Icon = card.icon;
         return (
           <div
             key={card.id}
-            className="bg-white rounded-2xl border border-[#E2E8F0] p-5 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between"
+            className="bg-white rounded-xl border border-[#E2E8F0] p-5 shadow-xs flex flex-col justify-between"
           >
-            <div className="flex items-start justify-between gap-3 mb-4">
+            <div className="flex items-start justify-between gap-3 mb-3">
               <div className="flex items-center gap-3">
-                <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${card.iconBg} flex-shrink-0`}>
+                <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${card.iconBg} flex-shrink-0`}>
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#64748B]">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B]">
                     {card.label}
                   </span>
                   <div className="flex items-center gap-1.5 mt-0.5">
@@ -69,16 +66,16 @@ export const PharmacySummaryCards = ({ summary }) => {
                   </div>
                 </div>
               </div>
-              <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold border ${card.badgeClass} flex-shrink-0`}>
+              <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold border ${card.badgeClass} flex-shrink-0`}>
                 {card.badge}
               </span>
             </div>
 
-            <div>
-              <div className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+            <div className="mt-2">
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#17221B] tracking-tight">
                 {card.value}
               </div>
-              <p className="text-xs text-[#64748B] mt-1.5 leading-relaxed">
+              <p className="text-xs text-[#64748B] mt-1 leading-relaxed">
                 {card.description}
               </p>
             </div>
@@ -88,3 +85,4 @@ export const PharmacySummaryCards = ({ summary }) => {
     </div>
   );
 };
+

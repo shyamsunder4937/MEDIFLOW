@@ -1,26 +1,13 @@
 import React from 'react';
-import {
-  Activity,
-  ClipboardCheck,
-  Clock,
-  Stethoscope,
-  FlaskConical,
-  Pill,
-  CheckCircle2,
-  ShieldCheck,
-  Lock,
-} from 'lucide-react';
-
-const JOURNEY_STAGES = [
-  { name: 'Registration', sub: 'Check-in', icon: ClipboardCheck },
-  { name: 'Queue', sub: 'Live routing', icon: Clock, highlight: true },
-  { name: 'Doctor', sub: 'Consultation', icon: Stethoscope },
-  { name: 'Laboratory', sub: 'Diagnostics', icon: FlaskConical },
-  { name: 'Pharmacy', sub: 'Dispensation', icon: Pill },
-  { name: 'Completed', sub: 'Discharge', icon: CheckCircle2 },
-];
+import { Activity, Check, ShieldCheck, Lock } from 'lucide-react';
 
 export const BrandPanel = () => {
+  const features = [
+    'Patient & appointment coordination',
+    'Doctor and queue management',
+    'Laboratory & pharmacy workflow',
+  ];
+
   return (
     <div className="relative w-full h-full flex flex-col justify-between p-8 sm:p-12 lg:p-14 bg-[#F8FAFC] border-r border-[#E2E8F0] text-[#17221B] select-none overflow-y-auto">
       {/* ── Header: Hospital Brand Logo ── */}
@@ -40,70 +27,32 @@ export const BrandPanel = () => {
         </div>
       </div>
 
-      {/* ── Center: Main Message & Signature Hospital Journey Visual ── */}
-      <div className="my-auto py-8 space-y-7 max-w-xl">
+      {/* ── Main Message & Value Proposition ── */}
+      <div className="my-auto py-8 space-y-7 max-w-md">
         <div className="space-y-3">
-          <h1 className="text-2xl sm:text-3xl lg:text-[32px] font-bold tracking-tight text-[#17221B] leading-snug">
+          <h1 className="text-2xl sm:text-3xl lg:text-[30px] font-bold tracking-tight text-[#17221B] leading-snug">
             Connected care,<br />
             from registration to discharge.
           </h1>
 
-          <p className="text-sm text-[#64748B] leading-relaxed max-w-lg">
-            MediFlow brings patients, doctors, staff, laboratory, and pharmacy workflows together in one coordinated hospital experience.
+          <p className="text-sm text-[#64748B] leading-relaxed">
+            Coordinate every step of the hospital journey across patients, doctors, queues, laboratory, and pharmacy workflows.
           </p>
         </div>
 
-        {/* ── Signature Visual: Hospital Patient Journey ── */}
-        <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 sm:p-6 shadow-2xs space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#15803D]">
-              Coordinated Patient Journey
-            </span>
-            <span className="text-[11px] text-[#64748B] font-medium">
-              Registration → Completed
-            </span>
-          </div>
-
-          {/* 6 Connected Stages */}
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 relative">
-            {JOURNEY_STAGES.map((stage) => {
-              const Icon = stage.icon;
-              return (
-                <div
-                  key={stage.name}
-                  className={`flex flex-col items-center text-center p-2.5 rounded-xl border transition-all ${
-                    stage.highlight
-                      ? 'bg-[#F0FDF4] border-[#15803D]/30 shadow-2xs'
-                      : 'bg-[#F8FAFC] border-[#E2E8F0]'
-                  }`}
-                >
-                  <div
-                    className={`flex h-8 w-8 items-center justify-center rounded-lg mb-2 ${
-                      stage.highlight
-                        ? 'bg-[#15803D] text-white shadow-2xs'
-                        : 'bg-white text-[#15803D] border border-[#DCFCE7]'
-                    }`}
-                  >
-                    <Icon className="h-4 w-4" />
-                  </div>
-                  <span className="text-[11px] font-bold text-[#17221B] leading-tight truncate w-full">
-                    {stage.name}
-                  </span>
-                  <span className="text-[9.5px] text-[#64748B] mt-0.5 leading-tight truncate w-full">
-                    {stage.sub}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Journey Caption */}
-          <div className="flex items-center justify-center gap-2 pt-1 text-xs text-[#64748B]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#15803D] flex-shrink-0" />
-            <span className="font-medium text-center">
-              One patient journey, coordinated across the hospital.
-            </span>
-          </div>
+        {/* ── 3 Hospital Workflow Features ── */}
+        <div className="space-y-3.5 pt-2">
+          {features.map((feature, idx) => (
+            <div
+              key={idx}
+              className="flex items-center gap-3 text-xs sm:text-sm font-semibold text-[#17221B]"
+            >
+              <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#F0FDF4] text-[#15803D] border border-[#DCFCE7] flex-shrink-0">
+                <Check className="h-3.5 w-3.5" />
+              </div>
+              <span>{feature}</span>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -123,5 +72,6 @@ export const BrandPanel = () => {
 };
 
 export default BrandPanel;
+
 
 

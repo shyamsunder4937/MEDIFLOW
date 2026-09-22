@@ -6,7 +6,7 @@ import { LabResultTabs } from '../../components/doctor/LabResultTabs';
 import { LabResultSearch } from '../../components/doctor/LabResultSearch';
 import { LabResultTable } from '../../components/doctor/LabResultTable';
 import { LabResultModal } from '../../components/doctor/LabResultModal';
-import { CheckCircle2, Info, FlaskConical } from 'lucide-react';
+import { CheckCircle2, Info } from 'lucide-react';
 
 export const DoctorLabResultsPage = () => {
   // Local state for results data (supports local review transitions)
@@ -60,7 +60,7 @@ export const DoctorLabResultsPage = () => {
       )
     );
 
-    setToastMessage('Result marked as reviewed.');
+    setToastMessage('Result marked as reviewed and signed.');
     setTimeout(() => {
       setToastMessage('');
     }, 4000);
@@ -71,24 +71,34 @@ export const DoctorLabResultsPage = () => {
       title="Lab Results"
       subtitle="Review laboratory results for your patients."
     >
-      <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto">
-        {/* Toast Notification */}
+      <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
+        {/* ── Page Header ── */}
+        <div className="pb-2 border-b border-[#E2E8F0]">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#17221B] tracking-tight">
+            Lab Results
+          </h1>
+          <p className="text-xs sm:text-sm text-[#64748B] mt-0.5">
+            Review laboratory results for your patients.
+          </p>
+        </div>
+
+        {/* ── Toast Notification ── */}
         {toastMessage && (
           <div
-            className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold flex items-center justify-between gap-2 shadow-xs animate-in fade-in slide-in-from-top-2 duration-150"
+            className="p-3.5 rounded-xl bg-[#F0FDF4] border border-[#DCFCE7] text-[#15803D] text-xs font-semibold flex items-center justify-between gap-2 shadow-2xs animate-in fade-in slide-in-from-top-2 duration-150"
             role="status"
           >
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 flex-shrink-0" />
+              <CheckCircle2 className="h-4 w-4 text-[#15803D] flex-shrink-0" />
               <span>{toastMessage}</span>
             </div>
-            <span className="text-[10px] text-emerald-700 font-normal hidden sm:inline">
+            <span className="text-[11px] text-[#166534] font-medium hidden sm:inline">
               Moved to Completed Results
             </span>
           </div>
         )}
 
-        {/* ── 1. Summary Cards ── */}
+        {/* ── 1. SUMMARY SECTION: 3 Clinical Indicators ── */}
         <section aria-label="Laboratory Overview Statistics">
           <LabResultSummaryCards
             pendingCount={pendingResults.length}
@@ -97,28 +107,34 @@ export const DoctorLabResultsPage = () => {
           />
         </section>
 
-        {/* ── 2. Tabs & Search Toolbar ── */}
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-4 sm:p-5 shadow-xs space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            {/* Tabs */}
-            <LabResultTabs
-              activeTab={activeTab}
-              onTabChange={(tab) => {
-                setActiveTab(tab);
-              }}
-              pendingCount={pendingResults.length}
-              completedCount={completedResults.length}
-            />
+        {/* ── 2. MAIN LAB RESULTS SECTION: Unified White Content Surface ── */}
+        <section
+          aria-label="Laboratory Results Workspace"
+          className="bg-white rounded-xl border border-[#E2E8F0] shadow-2xs overflow-hidden"
+        >
+          {/* Top Controls Toolbar: Tabs on Left, Search on Right */}
+          <div className="p-4 sm:p-5 border-b border-[#E2E8F0] bg-white">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+              {/* Tabs */}
+              <LabResultTabs
+                activeTab={activeTab}
+                onTabChange={(tab) => {
+                  setActiveTab(tab);
+                }}
+                pendingCount={pendingResults.length}
+                completedCount={completedResults.length}
+              />
 
-            {/* Search Box */}
-            <LabResultSearch
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-            />
+              {/* Search Box */}
+              <LabResultSearch
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+              />
+            </div>
           </div>
 
-          {/* ── 3. Table / Card List ── */}
-          <section aria-label="Laboratory Results List">
+          {/* Results Table Area */}
+          <div className="p-0">
             <LabResultTable
               results={filteredResults}
               activeTab={activeTab}
@@ -127,14 +143,14 @@ export const DoctorLabResultsPage = () => {
               onMarkAsReviewed={handleMarkAsReviewed}
               onClearSearch={() => setSearchTerm('')}
             />
-          </section>
-        </div>
+          </div>
+        </section>
 
-        {/* ── 4. Demo Data Notice ── */}
-        <footer className="pt-2 pb-4 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-[11px] text-[#64748B]">
-            <Info className="h-3.5 w-3.5 text-[#0F766E]" />
-            <span>Demo laboratory data — not connected to a real laboratory system.</span>
+        {/* ── 3. Medical Data Disclaimer ── */}
+        <footer className="pt-2 pb-6 text-center">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-[11px] text-[#64748B]">
+            <Info className="h-3.5 w-3.5 text-[#15803D]" />
+            <span>MediFlow Diagnostic Suite • Prototype demonstration data only</span>
           </div>
         </footer>
       </div>
@@ -150,3 +166,4 @@ export const DoctorLabResultsPage = () => {
 };
 
 export default DoctorLabResultsPage;
+

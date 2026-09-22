@@ -10,12 +10,12 @@ export const DoctorStatusCard = () => {
       case 'Available':
         return {
           label: 'Available',
-          badgeBg: 'bg-emerald-50 border-emerald-200 text-emerald-700',
-          dotColor: 'bg-[#16A34A]',
+          badgeBg: 'bg-[#F0FDF4] border-[#DCFCE7] text-[#15803D]',
+          dotColor: 'bg-[#15803D]',
           pulse: true,
           desc: 'Ready for next patient. Live queue routing is active to Consultation Suite 4B.',
           icon: CheckCircle2,
-          textColor: 'text-[#16A34A]',
+          textColor: 'text-[#15803D]',
         };
       case 'Busy':
         return {
@@ -40,12 +40,12 @@ export const DoctorStatusCard = () => {
       default:
         return {
           label: 'Available',
-          badgeBg: 'bg-emerald-50 border-emerald-200 text-emerald-700',
-          dotColor: 'bg-[#16A34A]',
+          badgeBg: 'bg-[#F0FDF4] border-[#DCFCE7] text-[#15803D]',
+          dotColor: 'bg-[#15803D]',
           pulse: true,
           desc: 'Ready for next patient.',
           icon: CheckCircle2,
-          textColor: 'text-[#16A34A]',
+          textColor: 'text-[#15803D]',
         };
     }
   };
@@ -54,7 +54,7 @@ export const DoctorStatusCard = () => {
   const StatusIcon = config.icon;
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs transition-all">
+    <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 sm:p-5 shadow-xs transition-all">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         {/* Left: Title + Current Status Badge */}
         <div className="space-y-1.5">
@@ -65,24 +65,24 @@ export const DoctorStatusCard = () => {
             <span className="text-[10px] text-[#94A3B8] font-medium">• Live Control</span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             {/* Status Pill Badge */}
             <div
-              className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-bold ${config.badgeBg}`}
+              className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs sm:text-sm font-bold ${config.badgeBg}`}
               role="status"
               aria-live="polite"
             >
-              <span className="relative flex h-2.5 w-2.5">
+              <span className="relative flex h-2 w-2">
                 {config.pulse && (
                   <span
                     className={`animate-ping absolute inline-flex h-full w-full rounded-full ${config.dotColor} opacity-75`}
                   />
                 )}
                 <span
-                  className={`relative inline-flex rounded-full h-2.5 w-2.5 ${config.dotColor}`}
+                  className={`relative inline-flex rounded-full h-2 w-2 ${config.dotColor}`}
                 />
               </span>
-              <span>● {config.label}</span>
+              <span>{config.label}</span>
             </div>
 
             <p className="text-xs text-[#64748B] hidden md:block">
@@ -100,7 +100,7 @@ export const DoctorStatusCard = () => {
             <button
               type="button"
               onClick={() => setStatus('Available')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#0F766E] text-white hover:bg-[#115E59] active:scale-[0.98] transition-all shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E]"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#15803D] text-white hover:bg-[#166534] active:scale-[0.98] transition-all shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] cursor-pointer"
             >
               <CheckCircle2 className="h-3.5 w-3.5" />
               Mark Available
@@ -111,7 +111,7 @@ export const DoctorStatusCard = () => {
             <button
               type="button"
               onClick={() => setStatus('Busy')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white border border-[#E2E8F0] text-[#D97706] hover:bg-amber-50 hover:border-amber-300 active:scale-[0.98] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-[#E2E8F0] text-amber-700 hover:bg-amber-50 hover:border-amber-300 active:scale-[0.98] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 cursor-pointer"
             >
               <Clock className="h-3.5 w-3.5" />
               Mark Busy
@@ -122,7 +122,7 @@ export const DoctorStatusCard = () => {
             <button
               type="button"
               onClick={() => setStatus('Unavailable')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white border border-[#E2E8F0] text-[#DC2626] hover:bg-rose-50 hover:border-rose-300 active:scale-[0.98] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-[#E2E8F0] text-rose-700 hover:bg-rose-50 hover:border-rose-300 active:scale-[0.98] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 cursor-pointer"
             >
               <UserX className="h-3.5 w-3.5" />
               Mark Unavailable

@@ -3,10 +3,6 @@ import {
   FlaskConical,
   X,
   CheckCircle2,
-  Clock,
-  User,
-  Building2,
-  FileText,
   Info,
 } from 'lucide-react';
 
@@ -29,24 +25,24 @@ export const LabResultModal = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-labelledby="lab-modal-title"
     >
       <div
-        className="bg-white rounded-2xl border border-[#E2E8F0] shadow-2xl w-full max-w-lg p-5 sm:p-6 space-y-5 animate-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xl w-full max-w-lg p-5 sm:p-6 space-y-5 animate-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-start justify-between pb-4 border-b border-[#E2E8F0]">
+        <div className="flex items-start justify-between pb-3.5 border-b border-[#E2E8F0]">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#CCFBF1] text-[#0F766E] flex-shrink-0">
-              <FlaskConical className="h-6 w-6" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F0FDF4] text-[#15803D] border border-[#DCFCE7] flex-shrink-0">
+              <FlaskConical className="h-5 w-5" />
             </div>
             <div>
-              <h3 id="lab-modal-title" className="text-base sm:text-lg font-bold text-[#0F172A]">
+              <h3 id="lab-modal-title" className="text-base sm:text-lg font-bold text-[#17221B]">
                 {result.testName}
               </h3>
               <p className="text-xs text-[#64748B]">
@@ -58,7 +54,7 @@ export const LabResultModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A] transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-[#64748B] hover:bg-slate-100 hover:text-[#17221B] transition-colors cursor-pointer"
             aria-label="Close dialog"
           >
             <X className="h-4 w-4" />
@@ -66,17 +62,17 @@ export const LabResultModal = ({
         </div>
 
         {/* Patient Identity & Meta Strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-xs">
           <div>
             <span className="text-[10px] font-bold text-[#64748B] uppercase block">Patient</span>
-            <span className="font-bold text-[#0F172A] mt-0.5 block truncate">
+            <span className="font-bold text-[#17221B] mt-0.5 block truncate">
               {result.patientName}
             </span>
           </div>
 
           <div>
             <span className="text-[10px] font-bold text-[#64748B] uppercase block">Patient ID</span>
-            <span className="font-semibold text-[#0F766E] mt-0.5 block">
+            <span className="font-semibold text-[#15803D] mt-0.5 block">
               {result.patientId || `PAT-10${result.queueNumber || result.id}`}
             </span>
           </div>
@@ -90,15 +86,15 @@ export const LabResultModal = ({
 
           <div>
             <span className="text-[10px] font-bold text-[#64748B] uppercase block">Received Time</span>
-            <span className="font-medium text-[#0F172A] mt-0.5 block">
+            <span className="font-medium text-[#17221B] mt-0.5 block">
               {result.receivedTime}
             </span>
           </div>
 
           <div>
             <span className="text-[10px] font-bold text-[#64748B] uppercase block">Result Status</span>
-            <span className={`inline-flex items-center gap-1 font-bold text-xs mt-0.5 ${
-              isReviewed ? 'text-emerald-700' : 'text-blue-700'
+            <span className={`inline-flex items-center gap-1 font-semibold text-xs mt-0.5 ${
+              isReviewed ? 'text-[#15803D]' : 'text-[#15803D]'
             }`}>
               {isReviewed ? 'Reviewed' : 'Result Available'}
             </span>
@@ -107,7 +103,7 @@ export const LabResultModal = ({
           {result.reviewedTime && (
             <div>
               <span className="text-[10px] font-bold text-[#64748B] uppercase block">Reviewed At</span>
-              <span className="font-medium text-emerald-800 mt-0.5 block">
+              <span className="font-medium text-[#15803D] mt-0.5 block">
                 {result.reviewedTime}
               </span>
             </div>
@@ -115,48 +111,48 @@ export const LabResultModal = ({
         </div>
 
         {/* Diagnostic Panel Values */}
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           <div className="flex items-center justify-between">
-            <h4 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">
+            <h4 className="text-xs font-bold text-[#17221B] uppercase tracking-wider">
               Diagnostic Findings & Parameters
             </h4>
-            <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+            <span className="text-[10px] font-semibold text-[#15803D] bg-[#F0FDF4] px-2 py-0.5 rounded border border-[#DCFCE7]">
               Verified by Pathology Lab
             </span>
           </div>
 
           {result.values && typeof result.values === 'object' ? (
-            <div className="rounded-xl border border-[#E2E8F0] divide-y divide-slate-100 overflow-hidden text-xs">
+            <div className="rounded-xl border border-[#E2E8F0] divide-y divide-[#F1F5F9] overflow-hidden text-xs">
               {Object.entries(result.values).map(([key, val]) => (
                 <div key={key} className="flex items-center justify-between p-3 bg-white hover:bg-slate-50/70 transition-colors">
                   <span className="text-[#475569] font-medium">{key}</span>
-                  <span className="font-mono font-bold text-[#0F172A] bg-slate-50 px-2 py-0.5 rounded border border-slate-200">
+                  <span className="font-mono font-bold text-[#17221B] bg-slate-50 px-2 py-0.5 rounded border border-slate-200">
                     {val}
                   </span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="p-4 rounded-xl bg-slate-50 text-xs text-[#64748B] text-center">
+            <div className="p-4 rounded-xl bg-slate-50 text-xs text-[#64748B] text-center border border-slate-100">
               Panel values within standard clinical limits.
             </div>
           )}
         </div>
 
         {/* Demo Disclaimer Note */}
-        <div className="p-3 rounded-xl bg-amber-50/80 border border-amber-200/70 text-xs text-amber-900 flex items-start gap-2">
+        <div className="p-3 rounded-xl bg-amber-50 border border-amber-200/80 text-xs text-amber-900 flex items-start gap-2">
           <Info className="h-4 w-4 text-amber-700 flex-shrink-0 mt-0.5" />
           <p className="leading-relaxed">
-            <strong className="font-bold">Demo result — for interface demonstration only.</strong> Diagnostic values are simulated for Phase 1 prototype display.
+            <strong className="font-bold">Demo record:</strong> Diagnostic findings are simulated for Phase 1 prototype interface demonstration.
           </p>
         </div>
 
         {/* Modal Actions */}
-        <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+        <div className="flex items-center justify-between pt-2 border-t border-[#E2E8F0]">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl border border-[#E2E8F0] bg-white text-xs font-bold text-[#64748B] hover:bg-slate-50 hover:text-[#0F172A] transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-xl border border-[#E2E8F0] bg-white text-xs font-semibold text-[#64748B] hover:bg-slate-50 hover:text-[#17221B] transition-colors cursor-pointer"
           >
             Close
           </button>
@@ -168,13 +164,13 @@ export const LabResultModal = ({
                 onMarkAsReviewed(result.id);
                 onClose();
               }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0F766E] hover:bg-[#115E59] active:scale-[0.98] text-white text-xs font-bold transition-all shadow-xs cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E]"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#15803D] hover:bg-[#166534] active:scale-[0.98] text-white text-xs font-bold transition-all shadow-2xs cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
             >
               <CheckCircle2 className="h-4 w-4" />
               <span>Mark as Reviewed</span>
             </button>
           ) : (
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#15803D] bg-[#F0FDF4] px-3 py-1.5 rounded-xl border border-[#DCFCE7]">
               <CheckCircle2 className="h-4 w-4" />
               <span>Already Reviewed</span>
             </div>
@@ -186,3 +182,4 @@ export const LabResultModal = ({
 };
 
 export default LabResultModal;
+

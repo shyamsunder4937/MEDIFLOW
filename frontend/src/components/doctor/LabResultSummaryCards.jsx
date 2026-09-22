@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlaskConical, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Clock, FlaskConical, CheckCircle2 } from 'lucide-react';
 
 export const LabResultSummaryCards = ({
   pendingCount = 4,
@@ -13,9 +13,12 @@ export const LabResultSummaryCards = ({
       value: pendingCount,
       subtext: 'Pending physician sign-off',
       icon: Clock,
-      iconBg: 'bg-amber-100 text-amber-700',
-      valueColor: 'text-[#0F172A]',
-      accentBorder: 'border-l-4 border-l-amber-500',
+      iconColor: 'text-amber-700',
+      iconBg: 'bg-amber-50 border border-amber-200',
+      badge: {
+        text: 'Action Needed',
+        bg: 'bg-amber-50 text-amber-700 border border-amber-200',
+      },
     },
     {
       id: 'available',
@@ -23,9 +26,12 @@ export const LabResultSummaryCards = ({
       value: availableCount,
       subtext: 'Diagnostic panels ready',
       icon: FlaskConical,
-      iconBg: 'bg-blue-100 text-blue-700',
-      valueColor: 'text-[#0F172A]',
-      accentBorder: 'border-l-4 border-l-blue-500',
+      iconColor: 'text-[#15803D]',
+      iconBg: 'bg-[#F0FDF4] border border-[#DCFCE7]',
+      badge: {
+        text: 'In System',
+        bg: 'bg-[#F0FDF4] text-[#15803D] border border-[#DCFCE7]',
+      },
     },
     {
       id: 'reviewed',
@@ -33,36 +39,41 @@ export const LabResultSummaryCards = ({
       value: reviewedCount,
       subtext: 'Completed & signed today',
       icon: CheckCircle2,
-      iconBg: 'bg-emerald-100 text-emerald-700',
-      valueColor: 'text-[#0F172A]',
-      accentBorder: 'border-l-4 border-l-emerald-500',
+      iconColor: 'text-[#15803D]',
+      iconBg: 'bg-[#F0FDF4] border border-[#DCFCE7]',
+      badge: {
+        text: 'Completed',
+        bg: 'bg-slate-100 text-[#475569] border border-slate-200',
+      },
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       {cards.map((card) => {
         const Icon = card.icon;
         return (
           <div
             key={card.id}
-            className={`bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs transition-all hover:shadow-sm ${card.accentBorder}`}
+            className="bg-white rounded-xl border border-[#E2E8F0] p-4 sm:p-5 shadow-2xs transition-all hover:border-slate-300"
           >
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-start justify-between gap-3">
               <div className="space-y-1">
                 <span className="text-xs font-semibold text-[#64748B] block">
                   {card.title}
                 </span>
-                <div className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${card.valueColor}`}>
+                <div className="text-2xl sm:text-3xl font-bold text-[#17221B] tracking-tight">
                   {card.value}
                 </div>
-                <div className="text-[11px] text-[#94A3B8]">
+                <div className="text-xs text-[#64748B] pt-0.5">
                   {card.subtext}
                 </div>
               </div>
 
-              <div className={`flex h-12 w-12 items-center justify-center rounded-2xl flex-shrink-0 ${card.iconBg}`}>
-                <Icon className="h-6 w-6" />
+              <div
+                className={`flex h-10 w-10 items-center justify-center rounded-xl flex-shrink-0 ${card.iconBg} ${card.iconColor}`}
+              >
+                <Icon className="h-5 w-5" />
               </div>
             </div>
           </div>
@@ -73,3 +84,4 @@ export const LabResultSummaryCards = ({
 };
 
 export default LabResultSummaryCards;
+

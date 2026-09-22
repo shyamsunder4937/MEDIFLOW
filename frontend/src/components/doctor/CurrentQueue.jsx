@@ -40,16 +40,16 @@ export const CurrentQueue = () => {
   const inConsultCount = queueList.filter((p) => p.status === 'In Consultation').length;
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+    <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-xs overflow-hidden">
       {/* ── Header & Toolbar ── */}
       <div className="p-4 sm:p-5 border-b border-[#E2E8F0]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-base sm:text-lg font-bold text-[#0F172A] tracking-tight">
+              <h2 className="text-base sm:text-lg font-bold text-[#17221B] tracking-tight">
                 Current Queue
               </h2>
-              <span className="rounded-full bg-[#CCFBF1] text-[#0F766E] border border-[#0F766E]/20 px-2 py-0.5 text-[11px] font-bold">
+              <span className="rounded-full bg-[#F0FDF4] text-[#15803D] border border-[#DCFCE7] px-2 py-0.5 text-[11px] font-bold">
                 {waitingCount} Waiting • {inConsultCount} In Room
               </span>
             </div>
@@ -66,19 +66,19 @@ export const CurrentQueue = () => {
               placeholder="Search patient or #token..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-[#E2E8F0] bg-slate-50/50 pl-9 pr-3 py-1.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:border-[#0F766E] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0F766E] transition-colors"
+              className="w-full rounded-lg border border-[#E2E8F0] bg-slate-50/50 pl-9 pr-3 py-1.5 text-xs text-[#17221B] placeholder:text-[#94A3B8] focus:border-[#15803D] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#15803D] transition-colors"
             />
           </div>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center gap-1.5 mt-4 overflow-x-auto pb-1 sm:pb-0 text-xs font-semibold">
+        <div className="flex items-center gap-1.5 mt-3.5 overflow-x-auto pb-1 sm:pb-0 text-xs font-semibold">
           <button
             type="button"
             onClick={() => setFilterStatus('ALL')}
-            className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
+            className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
               filterStatus === 'ALL'
-                ? 'bg-[#0F766E] text-white shadow-xs'
+                ? 'bg-[#15803D] text-white shadow-xs'
                 : 'text-[#64748B] hover:bg-slate-100'
             }`}
           >
@@ -87,7 +87,7 @@ export const CurrentQueue = () => {
           <button
             type="button"
             onClick={() => setFilterStatus('WAITING')}
-            className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
+            className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
               filterStatus === 'WAITING'
                 ? 'bg-amber-600 text-white shadow-xs'
                 : 'text-[#64748B] hover:bg-slate-100'
@@ -98,7 +98,7 @@ export const CurrentQueue = () => {
           <button
             type="button"
             onClick={() => setFilterStatus('CONSULTING')}
-            className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
+            className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
               filterStatus === 'CONSULTING'
                 ? 'bg-blue-600 text-white shadow-xs'
                 : 'text-[#64748B] hover:bg-slate-100'
@@ -109,9 +109,9 @@ export const CurrentQueue = () => {
           <button
             type="button"
             onClick={() => setFilterStatus('COMPLETED')}
-            className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
+            className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
               filterStatus === 'COMPLETED'
-                ? 'bg-emerald-600 text-white shadow-xs'
+                ? 'bg-[#15803D] text-white shadow-xs'
                 : 'text-[#64748B] hover:bg-slate-100'
             }`}
           >
@@ -157,15 +157,15 @@ export const CurrentQueue = () => {
             return (
               <div
                 key={patient.id}
-                className={`p-4 space-y-3 ${isConsulting ? 'bg-blue-50/40' : ''}`}
+                className={`p-4 space-y-3 ${isConsulting ? 'bg-blue-50/30' : ''}`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded-md bg-slate-100 text-[#0F172A] font-extrabold text-xs">
+                    <span className="px-2 py-0.5 rounded-md bg-slate-100 text-[#17221B] font-bold text-xs">
                       {patient.queueNo}
                     </span>
                     <div>
-                      <div className="font-bold text-sm text-[#0F172A]">
+                      <div className="font-bold text-sm text-[#17221B]">
                         {patient.name}
                       </div>
                       <div className="text-[11px] text-[#64748B]">
@@ -176,7 +176,7 @@ export const CurrentQueue = () => {
                   <StatusBadge status={patient.status} />
                 </div>
 
-                <div className="text-xs text-[#475569] bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                <div className="text-xs text-[#475569] bg-slate-50 p-2.5 rounded-lg border border-slate-100">
                   <span className="font-medium text-[#64748B]">Complaint: </span>
                   {patient.reason}
                 </div>
@@ -192,7 +192,7 @@ export const CurrentQueue = () => {
                   {isConsulting ? (
                     <button
                       onClick={() => navigate(`/doctor/consultation/${patient.id}`)}
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#0F766E] text-white shadow-xs"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#15803D] text-white shadow-xs cursor-pointer"
                     >
                       <Stethoscope className="h-3.5 w-3.5" />
                       Consult
@@ -200,14 +200,14 @@ export const CurrentQueue = () => {
                   ) : patient.status === 'Completed' ? (
                     <button
                       onClick={() => navigate(`/doctor/patient/${patient.id}`)}
-                      className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-[#475569]"
+                      className="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 text-[#475569] cursor-pointer"
                     >
                       Summary
                     </button>
                   ) : (
                     <button
                       onClick={() => navigate(`/doctor/patient/${patient.id}`)}
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold border border-[#E2E8F0] text-[#0F766E] bg-white"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium border border-[#E2E8F0] text-[#15803D] bg-white cursor-pointer"
                     >
                       View Patient
                       <ChevronRight className="h-3.5 w-3.5" />
@@ -225,11 +225,11 @@ export const CurrentQueue = () => {
       </div>
 
       {/* ── Footer Link ── */}
-      <div className="p-3 bg-slate-50 border-t border-[#E2E8F0] flex items-center justify-between text-xs text-[#64748B]">
+      <div className="p-3 bg-slate-50/80 border-t border-[#E2E8F0] flex items-center justify-between text-xs text-[#64748B]">
         <span>Showing {filteredQueue.length} of {queueList.length} patients</span>
         <button
           onClick={() => navigate('/doctor/queue')}
-          className="font-semibold text-[#0F766E] hover:underline flex items-center gap-1"
+          className="font-medium text-[#15803D] hover:underline flex items-center gap-1 cursor-pointer"
         >
           Open Full Queue Management
           <ChevronRight className="h-3.5 w-3.5" />

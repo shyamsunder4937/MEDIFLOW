@@ -44,9 +44,9 @@ export const PatientWorkflow = ({ status = 'Waiting', currentStage = 'Waiting fo
               <div
                 className={`flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl border-2 transition-all ${
                   isDone
-                    ? 'bg-emerald-500 border-emerald-500 text-white shadow-xs'
+                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-xs'
                     : isCurrent
-                    ? 'bg-[#0F766E] border-[#0F766E] text-white ring-4 ring-[#CCFBF1] shadow-sm animate-pulse'
+                    ? 'bg-[#15803D] border-[#15803D] text-white ring-4 ring-[#DCFCE7] shadow-xs'
                     : 'bg-white border-slate-200 text-[#94A3B8]'
                 }`}
               >
@@ -61,7 +61,7 @@ export const PatientWorkflow = ({ status = 'Waiting', currentStage = 'Waiting fo
               <span
                 className={`text-[10px] sm:text-[11px] font-semibold mt-1.5 leading-tight px-1 ${
                   isCurrent
-                    ? 'text-[#0F766E] font-bold'
+                    ? 'text-[#15803D] font-bold'
                     : isDone
                     ? 'text-emerald-700'
                     : 'text-[#94A3B8]'
@@ -71,7 +71,7 @@ export const PatientWorkflow = ({ status = 'Waiting', currentStage = 'Waiting fo
               </span>
 
               {isCurrent && (
-                <span className="hidden sm:inline-block text-[9px] font-bold text-[#0F766E] bg-[#CCFBF1] px-1.5 py-0.2 rounded mt-0.5">
+                <span className="hidden sm:inline-block text-[9px] font-bold text-[#15803D] bg-[#F0FDF4] border border-[#DCFCE7] px-1.5 py-0.2 rounded mt-0.5">
                   Active
                 </span>
               )}

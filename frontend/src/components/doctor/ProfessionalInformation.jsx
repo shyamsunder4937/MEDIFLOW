@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 import {
-  User,
-  Building2,
-  Mail,
-  ShieldCheck,
+  Briefcase,
   Edit3,
   Check,
-  X,
-  Stethoscope,
-  Briefcase,
 } from 'lucide-react';
 
 export const ProfessionalInformation = ({
@@ -43,14 +37,22 @@ export const ProfessionalInformation = ({
     setIsEditing(false);
   };
 
+  const fields = [
+    { label: 'Doctor Name', value: profile.name, bold: true },
+    { label: 'Department', value: profile.department },
+    { label: 'Doctor ID', value: profile.doctorId, highlight: true },
+    { label: 'Email', value: profile.email, isEmail: true },
+    { label: 'Hospital', value: profile.hospital },
+  ];
+
   return (
-    <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 sm:p-6 shadow-xs space-y-5">
+    <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 sm:p-5 shadow-2xs space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
         <div className="flex items-center gap-2">
-          <Briefcase className="h-4.5 w-4.5 text-[#0F766E]" />
+          <Briefcase className="h-4 w-4 text-[#15803D]" />
           <div>
-            <h2 className="text-sm sm:text-base font-bold text-[#0F172A] tracking-tight">
+            <h2 className="text-sm sm:text-base font-bold text-[#17221B] tracking-tight">
               Professional Information
             </h2>
             <p className="text-[11px] text-[#64748B]">
@@ -63,65 +65,60 @@ export const ProfessionalInformation = ({
           <button
             type="button"
             onClick={() => setIsEditing(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#E2E8F0] bg-white text-xs font-bold text-[#0F766E] hover:bg-[#CCFBF1]/40 hover:border-[#0F766E]/30 transition-all cursor-pointer shadow-2xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E2E8F0] bg-white text-xs font-semibold text-[#17221B] hover:bg-[#F0FDF4] hover:text-[#15803D] hover:border-[#DCFCE7] transition-all cursor-pointer shadow-2xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
           >
-            <Edit3 className="h-3.5 w-3.5" />
+            <Edit3 className="h-3.5 w-3.5 text-[#15803D]" />
             <span>Edit Profile</span>
           </button>
         ) : (
-          <span className="text-xs font-bold text-[#0F766E] bg-[#CCFBF1] px-2.5 py-0.5 rounded-full">
+          <span className="text-xs font-semibold text-[#15803D] bg-[#F0FDF4] border border-[#DCFCE7] px-2.5 py-0.5 rounded-full">
             Editing Mode
           </span>
         )}
       </div>
 
-      {/* Profile Form / View Table */}
+      {/* Two-Column Field/Value Layout */}
       {!isEditing ? (
-        <div className="overflow-hidden rounded-xl border border-slate-200">
-          <table className="w-full text-left border-collapse text-xs">
-            <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-[#64748B]">
-                <th className="py-3 px-4 w-1/3">Field</th>
-                <th className="py-3 px-4 w-2/3">Value</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 bg-white">
-              <tr>
-                <td className="py-3 px-4 font-semibold text-[#475569]">Doctor Name</td>
-                <td className="py-3 px-4 font-bold text-[#0F172A]">{profile.name}</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold text-[#475569]">Department</td>
-                <td className="py-3 px-4 font-medium text-[#0F172A]">{profile.department}</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold text-[#475569]">Doctor ID</td>
-                <td className="py-3 px-4 font-mono font-bold text-[#0F766E]">{profile.doctorId}</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold text-[#475569]">Email</td>
-                <td className="py-3 px-4 text-[#0F172A]">
+        <div className="divide-y divide-[#F1F5F9] text-xs">
+          {fields.map((field) => (
+            <div
+              key={field.label}
+              className="py-2.5 flex items-center justify-between gap-4"
+            >
+              <span className="font-medium text-[#64748B] w-1/3">
+                {field.label}
+              </span>
+              <div className="w-2/3 text-right sm:text-left">
+                {field.isEmail ? (
                   <a
-                    href={`mailto:${profile.email}`}
-                    className="text-[#0F766E] hover:underline font-medium"
+                    href={`mailto:${field.value}`}
+                    className="text-[#15803D] hover:underline font-medium"
                   >
-                    {profile.email}
+                    {field.value}
                   </a>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold text-[#475569]">Hospital</td>
-                <td className="py-3 px-4 font-medium text-[#0F172A]">{profile.hospital}</td>
-              </tr>
-            </tbody>
-          </table>
+                ) : (
+                  <span
+                    className={`${
+                      field.highlight
+                        ? 'text-[#15803D] font-mono font-semibold'
+                        : field.bold
+                        ? 'font-bold text-[#17221B]'
+                        : 'font-medium text-[#17221B]'
+                    }`}
+                  >
+                    {field.value}
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       ) : (
-        <form onSubmit={handleSave} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <form onSubmit={handleSave} className="space-y-4 pt-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             {/* Doctor Name */}
             <div className="space-y-1">
-              <label htmlFor="edit-name" className="text-xs font-semibold text-[#475569] block">
+              <label htmlFor="edit-name" className="text-xs font-medium text-[#64748B] block">
                 Doctor Name
               </label>
               <input
@@ -129,14 +126,14 @@ export const ProfessionalInformation = ({
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full rounded-xl border border-[#E2E8F0] px-3.5 py-2 text-xs text-[#0F172A] focus:border-[#0F766E] focus:outline-none focus:ring-1 focus:ring-[#0F766E]"
+                className="w-full rounded-xl border border-[#E2E8F0] px-3 py-2 text-xs text-[#17221B] focus:border-[#15803D] focus:outline-none focus:ring-2 focus:ring-[#15803D]/10 transition-all"
                 required
               />
             </div>
 
             {/* Department */}
             <div className="space-y-1">
-              <label htmlFor="edit-dept" className="text-xs font-semibold text-[#475569] block">
+              <label htmlFor="edit-dept" className="text-xs font-medium text-[#64748B] block">
                 Department
               </label>
               <input
@@ -144,14 +141,14 @@ export const ProfessionalInformation = ({
                 type="text"
                 value={formData.department}
                 onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                className="w-full rounded-xl border border-[#E2E8F0] px-3.5 py-2 text-xs text-[#0F172A] focus:border-[#0F766E] focus:outline-none focus:ring-1 focus:ring-[#0F766E]"
+                className="w-full rounded-xl border border-[#E2E8F0] px-3 py-2 text-xs text-[#17221B] focus:border-[#15803D] focus:outline-none focus:ring-2 focus:ring-[#15803D]/10 transition-all"
                 required
               />
             </div>
 
             {/* Doctor ID */}
             <div className="space-y-1">
-              <label htmlFor="edit-id" className="text-xs font-semibold text-[#475569] block">
+              <label htmlFor="edit-id" className="text-xs font-medium text-[#64748B] block">
                 Doctor ID
               </label>
               <input
@@ -159,14 +156,14 @@ export const ProfessionalInformation = ({
                 type="text"
                 value={formData.doctorId}
                 onChange={(e) => setFormData({ ...formData, doctorId: e.target.value })}
-                className="w-full rounded-xl border border-[#E2E8F0] px-3.5 py-2 text-xs text-[#0F172A] focus:border-[#0F766E] focus:outline-none focus:ring-1 focus:ring-[#0F766E]"
+                className="w-full rounded-xl border border-[#E2E8F0] px-3 py-2 text-xs text-[#17221B] focus:border-[#15803D] focus:outline-none focus:ring-2 focus:ring-[#15803D]/10 transition-all"
                 required
               />
             </div>
 
             {/* Email */}
             <div className="space-y-1">
-              <label htmlFor="edit-email" className="text-xs font-semibold text-[#475569] block">
+              <label htmlFor="edit-email" className="text-xs font-medium text-[#64748B] block">
                 Email Address
               </label>
               <input
@@ -174,14 +171,14 @@ export const ProfessionalInformation = ({
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full rounded-xl border border-[#E2E8F0] px-3.5 py-2 text-xs text-[#0F172A] focus:border-[#0F766E] focus:outline-none focus:ring-1 focus:ring-[#0F766E]"
+                className="w-full rounded-xl border border-[#E2E8F0] px-3 py-2 text-xs text-[#17221B] focus:border-[#15803D] focus:outline-none focus:ring-2 focus:ring-[#15803D]/10 transition-all"
                 required
               />
             </div>
 
             {/* Hospital */}
             <div className="sm:col-span-2 space-y-1">
-              <label htmlFor="edit-hosp" className="text-xs font-semibold text-[#475569] block">
+              <label htmlFor="edit-hosp" className="text-xs font-medium text-[#64748B] block">
                 Hospital
               </label>
               <input
@@ -189,23 +186,23 @@ export const ProfessionalInformation = ({
                 type="text"
                 value={formData.hospital}
                 onChange={(e) => setFormData({ ...formData, hospital: e.target.value })}
-                className="w-full rounded-xl border border-[#E2E8F0] px-3.5 py-2 text-xs text-[#0F172A] focus:border-[#0F766E] focus:outline-none focus:ring-1 focus:ring-[#0F766E]"
+                className="w-full rounded-xl border border-[#E2E8F0] px-3 py-2 text-xs text-[#17221B] focus:border-[#15803D] focus:outline-none focus:ring-2 focus:ring-[#15803D]/10 transition-all"
                 required
               />
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-2 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[#E2E8F0]">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 rounded-xl border border-[#E2E8F0] bg-white text-xs font-bold text-[#64748B] hover:bg-slate-50 hover:text-[#0F172A] transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 rounded-lg border border-[#E2E8F0] bg-white text-xs font-semibold text-[#64748B] hover:bg-slate-50 hover:text-[#17221B] transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0F766E] hover:bg-[#115E59] text-white text-xs font-bold transition-all shadow-xs cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E]"
+              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-xs font-bold transition-all shadow-2xs cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
             >
               <Check className="h-3.5 w-3.5" />
               <span>Save Changes</span>
@@ -218,3 +215,4 @@ export const ProfessionalInformation = ({
 };
 
 export default ProfessionalInformation;
+

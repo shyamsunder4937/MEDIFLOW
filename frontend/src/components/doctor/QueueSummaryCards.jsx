@@ -7,81 +7,78 @@ export const QueueSummaryCards = ({ queueData = [] }) => {
   const inConsult = queueData.filter((p) => p.status === 'In Consultation').length;
   const completed = queueData.filter((p) => p.status === 'Completed').length;
 
-  const cards = [
+  const metrics = [
     {
       id: 'total',
-      title: "Today's Queue",
+      label: "Today's Queue",
       value: total,
-      label: 'Total Patients',
+      description: 'Total patients in queue',
       icon: Users,
-      iconColor: 'text-[#0F766E]',
-      iconBg: 'bg-[#CCFBF1]',
-      borderHover: 'hover:border-[#0F766E]/40',
+      iconColor: 'text-[#15803D]',
+      iconBg: 'bg-[#F0FDF4]',
+      tag: 'Scheduled',
     },
     {
       id: 'waiting',
-      title: 'Waiting for Consultation',
+      label: 'Waiting for Doctor',
       value: waiting,
-      label: 'Waiting',
+      description: 'In consultation waiting room',
       icon: Clock,
-      iconColor: 'text-[#D97706]',
-      iconBg: 'bg-amber-100/70',
-      borderHover: 'hover:border-amber-300',
+      iconColor: 'text-amber-700',
+      iconBg: 'bg-amber-50',
+      tag: 'In Queue',
     },
     {
       id: 'in-consult',
-      title: 'Currently With Doctor',
-      value: inConsult,
       label: 'In Consultation',
+      value: inConsult,
+      description: 'Currently in room 4B',
       icon: Stethoscope,
-      iconColor: 'text-[#2563EB]',
-      iconBg: 'bg-blue-100/70',
-      borderHover: 'hover:border-blue-300',
+      iconColor: 'text-blue-700',
+      iconBg: 'bg-blue-50',
+      tag: 'Active Now',
     },
     {
       id: 'completed',
-      title: 'Completed Today',
+      label: 'Completed Today',
       value: completed,
-      label: 'Completed',
+      description: 'Consultations finished',
       icon: CheckCircle2,
-      iconColor: 'text-[#16A34A]',
-      iconBg: 'bg-emerald-100/70',
-      borderHover: 'hover:border-emerald-300',
+      iconColor: 'text-[#15803D]',
+      iconBg: 'bg-[#F0FDF4]',
+      tag: 'Discharged',
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {cards.map((card) => {
-        const Icon = card.icon;
-        return (
-          <div
-            key={card.id}
-            className={`bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs transition-all duration-150 ${card.borderHover}`}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-semibold text-[#64748B] tracking-tight">
-                {card.label}
-              </span>
-              <div
-                className={`flex h-9 w-9 items-center justify-center rounded-xl ${card.iconBg} ${card.iconColor}`}
-              >
-                <Icon className="h-4.5 w-4.5" />
+    <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+      <div className="grid grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#E2E8F0]">
+        {metrics.map((metric) => {
+          const Icon = metric.icon;
+          return (
+            <div key={metric.id} className="p-4 sm:p-5 flex flex-col justify-between">
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <span className="text-xs font-semibold text-[#64748B] tracking-tight">
+                  {metric.label}
+                </span>
+                <span className="text-[10px] font-medium text-[#64748B] bg-slate-50 border border-slate-200 px-2 py-0.5 rounded">
+                  {metric.tag}
+                </span>
               </div>
-            </div>
 
-            <div className="flex items-baseline justify-between">
-              <div className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
-                {card.value}
+              <div className="my-1">
+                <div className="text-2xl sm:text-3xl font-bold text-[#17221B] tracking-tight">
+                  {metric.value}
+                </div>
               </div>
-            </div>
 
-            <p className="text-xs text-[#64748B] mt-1 leading-snug">
-              {card.title}
-            </p>
-          </div>
-        );
-      })}
+              <p className="text-xs text-[#64748B] leading-snug truncate mt-0.5">
+                {metric.description}
+              </p>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

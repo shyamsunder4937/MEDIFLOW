@@ -6,14 +6,14 @@ export const StatusBadge = ({ status }) => {
   switch (status) {
     case 'Waiting':
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 border border-amber-200 text-amber-700">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-50 border border-amber-200 text-amber-700">
           <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
           Waiting
         </span>
       );
     case 'In Consultation':
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 border border-blue-200 text-blue-700">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 border border-blue-200 text-blue-700">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600" />
@@ -23,14 +23,14 @@ export const StatusBadge = ({ status }) => {
       );
     case 'Completed':
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-700">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#F0FDF4] border border-[#DCFCE7] text-[#15803D]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#15803D]" />
           Completed
         </span>
       );
     default:
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-700">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-50 border border-slate-200 text-slate-700">
           {status}
         </span>
       );
@@ -53,16 +53,16 @@ export const QueuePatientRow = ({ patient }) => {
   return (
     <tr
       className={`border-b border-[#E2E8F0] hover:bg-slate-50/80 transition-colors group ${
-        isConsulting ? 'bg-blue-50/35' : ''
+        isConsulting ? 'bg-blue-50/25' : ''
       }`}
     >
       {/* 1. Queue Number */}
-      <td className="py-4 px-4 font-extrabold text-sm text-[#0F172A] whitespace-nowrap">
+      <td className="py-3.5 px-4 font-bold text-sm text-[#17221B] whitespace-nowrap">
         <span
-          className={`inline-flex items-center justify-center px-2.5 py-1 rounded-lg text-xs font-extrabold ${
+          className={`inline-flex items-center justify-center px-2.5 py-1 rounded-md text-xs font-bold ${
             isConsulting
-              ? 'bg-blue-100 text-blue-700 ring-1 ring-blue-300'
-              : 'bg-slate-100 text-[#0F172A]'
+              ? 'bg-blue-100 text-blue-800 ring-1 ring-blue-200'
+              : 'bg-slate-100 text-[#17221B]'
           }`}
         >
           {patient.queueNo || `#${patient.queueNumber}`}
@@ -70,13 +70,13 @@ export const QueuePatientRow = ({ patient }) => {
       </td>
 
       {/* 2. Patient Name & Info */}
-      <td className="py-4 px-4">
+      <td className="py-3.5 px-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-[#64748B] font-bold text-xs flex-shrink-0 group-hover:bg-[#CCFBF1] group-hover:text-[#0F766E] transition-colors">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-[#64748B] font-bold text-xs flex-shrink-0 group-hover:bg-[#F0FDF4] group-hover:text-[#15803D] transition-colors">
             {(patient.patientName || patient.name).charAt(0)}
           </div>
           <div className="min-w-0">
-            <div className="font-bold text-sm text-[#0F172A] truncate group-hover:text-[#0F766E] transition-colors">
+            <div className="font-bold text-sm text-[#17221B] truncate group-hover:text-[#15803D] transition-colors">
               {patient.patientName || patient.name}
             </div>
             <div className="text-[11px] text-[#64748B] truncate flex items-center gap-1.5 mt-0.5">
@@ -93,7 +93,7 @@ export const QueuePatientRow = ({ patient }) => {
       </td>
 
       {/* 3. Appointment Time */}
-      <td className="py-4 px-4 text-xs font-semibold text-[#0F172A] whitespace-nowrap">
+      <td className="py-3.5 px-4 text-xs font-medium text-[#17221B] whitespace-nowrap">
         <div className="flex items-center gap-1.5">
           <Clock className="h-3.5 w-3.5 text-[#94A3B8]" />
           <span>{patient.appointmentTime}</span>
@@ -101,26 +101,26 @@ export const QueuePatientRow = ({ patient }) => {
       </td>
 
       {/* 4. Arrival Time */}
-      <td className="py-4 px-4 text-xs text-[#64748B] whitespace-nowrap">
+      <td className="py-3.5 px-4 text-xs text-[#64748B] whitespace-nowrap">
         {patient.arrivalTime || '—'}
       </td>
 
       {/* 5. Status Badge */}
-      <td className="py-4 px-4 whitespace-nowrap">
+      <td className="py-3.5 px-4 whitespace-nowrap">
         <StatusBadge status={patient.status} />
       </td>
 
       {/* 6. Waiting Time */}
-      <td className="py-4 px-4 text-xs font-medium text-[#475569] whitespace-nowrap">
+      <td className="py-3.5 px-4 text-xs font-medium text-[#475569] whitespace-nowrap">
         {patient.waitingTime || patient.waitDuration || '—'}
       </td>
 
       {/* 7. Action Button */}
-      <td className="py-4 px-4 text-right whitespace-nowrap">
+      <td className="py-3.5 px-4 text-right whitespace-nowrap">
         {isConsulting ? (
           <button
             onClick={handleAction}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#0F766E] text-white hover:bg-[#115E59] active:scale-[0.98] transition-all shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E] cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#15803D] text-white hover:bg-[#166534] active:scale-[0.98] transition-all shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] cursor-pointer"
           >
             <Stethoscope className="h-3.5 w-3.5" />
             Open Consultation
@@ -128,7 +128,7 @@ export const QueuePatientRow = ({ patient }) => {
         ) : (
           <button
             onClick={handleAction}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold border border-[#E2E8F0] text-[#0F766E] bg-white hover:bg-[#CCFBF1]/40 hover:border-[#0F766E]/50 active:scale-[0.98] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E] cursor-pointer"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium border border-[#E2E8F0] text-[#15803D] bg-white hover:bg-[#F0FDF4] hover:border-[#15803D]/40 active:scale-[0.98] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] cursor-pointer"
           >
             View Patient
             <ChevronRight className="h-3.5 w-3.5" />

@@ -7,7 +7,7 @@ import { WorkingHours } from '../../components/doctor/WorkingHours';
 import { AvailabilityCard } from '../../components/doctor/AvailabilityCard';
 import { AccountSettings } from '../../components/doctor/AccountSettings';
 import { ClerkAccountCard } from '../../components/doctor/ClerkAccountCard';
-import { CheckCircle2, Info, UserCircle, Bell, HelpCircle, Settings } from 'lucide-react';
+import { CheckCircle2, Info, Settings, HelpCircle } from 'lucide-react';
 
 export const DoctorProfilePage = () => {
   // Local state for doctor profile details
@@ -51,80 +51,93 @@ export const DoctorProfilePage = () => {
       title="Doctor Profile"
       subtitle="Manage your professional information and account preferences."
     >
-      <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto">
-        {/* Toast Notification */}
+      <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
+        {/* ── Page Header ── */}
+        <div className="pb-2 border-b border-[#E2E8F0]">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#17221B] tracking-tight">
+            Doctor Profile
+          </h1>
+          <p className="text-xs sm:text-sm text-[#64748B] mt-0.5">
+            Manage your professional information and account preferences.
+          </p>
+        </div>
+
+        {/* ── Toast Notification ── */}
         {toastMessage && (
           <div
-            className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold flex items-center justify-between gap-2 shadow-xs animate-in fade-in slide-in-from-top-2 duration-150"
+            className="p-3.5 rounded-xl bg-[#F0FDF4] border border-[#DCFCE7] text-[#15803D] text-xs font-semibold flex items-center justify-between gap-2 shadow-2xs animate-in fade-in slide-in-from-top-2 duration-150"
             role="status"
           >
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 flex-shrink-0" />
+              <CheckCircle2 className="h-4 w-4 text-[#15803D] flex-shrink-0" />
               <span>{toastMessage}</span>
             </div>
-            <span className="text-[10px] text-emerald-700 font-normal">
-              Local session updated
+            <span className="text-[11px] text-[#166534] font-medium">
+              Profile updated
             </span>
           </div>
         )}
 
-        {/* ── 1. Profile Overview Card ── */}
-        <section aria-label="Profile Overview">
+        {/* ── 1. Doctor Profile Summary ── */}
+        <section aria-label="Doctor Profile Summary">
           <DoctorProfileHeader
             profile={profile}
             availability={availability}
           />
         </section>
 
-        {/* ── 2. Two-Column Desktop Grid: Professional Info + Availability ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Professional Information */}
-          <section aria-label="Professional Information">
-            <ProfessionalInformation
-              profile={profile}
-              onUpdateProfile={handleUpdateProfile}
-              onShowToast={showToast}
-            />
-          </section>
+        {/* ── 2. Main Content Grid (Left: Professional Info & Working Hours, Right: Availability & Account Settings) ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          {/* Left / Primary Column */}
+          <div className="space-y-6">
+            {/* Professional Information */}
+            <section aria-label="Professional Information">
+              <ProfessionalInformation
+                profile={profile}
+                onUpdateProfile={handleUpdateProfile}
+                onShowToast={showToast}
+              />
+            </section>
 
-          {/* Clinical Availability */}
-          <section aria-label="Clinical Availability">
-            <AvailabilityCard
-              availability={availability}
-              onSetAvailability={(newStatus) => {
-                setAvailability(newStatus);
-                showToast(`Status updated to ${newStatus}.`);
-              }}
-            />
-          </section>
+            {/* Working Hours */}
+            <section aria-label="Working Hours">
+              <WorkingHours workingHours={profile.workingHours} />
+            </section>
+          </div>
+
+          {/* Right / Supporting Column */}
+          <div className="space-y-6">
+            {/* Clinical Availability */}
+            <section aria-label="Clinical Availability">
+              <AvailabilityCard
+                availability={availability}
+                onSetAvailability={(newStatus) => {
+                  setAvailability(newStatus);
+                  showToast(`Status updated to ${newStatus}.`);
+                }}
+              />
+            </section>
+
+            {/* Account Settings */}
+            <section aria-label="Notification Preferences">
+              <AccountSettings
+                settings={settings}
+                onToggleSetting={handleToggleSetting}
+              />
+            </section>
+          </div>
         </div>
 
-        {/* ── 3. Two-Column Desktop Grid: Working Hours + Account Settings ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Working Hours */}
-          <section aria-label="Working Hours">
-            <WorkingHours workingHours={profile.workingHours} />
-          </section>
-
-          {/* Account Settings */}
-          <section aria-label="Notification Preferences">
-            <AccountSettings
-              settings={settings}
-              onToggleSetting={handleToggleSetting}
-            />
-          </section>
-        </div>
-
-        {/* ── 4. Clerk Account Section ── */}
+        {/* ── 3. Bottom: Account Authentication ── */}
         <section aria-label="Authentication Settings">
           <ClerkAccountCard />
         </section>
 
-        {/* ── 5. Demo Data Disclaimer ── */}
-        <footer className="pt-2 pb-4 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-[11px] text-[#64748B]">
-            <Info className="h-3.5 w-3.5 text-[#0F766E]" />
-            <span>Demo profile information — not connected to a hospital database.</span>
+        {/* ── 4. Demo Data Disclaimer ── */}
+        <footer className="pt-2 pb-6 text-center">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-[11px] text-[#64748B]">
+            <Info className="h-3.5 w-3.5 text-[#15803D]" />
+            <span>MediFlow Clinical Suite • Prototype demonstration records only</span>
           </div>
         </footer>
       </div>
@@ -138,26 +151,26 @@ export const DoctorSettingsPage = () => {
       title="Doctor Settings"
       subtitle="Configure your consultation notifications, audio alerts and display options"
     >
-      <div className="p-4 sm:p-6 max-w-4xl mx-auto space-y-5">
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs space-y-4">
-          <h2 className="text-sm font-bold text-[#0F172A] flex items-center gap-2">
-            <Settings className="h-4 w-4 text-[#0F766E]" />
+      <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto space-y-5">
+        <div className="bg-white rounded-xl border border-[#E2E8F0] p-5 shadow-2xs space-y-4">
+          <h2 className="text-sm font-bold text-[#17221B] flex items-center gap-2">
+            <Settings className="h-4 w-4 text-[#15803D]" />
             Consultation Room Preferences
           </h2>
           <div className="space-y-3 text-xs">
-            <label className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer">
+            <label className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50/70 border border-slate-100 cursor-pointer">
               <div>
-                <div className="font-semibold text-[#0F172A]">Audio Chime on Next Patient</div>
+                <div className="font-semibold text-[#17221B]">Audio Chime on Next Patient</div>
                 <div className="text-[#64748B] text-[11px] mt-0.5">Play sound alert when next patient enters waiting area</div>
               </div>
-              <input type="checkbox" defaultChecked className="h-4 w-4 accent-[#0F766E] cursor-pointer" />
+              <input type="checkbox" defaultChecked className="h-4 w-4 accent-[#15803D] cursor-pointer" />
             </label>
-            <label className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer">
+            <label className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50/70 border border-slate-100 cursor-pointer">
               <div>
-                <div className="font-semibold text-[#0F172A]">Critical Lab Result Alerts</div>
+                <div className="font-semibold text-[#17221B]">Critical Lab Result Alerts</div>
                 <div className="text-[#64748B] text-[11px] mt-0.5">Immediate high-priority banner for urgent diagnostic flags</div>
               </div>
-              <input type="checkbox" defaultChecked className="h-4 w-4 accent-[#0F766E] cursor-pointer" />
+              <input type="checkbox" defaultChecked className="h-4 w-4 accent-[#15803D] cursor-pointer" />
             </label>
           </div>
         </div>
@@ -172,23 +185,23 @@ export const DoctorHelpPage = () => {
       title="Doctor Support & Help Desk"
       subtitle="Quick guide for the MediFlow AI Clinical Portal"
     >
-      <div className="p-4 sm:p-6 max-w-4xl mx-auto space-y-5">
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs space-y-4">
-          <h2 className="text-sm font-bold text-[#0F172A] flex items-center gap-2">
-            <HelpCircle className="h-4 w-4 text-[#0F766E]" />
+      <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto space-y-5">
+        <div className="bg-white rounded-xl border border-[#E2E8F0] p-5 shadow-2xs space-y-4">
+          <h2 className="text-sm font-bold text-[#17221B] flex items-center gap-2">
+            <HelpCircle className="h-4 w-4 text-[#15803D]" />
             Clinical Workflow Guide
           </h2>
           <div className="space-y-3 text-xs text-[#475569] leading-relaxed">
-            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="font-bold text-[#0F172A] block mb-1">1. Status Bar & Availability:</span>
+            <div className="p-3 rounded-lg bg-slate-50/70 border border-slate-100">
+              <span className="font-bold text-[#17221B] block mb-1">1. Status Bar & Availability:</span>
               Toggle between Available, Busy, and Unavailable to regulate patient flow from the hospital central triage queue.
             </div>
-            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="font-bold text-[#0F172A] block mb-1">2. Current Queue:</span>
+            <div className="p-3 rounded-lg bg-slate-50/70 border border-slate-100">
+              <span className="font-bold text-[#17221B] block mb-1">2. Current Queue:</span>
               View real-time patient tokens, check vitals recorded by triage nurses, and click "Open Consultation" to commence consultation.
             </div>
-            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="font-bold text-[#0F172A] block mb-1">3. E-Prescriptions:</span>
+            <div className="p-3 rounded-lg bg-slate-50/70 border border-slate-100">
+              <span className="font-bold text-[#17221B] block mb-1">3. E-Prescriptions:</span>
               Transmit signed prescription notes directly to the Central Pharmacy dispensing system.
             </div>
           </div>
@@ -199,3 +212,4 @@ export const DoctorHelpPage = () => {
 };
 
 export default DoctorProfilePage;
+

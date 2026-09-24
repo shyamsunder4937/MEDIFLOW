@@ -132,21 +132,21 @@ export const StaffPatientsPage = () => {
       title="Patient Management"
       subtitle="Search, register, and manage patient information."
     >
-      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-5">
         {/* ── Toast Alert ── */}
         {toast && (
           <div
-            className={`flex items-center justify-between gap-3 p-4 rounded-2xl border shadow-md animate-in slide-in-from-top-2 duration-200 ${
+            className={`flex items-center justify-between gap-3 p-3.5 rounded-xl border shadow-xs animate-in slide-in-from-top-2 duration-150 ${
               toast.type === 'error'
                 ? 'bg-rose-50 border-rose-200 text-rose-800'
-                : 'bg-teal-50 border-[#0F766E]/20 text-[#0F766E]'
+                : 'bg-[#F0FDF4] border-[#15803D]/20 text-[#15803D]'
             }`}
           >
             <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold">
               {toast.type === 'error' ? (
-                <AlertCircle className="h-5 w-5 text-rose-600 flex-shrink-0" />
+                <AlertCircle className="h-4.5 w-4.5 text-rose-600 flex-shrink-0" />
               ) : (
-                <CheckCircle2 className="h-5 w-5 text-[#0F766E] flex-shrink-0" />
+                <CheckCircle2 className="h-4.5 w-4.5 text-[#15803D] flex-shrink-0" />
               )}
               <span>{toast.message}</span>
             </div>
@@ -160,13 +160,18 @@ export const StaffPatientsPage = () => {
           </div>
         )}
 
-        {/* ── Top Header Bar & Action ── */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 sm:p-5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+        {/* ── Page Header & Primary Action ── */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5 bg-white p-4 sm:p-5 rounded-xl border border-[#E2E8F0] shadow-2xs">
           <div>
-            <h1 className="text-lg sm:text-xl font-extrabold text-[#0F172A] tracking-tight">
-              Hospital Patients Directory
-            </h1>
-            <p className="text-xs sm:text-sm text-[#64748B] mt-0.5">
+            <div className="flex items-center gap-2.5">
+              <h1 className="text-xl sm:text-2xl font-extrabold text-[#17221B] tracking-tight">
+                Hospital Patients Directory
+              </h1>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20">
+                OPD Live
+              </span>
+            </div>
+            <p className="text-xs sm:text-sm text-[#64748B] mt-1">
               Access electronic health demographic records, active OPD queues, and patient intake.
             </p>
           </div>
@@ -174,14 +179,14 @@ export const StaffPatientsPage = () => {
           <button
             type="button"
             onClick={handleOpenRegister}
-            className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-[#0F766E] hover:bg-[#115E59] active:scale-[0.98] text-white text-xs sm:text-sm font-bold shadow-xs transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E]"
+            className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-lg bg-[#15803D] hover:bg-[#166534] active:scale-[0.98] text-white text-xs sm:text-sm font-bold shadow-2xs transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D]"
           >
             <UserPlus className="h-4 w-4" />
             <span>+ Register Patient</span>
           </button>
         </div>
 
-        {/* ── Summary Cards ── */}
+        {/* ── Summary Operational Indicators ── */}
         <section aria-label="Patient Statistics">
           <PatientSummaryCards
             totalCount={totalRegistered.toLocaleString()}

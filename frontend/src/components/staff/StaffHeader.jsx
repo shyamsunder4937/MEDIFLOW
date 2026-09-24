@@ -42,7 +42,7 @@ export const StaffHeader = ({ onMenuOpen, title, subtitle }) => {
   const getNotifIcon = (type) => {
     switch (type) {
       case 'doctor':
-        return <Stethoscope className="h-3.5 w-3.5 text-[#0F766E]" />;
+        return <Stethoscope className="h-3.5 w-3.5 text-[#15803D]" />;
       case 'lab':
         return <FlaskConical className="h-3.5 w-3.5 text-purple-600" />;
       case 'pharmacy':
@@ -54,20 +54,20 @@ export const StaffHeader = ({ onMenuOpen, title, subtitle }) => {
   };
 
   return (
-    <header className="sticky top-0 z-20 flex items-center justify-between bg-white/90 backdrop-blur-md border-b border-[#E2E8F0] px-4 sm:px-6 py-3.5 transition-all">
+    <header className="sticky top-0 z-20 flex items-center justify-between bg-white/95 backdrop-blur-md border-b border-[#E2E8F0] px-4 sm:px-6 py-3.5 transition-all">
       {/* Left: Hamburger (mobile) + Staff Greeting / Custom Title */}
       <div className="flex items-center gap-3 min-w-0">
         {/* Hamburger — mobile only */}
         <button
           onClick={onMenuOpen}
-          className="lg:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-[#E2E8F0] text-[#64748B] hover:bg-slate-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E] flex-shrink-0 cursor-pointer"
+          className="lg:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-[#E2E8F0] text-[#64748B] hover:bg-slate-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] flex-shrink-0 cursor-pointer"
           aria-label="Open navigation menu"
         >
           <Menu className="h-4.5 w-4.5" />
         </button>
 
         <div className="min-w-0">
-          <h1 className="text-base sm:text-lg font-bold text-[#0F172A] tracking-tight truncate">
+          <h1 className="text-base sm:text-lg font-bold text-[#17221B] tracking-tight truncate">
             {heading}
           </h1>
           <p className="text-[11px] sm:text-xs text-[#64748B] hidden sm:block truncate">
@@ -82,16 +82,16 @@ export const StaffHeader = ({ onMenuOpen, title, subtitle }) => {
         <div className="relative">
           <button
             onClick={() => setNotificationsOpen(!notificationsOpen)}
-            className={`relative flex h-9 w-9 items-center justify-center rounded-xl border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F766E] cursor-pointer ${
+            className={`relative flex h-9 w-9 items-center justify-center rounded-xl border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803D] cursor-pointer ${
               notificationsOpen
-                ? 'border-[#0F766E] bg-[#CCFBF1]/40 text-[#0F766E]'
+                ? 'border-[#15803D] bg-[#F0FDF4] text-[#15803D]'
                 : 'border-[#E2E8F0] text-[#64748B] hover:bg-slate-50'
             }`}
             aria-label={`${unreadCount} staff notifications`}
           >
             <Bell className="h-4 w-4" />
             {unreadCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#0F766E] text-[9px] font-bold text-white ring-2 ring-white animate-pulse">
+              <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#15803D] text-[9px] font-bold text-white ring-2 ring-white">
                 {unreadCount}
               </span>
             )}
@@ -107,9 +107,9 @@ export const StaffHeader = ({ onMenuOpen, title, subtitle }) => {
               <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-white shadow-xl border border-[#E2E8F0] z-40 p-3 animate-in fade-in zoom-in-95 duration-150">
                 <div className="flex items-center justify-between pb-2.5 mb-2 border-b border-[#E2E8F0] px-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-[#0F172A]">Staff Live Feed</span>
+                    <span className="text-xs font-bold text-[#17221B]">Staff Live Feed</span>
                     {unreadCount > 0 && (
-                      <span className="rounded-full bg-[#CCFBF1] text-[#0F766E] px-2 py-0.5 text-[10px] font-semibold">
+                      <span className="rounded-full bg-[#DCFCE7] text-[#15803D] px-2 py-0.5 text-[10px] font-semibold">
                         {unreadCount} new
                       </span>
                     )}
@@ -118,7 +118,7 @@ export const StaffHeader = ({ onMenuOpen, title, subtitle }) => {
                     {unreadCount > 0 && (
                       <button
                         onClick={markAllRead}
-                        className="text-[11px] text-[#0F766E] hover:underline font-medium cursor-pointer"
+                        className="text-[11px] text-[#15803D] hover:underline font-medium cursor-pointer"
                       >
                         Mark all read
                       </button>
@@ -128,7 +128,7 @@ export const StaffHeader = ({ onMenuOpen, title, subtitle }) => {
                         setNotificationsOpen(false);
                         navigate('/staff/notifications');
                       }}
-                      className="text-[11px] text-[#64748B] hover:text-[#0F172A] font-medium cursor-pointer"
+                      className="text-[11px] text-[#64748B] hover:text-[#17221B] font-medium cursor-pointer"
                     >
                       View All
                     </button>
@@ -141,12 +141,12 @@ export const StaffHeader = ({ onMenuOpen, title, subtitle }) => {
                       key={item.id}
                       className={`p-2.5 rounded-xl border text-xs transition-colors ${
                         item.unread
-                          ? 'bg-[#CCFBF1]/20 border-[#0F766E]/20'
+                          ? 'bg-[#F0FDF4] border-[#15803D]/20'
                           : 'bg-slate-50/70 border-[#E2E8F0]'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-1.5 font-semibold text-[#0F172A]">
+                        <div className="flex items-center gap-1.5 font-semibold text-[#17221B]">
                           {getNotifIcon(item.type)}
                           <span className="truncate">{item.message}</span>
                         </div>
@@ -168,17 +168,17 @@ export const StaffHeader = ({ onMenuOpen, title, subtitle }) => {
           <UserButton
             appearance={{
               elements: {
-                avatarBox: 'h-8 w-8 rounded-xl ring-1 ring-[#0F766E]/30',
+                avatarBox: 'h-8 w-8 rounded-xl ring-1 ring-[#15803D]/30',
                 userButtonPopoverCard: 'shadow-xl border border-[#E2E8F0] rounded-2xl',
               },
             }}
             afterSignOutUrl="/sign-in"
           />
           <div className="hidden sm:block leading-tight text-left">
-            <div className="text-xs font-bold text-[#0F172A] flex items-center gap-1 truncate max-w-[150px]">
+            <div className="text-xs font-bold text-[#17221B] flex items-center gap-1 truncate max-w-[150px]">
               {staffName}
             </div>
-            <div className="text-[10px] text-[#0F766E] font-medium flex items-center gap-1">
+            <div className="text-[10px] text-[#15803D] font-medium flex items-center gap-1">
               <span>{staffProfileData.deskId}</span>
               <span className="text-[#94A3B8]">•</span>
               <span className="text-[#64748B]">OPD Ops</span>

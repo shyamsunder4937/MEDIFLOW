@@ -56,12 +56,12 @@ export const StaffDoctorDetailPage = () => {
         subtitle="Review physician allocation and availability."
       >
         <div className="p-4 sm:p-6 max-w-2xl mx-auto py-16">
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-8 text-center space-y-4 shadow-xs">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 mx-auto">
+          <div className="bg-white rounded-xl border border-[#E2E8F0] p-8 text-center space-y-4 shadow-2xs">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-rose-50 text-rose-600 mx-auto">
               <UserX className="h-7 w-7" />
             </div>
             <div className="space-y-1.5">
-              <h1 className="text-lg font-bold text-[#0F172A]">Physician Not Found</h1>
+              <h1 className="text-lg font-bold text-[#17221B]">Physician Not Found</h1>
               <p className="text-xs text-[#64748B]">
                 The requested doctor ID ({id}) was not located in the on-duty roster.
               </p>
@@ -70,7 +70,7 @@ export const StaffDoctorDetailPage = () => {
               <button
                 type="button"
                 onClick={() => navigate('/staff/doctors')}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0F766E] text-white text-xs font-bold hover:bg-[#115E59] transition-all shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#15803D] text-white text-xs font-bold hover:bg-[#166534] transition-all shadow-2xs cursor-pointer"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 <span>Back to Doctor Roster</span>
@@ -100,12 +100,12 @@ export const StaffDoctorDetailPage = () => {
       title="Doctor Profile"
       subtitle={`Physician availability and OPD roster for ${doctor.name}`}
     >
-      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-5">
         {/* ── Toast Alert ── */}
         {toastMessage && (
-          <div className="flex items-center justify-between gap-3 p-4 rounded-2xl border border-[#0F766E]/20 bg-teal-50 text-[#0F766E] shadow-sm animate-in slide-in-from-top-2">
+          <div className="flex items-center justify-between gap-3 p-3.5 rounded-xl border border-[#15803D]/20 bg-[#F0FDF4] text-[#15803D] shadow-2xs animate-in slide-in-from-top-2">
             <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold">
-              <CheckCircle2 className="h-5 w-5 text-[#0F766E]" />
+              <CheckCircle2 className="h-4.5 w-4.5 text-[#15803D]" />
               <span>{toastMessage}</span>
             </div>
             <button
@@ -119,24 +119,24 @@ export const StaffDoctorDetailPage = () => {
         )}
 
         {/* ── Top Navigation Bar ── */}
-        <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3.5 sm:p-4 rounded-xl border border-[#E2E8F0] shadow-2xs">
           <button
             type="button"
             onClick={() => navigate('/staff/doctors')}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#E2E8F0] bg-white text-xs font-bold text-[#0F172A] hover:bg-slate-50 hover:text-[#0F766E] transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#E2E8F0] bg-white text-xs font-bold text-[#17221B] hover:bg-slate-50 transition-all cursor-pointer"
           >
-            <ArrowLeft className="h-4 w-4 text-[#0F766E]" />
+            <ArrowLeft className="h-3.5 w-3.5 text-[#15803D]" />
             <span>Back to Doctors</span>
           </button>
 
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2">
             {/* View in Queue */}
             <button
               type="button"
               onClick={() => navigate('/staff/queue')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#0F766E]/30 bg-[#CCFBF1]/40 text-[#0F766E] hover:bg-[#CCFBF1] text-xs font-bold transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-[#15803D]/30 bg-[#F0FDF4] text-[#15803D] hover:bg-[#DCFCE7] text-xs font-bold transition-all cursor-pointer"
             >
-              <ListOrdered className="h-4 w-4" />
+              <ListOrdered className="h-3.5 w-3.5" />
               <span>View Department Queue</span>
             </button>
 
@@ -144,9 +144,9 @@ export const StaffDoctorDetailPage = () => {
             <button
               type="button"
               onClick={() => navigate('/staff/appointments')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-[#475569] text-xs font-bold transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-[#E2E8F0] bg-white hover:bg-slate-50 text-[#475569] hover:text-[#17221B] text-xs font-bold transition-all cursor-pointer"
             >
-              <CalendarDays className="h-4 w-4" />
+              <CalendarDays className="h-3.5 w-3.5" />
               <span>View Appointments</span>
             </button>
 
@@ -154,34 +154,34 @@ export const StaffDoctorDetailPage = () => {
             <button
               type="button"
               onClick={() => setIsStatusModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0F766E] hover:bg-[#115E59] text-white text-xs font-bold shadow-xs active:scale-[0.98] transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-xs font-bold shadow-2xs active:scale-[0.98] transition-all cursor-pointer"
             >
-              <RefreshCw className="h-4 w-4" />
+              <RefreshCw className="h-3.5 w-3.5" />
               <span>Update Status</span>
             </button>
           </div>
         </div>
 
         {/* ── 1. Hero Doctor Profile Card ── */}
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 sm:p-6 shadow-xs space-y-5">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E8F0]">
-            <div className="flex items-center gap-4">
-              <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-[#CCFBF1] text-[#0F766E] font-extrabold text-xl sm:text-2xl shadow-inner flex-shrink-0">
+        <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 sm:p-6 shadow-2xs space-y-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#E2E8F0]">
+            <div className="flex items-center gap-3.5">
+              <div className="flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-xl bg-[#F0FDF4] text-[#15803D] font-extrabold text-xl border border-[#15803D]/20 shadow-2xs flex-shrink-0">
                 {initials}
               </div>
 
               <div>
-                <div className="flex flex-wrap items-center gap-2.5">
-                  <h1 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h1 className="text-xl sm:text-2xl font-extrabold text-[#17221B] tracking-tight">
                     {doctor.name}
                   </h1>
-                  <span className="font-mono text-xs font-bold text-[#0F766E] bg-[#CCFBF1] px-2.5 py-0.5 rounded-full border border-[#0F766E]/20">
+                  <span className="font-mono text-xs font-bold text-[#15803D] bg-[#F0FDF4] px-2.5 py-0.5 rounded-md border border-[#15803D]/20">
                     {doctor.id}
                   </span>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-[#64748B] mt-1">
-                  <span className="font-semibold text-[#0F172A]">{doctor.specialization}</span>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-[#64748B] mt-1">
+                  <span className="font-semibold text-[#17221B]">{doctor.specialization}</span>
                   <span>•</span>
                   <span>{doctor.department}</span>
                   <span>•</span>
@@ -190,7 +190,7 @@ export const StaffDoctorDetailPage = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:items-end gap-1.5">
+            <div className="flex flex-col sm:items-end gap-1">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-[#94A3B8]">
                 Roster Status
               </span>
@@ -199,43 +199,43 @@ export const StaffDoctorDetailPage = () => {
           </div>
 
           {/* Quick Metrics Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+            <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] space-y-1">
               <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
-                <DoorOpen className="h-3.5 w-3.5 text-[#0F766E]" />
+                <DoorOpen className="h-3.5 w-3.5 text-[#15803D]" />
                 <span>Consultation Room</span>
               </div>
-              <div className="font-bold text-xs sm:text-sm text-[#0F172A]">
+              <div className="font-bold text-xs sm:text-sm text-[#17221B]">
                 {doctor.room} ({doctor.floor})
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+            <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] space-y-1">
               <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
-                <Clock className="h-3.5 w-3.5 text-[#0F766E]" />
+                <Clock className="h-3.5 w-3.5 text-[#15803D]" />
                 <span>Working Shift</span>
               </div>
-              <div className="font-bold text-xs sm:text-sm text-[#0F172A]">
+              <div className="font-bold text-xs sm:text-sm text-[#17221B]">
                 {doctor.workingHours}
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+            <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] space-y-1">
               <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
-                <ListOrdered className="h-3.5 w-3.5 text-[#D97706]" />
+                <ListOrdered className="h-3.5 w-3.5 text-amber-600" />
                 <span>Waiting in Queue</span>
               </div>
-              <div className="font-extrabold text-xs sm:text-sm text-[#D97706]">
+              <div className="font-extrabold text-xs sm:text-sm text-amber-800">
                 {doctor.waitingPatients} patients
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+            <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] space-y-1">
               <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
-                <CalendarDays className="h-3.5 w-3.5 text-[#0F766E]" />
+                <CalendarDays className="h-3.5 w-3.5 text-[#15803D]" />
                 <span>Today's Appointments</span>
               </div>
-              <div className="font-extrabold text-xs sm:text-sm text-[#0F766E]">
+              <div className="font-extrabold text-xs sm:text-sm text-[#15803D]">
                 {doctor.appointmentsToday} scheduled
               </div>
             </div>
@@ -243,42 +243,42 @@ export const StaffDoctorDetailPage = () => {
         </div>
 
         {/* ── 2. Two Column Grid: Current Consultation + Professional Profile ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* Card A: Active Consultation Status */}
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 sm:p-6 shadow-xs space-y-4">
-            <div className="flex items-center gap-2 pb-3 border-b border-[#E2E8F0]">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#CCFBF1] text-[#0F766E]">
+          <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 sm:p-5 shadow-2xs space-y-3.5">
+            <div className="flex items-center gap-2 pb-2.5 border-b border-[#E2E8F0]">
+              <div className="flex h-7.5 w-7.5 items-center justify-center rounded-lg bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20">
                 <Stethoscope className="h-4 w-4" />
               </div>
               <div>
-                <h2 className="text-sm sm:text-base font-bold text-[#0F172A]">
+                <h2 className="text-sm font-bold text-[#17221B]">
                   Active Session & Queue
                 </h2>
                 <p className="text-[11px] text-[#64748B]">Real-time patient intake and room examination status</p>
               </div>
             </div>
 
-            <div className="space-y-3 text-xs sm:text-sm">
-              <div className="flex items-center justify-between py-2 border-b border-slate-100">
+            <div className="space-y-2.5 text-xs">
+              <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
                 <span className="text-[#64748B]">Current Patient</span>
-                <span className="font-bold text-[#0F172A]">
+                <span className="font-bold text-[#17221B]">
                   {doctor.currentPatient || 'None (Suite ready)'}
                 </span>
               </div>
 
-              <div className="flex items-center justify-between py-2 border-b border-slate-100">
+              <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
                 <span className="text-[#64748B]">Department</span>
-                <span className="font-bold text-[#0F766E]">{doctor.department}</span>
+                <span className="font-bold text-[#15803D]">{doctor.department}</span>
               </div>
 
-              <div className="flex items-center justify-between py-2 border-b border-slate-100">
+              <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
                 <span className="text-[#64748B]">Room Allocation</span>
-                <span className="font-mono font-semibold text-[#0F172A]">{doctor.room}</span>
+                <span className="font-mono font-semibold text-[#17221B]">{doctor.room}</span>
               </div>
 
-              <div className="flex items-center justify-between py-2">
+              <div className="flex items-center justify-between py-1.5">
                 <span className="text-[#64748B]">OPD Waiting Count</span>
-                <span className="font-extrabold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-lg border border-amber-200">
+                <span className="font-extrabold text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-md border border-amber-200">
                   {doctor.waitingPatients} patients
                 </span>
               </div>
@@ -286,46 +286,46 @@ export const StaffDoctorDetailPage = () => {
           </div>
 
           {/* Card B: Professional Contact & Credentials */}
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 sm:p-6 shadow-xs space-y-4">
-            <div className="flex items-center gap-2 pb-3 border-b border-[#E2E8F0]">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+          <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 sm:p-5 shadow-2xs space-y-3.5">
+            <div className="flex items-center gap-2 pb-2.5 border-b border-[#E2E8F0]">
+              <div className="flex h-7.5 w-7.5 items-center justify-center rounded-lg bg-blue-50 text-blue-600 border border-blue-200">
                 <Award className="h-4 w-4" />
               </div>
               <div>
-                <h2 className="text-sm sm:text-base font-bold text-[#0F172A]">
+                <h2 className="text-sm font-bold text-[#17221B]">
                   Credentials & Contact
                 </h2>
                 <p className="text-[11px] text-[#64748B]">Hospital internal extensions and background</p>
               </div>
             </div>
 
-            <div className="space-y-3 text-xs sm:text-sm">
-              <div className="flex items-center justify-between py-2 border-b border-slate-100">
+            <div className="space-y-2.5 text-xs">
+              <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
                 <span className="text-[#64748B] flex items-center gap-1.5">
-                  <Phone className="h-3.5 w-3.5 text-[#0F766E]" /> Internal Counter Phone:
+                  <Phone className="h-3.5 w-3.5 text-[#15803D]" /> Counter Extension:
                 </span>
-                <span className="font-mono font-bold text-[#0F172A]">{doctor.phone}</span>
+                <span className="font-mono font-bold text-[#17221B]">{doctor.phone}</span>
               </div>
 
-              <div className="flex items-center justify-between py-2 border-b border-slate-100">
+              <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
                 <span className="text-[#64748B] flex items-center gap-1.5">
-                  <Mail className="h-3.5 w-3.5 text-[#0F766E]" /> Official Email:
+                  <Mail className="h-3.5 w-3.5 text-[#15803D]" /> Official Email:
                 </span>
-                <span className="font-medium text-[#0F172A]">{doctor.email}</span>
+                <span className="font-medium text-[#17221B]">{doctor.email}</span>
               </div>
 
-              <div className="flex items-center justify-between py-2 border-b border-slate-100">
+              <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
                 <span className="text-[#64748B] flex items-center gap-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5 text-[#0F766E]" /> Clinical Experience:
+                  <ShieldCheck className="h-3.5 w-3.5 text-[#15803D]" /> Clinical Experience:
                 </span>
-                <span className="font-semibold text-[#0F172A]">{doctor.experience}</span>
+                <span className="font-semibold text-[#17221B]">{doctor.experience}</span>
               </div>
 
-              <div className="flex items-center justify-between py-2">
+              <div className="flex items-center justify-between py-1.5">
                 <span className="text-[#64748B] flex items-center gap-1.5">
-                  <Building2 className="h-3.5 w-3.5 text-[#0F766E]" /> Primary Hospital:
+                  <Building2 className="h-3.5 w-3.5 text-[#15803D]" /> Primary Hospital:
                 </span>
-                <span className="font-medium text-[#0F172A]">MediFlow General (Main OPD)</span>
+                <span className="font-medium text-[#17221B]">MediFlow General (Main OPD)</span>
               </div>
             </div>
           </div>

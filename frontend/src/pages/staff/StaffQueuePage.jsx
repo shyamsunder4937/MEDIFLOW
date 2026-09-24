@@ -14,7 +14,7 @@ import {
   RotateCcw,
   Calendar,
   CheckCircle2,
-  Info,
+  ShieldCheck,
 } from 'lucide-react';
 
 export const StaffQueuePage = () => {
@@ -73,7 +73,7 @@ export const StaffQueuePage = () => {
         return false;
       }
 
-      // 4. Search query (Patient name or Token)
+      // 4. Search query (Patient name, ID, or Token)
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase().trim();
         const matchesName = (item.patient || '').toLowerCase().includes(query);
@@ -138,38 +138,45 @@ export const StaffQueuePage = () => {
   };
 
   return (
-    <StaffLayout
-      title="Queue Management"
-      subtitle="Monitor and manage the patient queue across hospital departments."
-    >
+    <StaffLayout>
       <div className="p-4 sm:p-6 lg:p-7 space-y-6 max-w-7xl mx-auto">
         {/* ── Toast Notification Banner ── */}
         {toastMessage && (
-          <div className="fixed top-18 right-6 z-50 flex items-center gap-2.5 bg-[#0F172A] text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium border border-slate-700 animate-in fade-in slide-in-from-top-2 duration-200">
-            <CheckCircle2 className="h-4 w-4 text-[#CCFBF1] flex-shrink-0" />
+          <div className="fixed top-18 right-6 z-50 flex items-center gap-2.5 bg-[#17221B] text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium border border-slate-700 animate-in fade-in slide-in-from-top-2 duration-200">
+            <CheckCircle2 className="h-4 w-4 text-[#DCFCE7] flex-shrink-0" />
             <span>{toastMessage}</span>
           </div>
         )}
 
-        {/* ── Top Header Controls: Refresh & Date Indicator ── */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3.5 sm:p-4 rounded-2xl border border-[#E2E8F0] shadow-xs">
-          <div className="flex items-center gap-2 text-xs font-semibold text-[#0F172A]">
-            <span className="flex h-2 w-2 rounded-full bg-[#16A34A] animate-pulse" />
-            <span>OPD Live Queue Engine</span>
-            <span className="text-[#94A3B8]">•</span>
-            <span className="text-[#64748B] font-normal">Real-time status monitor</span>
+        {/* ── Page Header (28–32px Heading) ── */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-[#17221B] tracking-tight">
+              Queue Management
+            </h1>
+            <p className="text-xs sm:text-sm text-[#64748B] mt-0.5">
+              Monitor and manage the patient queue across hospital departments.
+            </p>
           </div>
 
-          <div className="flex items-center gap-2.5 self-end sm:self-auto">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-[#64748B]">
-              <Calendar className="h-3.5 w-3.5 text-[#0F766E]" />
-              <span>Today, 18 Sep 2026</span>
+          <div className="flex flex-wrap items-center gap-2.5 self-start sm:self-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-[#E2E8F0] text-xs font-semibold text-[#17221B] shadow-2xs">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#15803D] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#15803D]" />
+              </span>
+              <span>Live Queue Engine</span>
+              <span className="text-[#CBD5E1]">|</span>
+              <span className="text-[#64748B] font-medium flex items-center gap-1">
+                <Calendar className="h-3.5 w-3.5 text-[#15803D]" />
+                Today, 18 Sep 2026
+              </span>
             </div>
 
             <button
               type="button"
               onClick={handleRefresh}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#0F766E] hover:bg-[#115E59] text-white text-xs font-bold transition-all shadow-xs active:scale-[0.98] cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-xs font-bold transition-all shadow-xs active:scale-[0.98] cursor-pointer"
             >
               <RotateCcw className={`h-3.5 w-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
@@ -177,7 +184,7 @@ export const StaffQueuePage = () => {
           </div>
         </div>
 
-        {/* ── 1. Queue Summary Cards ── */}
+        {/* ── 1. Queue Status Summary ── */}
         <section aria-label="Queue Summary Statistics">
           <QueueSummaryCards
             waitingCount={counts.waiting}
@@ -187,7 +194,7 @@ export const StaffQueuePage = () => {
           />
         </section>
 
-        {/* ── 2. Currently Serving Highlight Section ── */}
+        {/* ── 2. Current Active Patient Workspace ── */}
         <section aria-label="Currently Serving Consultation">
           <CurrentlyServingCard serving={staffCurrentlyServing} />
         </section>
@@ -207,7 +214,7 @@ export const StaffQueuePage = () => {
           />
         </section>
 
-        {/* ── 4. Queue Filter and Search Toolbar ── */}
+        {/* ── 4. Search and Filter Toolbar ── */}
         <section aria-label="Queue Filters and Search">
           <QueueFilters
             searchQuery={searchQuery}
@@ -235,11 +242,11 @@ export const StaffQueuePage = () => {
           />
         </section>
 
-        {/* ── Demo Notice Footer ── */}
+        {/* ── Operational Footer ── */}
         <footer className="pt-2 pb-6 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-[11px] text-[#64748B]">
-            <Info className="h-3.5 w-3.5 text-[#0F766E]" />
-            <span>Staff Queue Management Interface • Phase 1 Frontend Prototype</span>
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#E2E8F0] text-[11px] text-[#64748B]">
+            <ShieldCheck className="h-3.5 w-3.5 text-[#15803D]" />
+            <span>MediFlow Queue Dispatch Engine • Central Hospital Operations</span>
           </div>
         </footer>
       </div>
@@ -248,3 +255,4 @@ export const StaffQueuePage = () => {
 };
 
 export default StaffQueuePage;
+

@@ -215,28 +215,28 @@ export const StaffLabPage = () => {
       title="Lab Coordination"
       subtitle="Monitor laboratory requests, sample collection, processing, and result availability."
     >
-      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-5">
         {/* ── Toast Alert ── */}
         {toast && (
           <div
-            className={`flex items-center justify-between gap-3 p-4 rounded-2xl border shadow-md animate-in slide-in-from-top-2 duration-200 ${
+            className={`flex items-center justify-between gap-3 p-3.5 rounded-xl border shadow-xs animate-in slide-in-from-top-2 duration-200 ${
               toast.type === 'error'
                 ? 'bg-rose-50 border-rose-200 text-rose-800'
-                : 'bg-teal-50 border-[#0F766E]/20 text-[#0F766E]'
+                : 'bg-[#F0FDF4] border-[#15803D]/20 text-[#15803D]'
             }`}
           >
-            <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold">
+            <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold">
               {toast.type === 'error' ? (
-                <AlertCircle className="h-5 w-5 text-rose-600 flex-shrink-0" />
+                <AlertCircle className="h-4 w-4 text-rose-600 flex-shrink-0" />
               ) : (
-                <CheckCircle2 className="h-5 w-5 text-[#0F766E] flex-shrink-0" />
+                <CheckCircle2 className="h-4 w-4 text-[#15803D] flex-shrink-0" />
               )}
               <span>{toast.message}</span>
             </div>
             <button
               type="button"
               onClick={() => setToast(null)}
-              className="text-xs font-bold underline cursor-pointer hover:opacity-80"
+              className="text-xs font-semibold underline cursor-pointer hover:opacity-80"
             >
               Dismiss
             </button>
@@ -244,13 +244,13 @@ export const StaffLabPage = () => {
         )}
 
         {/* ── Top Header Bar & Action ── */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 sm:p-5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 sm:p-5 rounded-xl border border-[#E2E8F0]">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#CCFBF1] text-[#0F766E] shadow-inner flex-shrink-0">
-              <FlaskConical className="h-6 w-6" />
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20 flex-shrink-0">
+              <FlaskConical className="h-5 w-5" />
             </div>
             <div>
-              <h1 className="text-lg sm:text-xl font-extrabold text-[#0F172A] tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#17221B] tracking-tight">
                 Hospital Diagnostic & Laboratory Coordination
               </h1>
               <p className="text-xs sm:text-sm text-[#64748B] mt-0.5">
@@ -263,9 +263,9 @@ export const StaffLabPage = () => {
             type="button"
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs sm:text-sm font-bold text-[#0F172A] shadow-2xs transition-all cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-[#E2E8F0] bg-white hover:bg-[#F8FAFC] text-xs sm:text-sm font-semibold text-[#17221B] transition-all cursor-pointer disabled:opacity-50"
           >
-            <RefreshCw className={`h-4 w-4 text-[#0F766E] ${isRefreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-4 w-4 text-[#15803D] ${isRefreshing ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
           </button>
         </div>
@@ -311,11 +311,11 @@ export const StaffLabPage = () => {
         </section>
 
         {/* ── 5. Main Lab Requests Table / Cards ── */}
-        <section aria-label="Lab Requests Table" className="space-y-4">
+        <section aria-label="Lab Requests Table" className="space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h2 className="text-base sm:text-lg font-bold text-[#0F172A]">Lab Requests</h2>
-              <span className="text-xs font-bold text-[#0F766E] bg-[#CCFBF1] px-2.5 py-0.5 rounded-full border border-[#0F766E]/20">
+              <h2 className="text-base font-bold text-[#17221B]">Lab Requests</h2>
+              <span className="text-xs font-semibold text-[#15803D] bg-[#F0FDF4] px-2.5 py-0.5 rounded-md border border-[#15803D]/20">
                 {filteredRequests.length} requisitions
               </span>
             </div>
@@ -334,7 +334,7 @@ export const StaffLabPage = () => {
               <button
                 type="button"
                 onClick={handleResetFilters}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0F766E] text-white text-xs font-semibold hover:bg-[#115E59] transition-all shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#15803D] text-white text-xs font-semibold hover:bg-[#166534] transition-all cursor-pointer"
               >
                 <span>Clear Filters</span>
               </button>

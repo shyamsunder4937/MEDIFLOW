@@ -48,12 +48,12 @@ export const StaffLabDetailPage = () => {
         subtitle="Review specimen status and test results."
       >
         <div className="p-4 sm:p-6 max-w-2xl mx-auto py-16">
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-8 text-center space-y-4 shadow-xs">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 mx-auto">
-              <SearchX className="h-7 w-7" />
+          <div className="bg-white rounded-xl border border-[#E2E8F0] p-8 text-center space-y-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-rose-50 text-rose-600 mx-auto">
+              <SearchX className="h-6 w-6" />
             </div>
-            <div className="space-y-1.5">
-              <h1 className="text-lg font-bold text-[#0F172A]">Lab Request Not Found</h1>
+            <div className="space-y-1">
+              <h1 className="text-base font-bold text-[#17221B]">Lab Request Not Found</h1>
               <p className="text-xs text-[#64748B]">
                 The requested requisition ID ({id}) was not found in active laboratory orders.
               </p>
@@ -62,7 +62,7 @@ export const StaffLabDetailPage = () => {
               <button
                 type="button"
                 onClick={() => navigate('/staff/lab')}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0F766E] text-white text-xs font-bold hover:bg-[#115E59] transition-all shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#15803D] text-white text-xs font-semibold hover:bg-[#166534] transition-all cursor-pointer"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 <span>Back to Lab Coordination</span>
@@ -125,18 +125,18 @@ export const StaffLabDetailPage = () => {
       title="Lab Request Details"
       subtitle={`Diagnostic order and specimen lifecycle for ${labRequest.id}`}
     >
-      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-5">
         {/* ── Toast Alert ── */}
         {toastMessage && (
-          <div className="flex items-center justify-between gap-3 p-4 rounded-2xl border border-[#0F766E]/20 bg-teal-50 text-[#0F766E] shadow-sm animate-in slide-in-from-top-2">
+          <div className="flex items-center justify-between gap-3 p-3.5 rounded-xl border border-[#15803D]/20 bg-[#F0FDF4] text-[#15803D] shadow-xs animate-in slide-in-from-top-2">
             <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold">
-              <CheckCircle2 className="h-5 w-5 text-[#0F766E]" />
+              <CheckCircle2 className="h-4 w-4 text-[#15803D]" />
               <span>{toastMessage}</span>
             </div>
             <button
               type="button"
               onClick={() => setToastMessage(null)}
-              className="text-xs font-bold underline cursor-pointer"
+              className="text-xs font-semibold underline cursor-pointer"
             >
               Dismiss
             </button>
@@ -144,25 +144,25 @@ export const StaffLabDetailPage = () => {
         )}
 
         {/* ── Top Navigation Bar ── */}
-        <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-xl border border-[#E2E8F0]">
           <button
             type="button"
             onClick={() => navigate('/staff/lab')}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#E2E8F0] bg-white text-xs font-bold text-[#0F172A] hover:bg-slate-50 hover:text-[#0F766E] transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-[#E2E8F0] bg-white text-xs font-semibold text-[#17221B] hover:bg-[#F8FAFC] hover:text-[#15803D] transition-all cursor-pointer"
           >
-            <ArrowLeft className="h-4 w-4 text-[#0F766E]" />
+            <ArrowLeft className="h-4 w-4 text-[#15803D]" />
             <span>Back to Lab Coordination</span>
           </button>
 
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2">
             {/* View Patient */}
             <button
               type="button"
               onClick={() => navigate(`/staff/patients/${labRequest.patientId}`)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#0F766E]/30 bg-[#CCFBF1]/40 text-[#0F766E] hover:bg-[#CCFBF1] text-xs font-bold transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[#15803D]/20 bg-[#F0FDF4] text-[#15803D] hover:bg-[#15803D] hover:text-white text-xs font-semibold transition-all cursor-pointer"
             >
-              <User className="h-4 w-4" />
-              <span>View Patient ({labRequest.patientName})</span>
+              <User className="h-3.5 w-3.5" />
+              <span>Patient ({labRequest.patientName})</span>
             </button>
 
             {/* View Doctor */}
@@ -170,10 +170,10 @@ export const StaffLabDetailPage = () => {
               <button
                 type="button"
                 onClick={() => navigate(`/staff/doctors/${labRequest.doctorId}`)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-[#475569] text-xs font-bold transition-all cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[#E2E8F0] bg-white hover:bg-slate-50 text-[#17221B] text-xs font-semibold transition-all cursor-pointer"
               >
-                <Building2 className="h-4 w-4 text-[#0F766E]" />
-                <span>View Doctor ({labRequest.doctor})</span>
+                <Building2 className="h-3.5 w-3.5 text-[#15803D]" />
+                <span>Doctor ({labRequest.doctor})</span>
               </button>
             )}
 
@@ -181,49 +181,49 @@ export const StaffLabDetailPage = () => {
             <button
               type="button"
               onClick={() => window.print()}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-[#0F172A] text-xs font-bold shadow-2xs transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[#E2E8F0] bg-white hover:bg-slate-50 text-[#17221B] text-xs font-semibold transition-all cursor-pointer"
             >
-              <Printer className="h-4 w-4 text-[#64748B]" />
+              <Printer className="h-3.5 w-3.5 text-[#64748B]" />
               <span>Print Slip</span>
             </button>
           </div>
         </div>
 
-        {/* ── 1. Hero Requisition Header ── */}
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 sm:p-6 shadow-xs space-y-5">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E8F0]">
-            <div className="flex items-center gap-4">
-              <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-[#CCFBF1] text-[#0F766E] shadow-inner flex-shrink-0">
-                <FlaskConical className="h-7 w-7 sm:h-8 sm:w-8" />
+        {/* ── 1. Requisition Header ── */}
+        <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 sm:p-5 space-y-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#E2E8F0]">
+            <div className="flex items-center gap-3.5">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20 flex-shrink-0">
+                <FlaskConical className="h-6 w-6" />
               </div>
 
               <div>
-                <div className="flex flex-wrap items-center gap-2.5">
-                  <h1 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h1 className="text-lg sm:text-xl font-bold text-[#17221B] tracking-tight">
                     {labRequest.test}
                   </h1>
-                  <span className="font-mono text-xs font-bold text-[#0F766E] bg-[#CCFBF1] px-2.5 py-0.5 rounded-full border border-[#0F766E]/20">
+                  <span className="font-mono text-xs font-semibold text-[#15803D] bg-[#F0FDF4] px-2 py-0.5 rounded-md border border-[#15803D]/20">
                     {labRequest.id}
                   </span>
                   <LabPriorityBadge priority={labRequest.priority} />
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-[#64748B] mt-1">
-                  <span className="font-semibold text-[#0F172A]">
+                <div className="flex flex-wrap items-center gap-2 text-xs text-[#64748B] mt-1">
+                  <span className="font-medium text-[#17221B]">
                     Category: {labRequest.category}
                   </span>
                   <span>•</span>
                   <span>Dept: {labRequest.department}</span>
                   <span>•</span>
-                  <span className="font-mono text-[#0F766E]">
+                  <span className="font-mono text-[#15803D]">
                     Barcode: {labRequest.sampleBarcode}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col sm:items-end gap-1.5">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#94A3B8]">
+            <div className="flex flex-col sm:items-end gap-1">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#64748B]">
                 Current Status
               </span>
               <LabStatusBadge status={labRequest.status} />
@@ -231,61 +231,61 @@ export const StaffLabDetailPage = () => {
           </div>
 
           {/* Quick Info Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] space-y-0.5">
               <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
-                <User className="h-3.5 w-3.5 text-[#0F766E]" />
+                <User className="h-3.5 w-3.5 text-[#15803D]" />
                 <span>Patient</span>
               </div>
-              <div className="font-bold text-xs sm:text-sm text-[#0F172A]">
+              <div className="font-semibold text-xs sm:text-sm text-[#17221B]">
                 {labRequest.patientName} ({labRequest.patientAge}y, {labRequest.patientGender})
               </div>
-              <div className="text-[11px] text-[#94A3B8] font-mono">{labRequest.patientId}</div>
+              <div className="text-[11px] text-[#64748B] font-mono">{labRequest.patientId}</div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+            <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] space-y-0.5">
               <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
-                <Building2 className="h-3.5 w-3.5 text-[#0F766E]" />
+                <Building2 className="h-3.5 w-3.5 text-[#15803D]" />
                 <span>Requesting Doctor</span>
               </div>
-              <div className="font-bold text-xs sm:text-sm text-[#0F172A]">
+              <div className="font-semibold text-xs sm:text-sm text-[#17221B]">
                 {labRequest.doctor}
               </div>
               <div className="text-[11px] text-[#64748B]">{labRequest.department}</div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+            <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] space-y-0.5">
               <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
-                <TestTube2 className="h-3.5 w-3.5 text-[#0F766E]" />
+                <TestTube2 className="h-3.5 w-3.5 text-[#15803D]" />
                 <span>Specimen Sample</span>
               </div>
-              <div className="font-bold text-xs sm:text-sm text-[#0F172A]">
+              <div className="font-semibold text-xs sm:text-sm text-[#17221B]">
                 {labRequest.sampleType}
               </div>
               <div className="text-[11px] text-[#64748B]">Status: {labRequest.sampleStatus}</div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+            <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] space-y-0.5">
               <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
-                <Clock className="h-3.5 w-3.5 text-[#0F766E]" />
+                <Clock className="h-3.5 w-3.5 text-[#15803D]" />
                 <span>Order Time & ETA</span>
               </div>
-              <div className="font-bold text-xs sm:text-sm text-[#0F172A]">
+              <div className="font-semibold text-xs sm:text-sm text-[#17221B]">
                 {labRequest.requestedTime} ({labRequest.requestedDate})
               </div>
-              <div className="text-[11px] text-[#0F766E] font-medium">ETA: {labRequest.estimatedCompletion}</div>
+              <div className="text-[11px] text-[#15803D] font-medium">ETA: {labRequest.estimatedCompletion}</div>
             </div>
           </div>
         </div>
 
-        {/* ── 2. Interactive Workflow Progression Stepper ── */}
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 sm:p-6 shadow-xs space-y-4">
+        {/* ── 2. Workflow Progression Stepper ── */}
+        <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 sm:p-5 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div>
-              <h2 className="text-sm sm:text-base font-bold text-[#0F172A]">
+              <h2 className="text-sm sm:text-base font-bold text-[#17221B]">
                 Workflow Pipeline Status
               </h2>
-              <p className="text-xs text-[#64748B]">Real-time specimen progression tracker</p>
+              <p className="text-xs text-[#64748B]">Specimen progression and analyzer milestone tracking</p>
             </div>
 
             {/* Contextual Action Button */}
@@ -294,9 +294,9 @@ export const StaffLabDetailPage = () => {
                 <button
                   type="button"
                   onClick={handleRequestSample}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow-xs active:scale-[0.98] transition-all cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold shadow-xs transition-all cursor-pointer"
                 >
-                  <Send className="h-4 w-4" />
+                  <Send className="h-3.5 w-3.5" />
                   <span>Request Sample</span>
                 </button>
               )}
@@ -305,9 +305,9 @@ export const StaffLabDetailPage = () => {
                 <button
                   type="button"
                   onClick={handleMarkSampleCollected}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs active:scale-[0.98] transition-all cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-sky-700 hover:bg-sky-800 text-white text-xs font-semibold shadow-xs transition-all cursor-pointer"
                 >
-                  <TestTube2 className="h-4 w-4" />
+                  <TestTube2 className="h-3.5 w-3.5" />
                   <span>Mark Sample Collected</span>
                 </button>
               )}
@@ -316,9 +316,9 @@ export const StaffLabDetailPage = () => {
                 <button
                   type="button"
                   onClick={handleStartProcessing}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0F766E] hover:bg-[#115E59] text-white text-xs font-bold shadow-xs active:scale-[0.98] transition-all cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-xs font-semibold shadow-xs transition-all cursor-pointer"
                 >
-                  <RefreshCw className="h-4 w-4" />
+                  <RefreshCw className="h-3.5 w-3.5" />
                   <span>Start Processing</span>
                 </button>
               )}
@@ -327,28 +327,28 @@ export const StaffLabDetailPage = () => {
                 <button
                   type="button"
                   onClick={() => setIsResultModalOpen(true)}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#CCFBF1] text-[#0F766E] hover:bg-[#0F766E] hover:text-white border border-[#0F766E]/20 text-xs font-bold shadow-xs active:scale-[0.98] transition-all cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#F0FDF4] text-[#15803D] hover:bg-[#15803D] hover:text-white border border-[#15803D]/20 text-xs font-semibold shadow-xs transition-all cursor-pointer"
                 >
-                  <FileCheck className="h-4 w-4" />
+                  <FileCheck className="h-3.5 w-3.5" />
                   <span>View Lab Results</span>
                 </button>
               )}
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 pt-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-1">
             {stages.map((stage, idx) => {
               const isPassed = idx < currentStageIndex;
               const isCurrent = idx === currentStageIndex;
               return (
                 <div
                   key={stage.key}
-                  className={`p-3 rounded-xl border flex flex-col justify-between space-y-2 transition-all ${
+                  className={`p-3 rounded-lg border flex flex-col justify-between space-y-2 transition-all ${
                     isCurrent
-                      ? 'bg-[#CCFBF1]/40 border-[#0F766E] shadow-2xs'
+                      ? 'bg-[#F0FDF4] border-[#15803D]'
                       : isPassed
                       ? 'bg-emerald-50/50 border-emerald-200'
-                      : 'bg-slate-50 border-slate-100 opacity-60'
+                      : 'bg-[#F8FAFC] border-[#E2E8F0] opacity-60'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -356,18 +356,18 @@ export const StaffLabDetailPage = () => {
                       0{idx + 1}
                     </span>
                     {isPassed ? (
-                      <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
                     ) : isCurrent ? (
-                      <span className="h-2.5 w-2.5 rounded-full bg-[#0F766E] animate-ping" />
+                      <span className="h-2 w-2 rounded-full bg-[#15803D] animate-ping" />
                     ) : (
-                      <div className="h-2 w-2 rounded-full bg-slate-300" />
+                      <div className="h-1.5 w-1.5 rounded-full bg-slate-300" />
                     )}
                   </div>
                   <div>
                     <div
                       className={`text-xs font-bold ${
                         isCurrent
-                          ? 'text-[#0F766E]'
+                          ? 'text-[#15803D]'
                           : isPassed
                           ? 'text-emerald-900'
                           : 'text-[#64748B]'
@@ -375,7 +375,7 @@ export const StaffLabDetailPage = () => {
                     >
                       {stage.key}
                     </div>
-                    <div className="text-[11px] text-[#64748B] mt-0.5">{stage.label}</div>
+                    <div className="text-[11px] text-[#64748B] mt-0.5 leading-snug">{stage.label}</div>
                   </div>
                 </div>
               );
@@ -385,46 +385,46 @@ export const StaffLabDetailPage = () => {
 
         {/* ── 3. Embedded Mock Results (When Result Ready or Completed) ── */}
         {(labRequest.status === 'Result Ready' || labRequest.status === 'Completed') && (
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 sm:p-6 shadow-xs space-y-4">
+          <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 sm:p-5 space-y-3.5">
             <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
               <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#CCFBF1] text-[#0F766E]">
+                <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20">
                   <FileCheck className="h-4 w-4" />
                 </div>
                 <div>
-                  <h2 className="text-sm sm:text-base font-bold text-[#0F172A]">
+                  <h2 className="text-sm sm:text-base font-bold text-[#17221B]">
                     Verified Lab Findings
                   </h2>
-                  <p className="text-[11px] text-[#64748B]">Analytes measured and biological reference ranges</p>
+                  <p className="text-[11px] text-[#64748B]">Analytes measured and reference ranges</p>
                 </div>
               </div>
 
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium">
                 <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
-                <span>Mock Result — Phase 1</span>
+                <span>Demonstration Findings</span>
               </div>
             </div>
 
-            <div className="border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-2xs">
+            <div className="border border-[#E2E8F0] rounded-xl overflow-hidden">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="bg-slate-50/80 border-b border-[#E2E8F0] text-[#64748B]">
-                    <th className="py-2.5 px-3.5 font-bold">Analyte Parameter</th>
-                    <th className="py-2.5 px-3.5 font-bold">Measured Value</th>
-                    <th className="py-2.5 px-3.5 font-bold">Unit</th>
-                    <th className="py-2.5 px-3.5 font-bold">Reference Interval</th>
-                    <th className="py-2.5 px-3.5 font-bold text-right">Flag</th>
+                  <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#64748B]">
+                    <th className="py-2.5 px-3.5 font-semibold text-[11px] uppercase tracking-wider">Analyte Parameter</th>
+                    <th className="py-2.5 px-3.5 font-semibold text-[11px] uppercase tracking-wider">Measured Value</th>
+                    <th className="py-2.5 px-3.5 font-semibold text-[11px] uppercase tracking-wider">Unit</th>
+                    <th className="py-2.5 px-3.5 font-semibold text-[11px] uppercase tracking-wider">Reference Interval</th>
+                    <th className="py-2.5 px-3.5 font-semibold text-[11px] uppercase tracking-wider text-right">Flag</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {(labRequest.mockResults || []).map((res, index) => {
                     const isAbnormal = res.status === 'Elevated' || res.status === 'Borderline';
                     return (
-                      <tr key={index} className="hover:bg-slate-50/60 transition-colors">
-                        <td className="py-2.5 px-3.5 font-semibold text-[#0F172A]">
+                      <tr key={index} className="hover:bg-[#F8FAFC]/70 transition-colors">
+                        <td className="py-2.5 px-3.5 font-semibold text-[#17221B]">
                           {res.parameter}
                         </td>
-                        <td className={`py-2.5 px-3.5 font-bold ${isAbnormal ? 'text-amber-700' : 'text-[#0F172A]'}`}>
+                        <td className={`py-2.5 px-3.5 font-bold ${isAbnormal ? 'text-amber-800' : 'text-[#17221B]'}`}>
                           {res.value}
                         </td>
                         <td className="py-2.5 px-3.5 text-[#64748B] font-mono">
@@ -435,10 +435,10 @@ export const StaffLabDetailPage = () => {
                         </td>
                         <td className="py-2.5 px-3.5 text-right">
                           <span
-                            className={`inline-flex px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                            className={`inline-flex px-2 py-0.5 rounded-full text-[11px] font-semibold ${
                               isAbnormal
-                                ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                                : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                ? 'bg-amber-50 text-amber-800 border border-amber-200'
+                                : 'bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20'
                             }`}
                           >
                             {res.status}
@@ -451,18 +451,18 @@ export const StaffLabDetailPage = () => {
               </table>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs">
               <div className="flex items-center gap-2 text-[#64748B]">
-                <ShieldCheck className="h-4 w-4 text-[#0F766E]" />
+                <ShieldCheck className="h-4 w-4 text-[#15803D]" />
                 <span>
                   Technician on Duty:{' '}
-                  <strong className="text-[#0F172A]">{labRequest.technician}</strong>
+                  <strong className="text-[#17221B]">{labRequest.technician}</strong>
                 </span>
               </div>
               <button
                 type="button"
                 onClick={() => setIsResultModalOpen(true)}
-                className="inline-flex items-center gap-1 text-[#0F766E] font-bold hover:underline cursor-pointer"
+                className="inline-flex items-center gap-1 text-[#15803D] font-semibold hover:underline cursor-pointer"
               >
                 <span>Open Full-Screen Report</span>
                 <ExternalLink className="h-3.5 w-3.5" />
@@ -472,11 +472,11 @@ export const StaffLabDetailPage = () => {
         )}
 
         {/* ── 4. Clinical Notes & Instructions ── */}
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 sm:p-6 shadow-xs space-y-3">
-          <h2 className="text-sm sm:text-base font-bold text-[#0F172A]">
+        <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 sm:p-5 space-y-2.5">
+          <h2 className="text-sm sm:text-base font-bold text-[#17221B]">
             Physician Clinical Notes & Instructions
           </h2>
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 text-xs text-[#0F172A] leading-relaxed">
+          <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#17221B] leading-relaxed">
             {labRequest.notes || 'No special handling instructions indicated on requisition.'}
           </div>
         </div>

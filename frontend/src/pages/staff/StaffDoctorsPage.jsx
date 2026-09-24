@@ -107,21 +107,21 @@ export const StaffDoctorsPage = () => {
       title="Doctor Availability"
       subtitle="Monitor doctor availability, consultation status, and current patient queues."
     >
-      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 lg:p-7 max-w-7xl mx-auto space-y-5">
         {/* ── Toast Alert ── */}
         {toast && (
           <div
-            className={`flex items-center justify-between gap-3 p-4 rounded-2xl border shadow-md animate-in slide-in-from-top-2 duration-200 ${
+            className={`flex items-center justify-between gap-3 p-3.5 rounded-xl border shadow-xs animate-in slide-in-from-top-2 duration-150 ${
               toast.type === 'error'
                 ? 'bg-rose-50 border-rose-200 text-rose-800'
-                : 'bg-teal-50 border-[#0F766E]/20 text-[#0F766E]'
+                : 'bg-[#F0FDF4] border-[#15803D]/20 text-[#15803D]'
             }`}
           >
             <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold">
               {toast.type === 'error' ? (
-                <AlertCircle className="h-5 w-5 text-rose-600 flex-shrink-0" />
+                <AlertCircle className="h-4.5 w-4.5 text-rose-600 flex-shrink-0" />
               ) : (
-                <CheckCircle2 className="h-5 w-5 text-[#0F766E] flex-shrink-0" />
+                <CheckCircle2 className="h-4.5 w-4.5 text-[#15803D] flex-shrink-0" />
               )}
               <span>{toast.message}</span>
             </div>
@@ -135,13 +135,18 @@ export const StaffDoctorsPage = () => {
           </div>
         )}
 
-        {/* ── Top Header Bar & Action ── */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 sm:p-5 rounded-2xl border border-[#E2E8F0] shadow-xs">
+        {/* ── Page Header & Primary Action ── */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5 bg-white p-4 sm:p-5 rounded-xl border border-[#E2E8F0] shadow-2xs">
           <div>
-            <h1 className="text-lg sm:text-xl font-extrabold text-[#0F172A] tracking-tight">
-              Hospital Physician Roster & Availability
-            </h1>
-            <p className="text-xs sm:text-sm text-[#64748B] mt-0.5">
+            <div className="flex items-center gap-2.5">
+              <h1 className="text-xl sm:text-2xl font-extrabold text-[#17221B] tracking-tight">
+                Hospital Physician Roster & Availability
+              </h1>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20">
+                Live Capacity
+              </span>
+            </div>
+            <p className="text-xs sm:text-sm text-[#64748B] mt-1">
               Live consultation room allocations, active queues, and shift assignments.
             </p>
           </div>
@@ -150,9 +155,9 @@ export const StaffDoctorsPage = () => {
             type="button"
             onClick={handleRefreshStatus}
             disabled={isRefreshing}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs sm:text-sm font-bold text-[#0F172A] shadow-2xs transition-all cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#E2E8F0] bg-white hover:bg-slate-50 text-xs sm:text-sm font-bold text-[#17221B] shadow-2xs transition-all cursor-pointer disabled:opacity-50"
           >
-            <RefreshCw className={`h-4 w-4 text-[#0F766E] ${isRefreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-4 w-4 text-[#15803D] ${isRefreshing ? 'animate-spin' : ''}`} />
             <span>Refresh Status</span>
           </button>
         </div>
@@ -197,18 +202,18 @@ export const StaffDoctorsPage = () => {
         </section>
 
         {/* ── Main Doctor Cards Grid ── */}
-        <section aria-label="Doctor Cards Directory" className="space-y-4">
+        <section aria-label="Doctor Cards Directory" className="space-y-3.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h2 className="text-base sm:text-lg font-bold text-[#0F172A]">Doctors on Duty</h2>
-              <span className="text-xs font-bold text-[#0F766E] bg-[#CCFBF1] px-2.5 py-0.5 rounded-full border border-[#0F766E]/20">
+              <h2 className="text-sm sm:text-base font-bold text-[#17221B]">Doctors on Duty</h2>
+              <span className="text-[11px] font-bold text-[#15803D] bg-[#F0FDF4] px-2.5 py-0.5 rounded-full border border-[#15803D]/20">
                 {filteredDoctors.length} physicians
               </span>
             </div>
           </div>
 
           {filteredDoctors.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredDoctors.map((doctor) => (
                 <DoctorAvailabilityCard
                   key={doctor.id}
@@ -218,24 +223,24 @@ export const StaffDoctorsPage = () => {
               ))}
             </div>
           ) : (
-            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-12 text-center shadow-xs">
-              <div className="flex flex-col items-center justify-center space-y-3 max-w-sm mx-auto">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-[#94A3B8]">
-                  <SearchX className="h-6 w-6" />
+            <div className="bg-white rounded-xl border border-[#E2E8F0] p-12 text-center shadow-2xs">
+              <div className="flex flex-col items-center justify-center space-y-2.5 max-w-sm mx-auto">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-[#94A3B8]">
+                  <SearchX className="h-5 w-5" />
                 </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-bold text-[#0F172A]">No doctors found</p>
+                <div className="space-y-0.5">
+                  <p className="text-sm font-bold text-[#17221B]">No doctors found</p>
                   <p className="text-xs text-[#64748B]">
-                    Try changing your search or filters to find on-duty physicians.
+                    Try adjusting your search query or reset active filters.
                   </p>
                 </div>
                 {isFiltered && (
                   <button
                     type="button"
                     onClick={handleResetFilters}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#0F766E] text-white text-xs font-semibold hover:bg-[#115E59] transition-all shadow-xs cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-xs font-semibold transition-all shadow-2xs cursor-pointer"
                   >
-                    <span>Clear Filters</span>
+                    <span>Clear All Filters</span>
                   </button>
                 )}
               </div>

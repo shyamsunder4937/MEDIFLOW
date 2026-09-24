@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, UserPlus, Edit3, AlertCircle, Building2, User } from 'lucide-react';
+import { X, UserPlus, Edit3, AlertCircle, Building2, User, Phone, MapPin } from 'lucide-react';
 
 const getInitialFormData = (patient) => {
   if (patient) {
@@ -151,23 +151,23 @@ const PatientFormInner = ({
 
   return (
     <div
-      className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-[#E2E8F0] overflow-hidden my-6 animate-in zoom-in-95 duration-150"
+      className="relative w-full max-w-2xl bg-white rounded-xl shadow-2xl border border-[#E2E8F0] overflow-hidden my-6 animate-in zoom-in-95 duration-150"
       onClick={(e) => e.stopPropagation()}
     >
-      {/* ── Header ── */}
-      <div className="flex items-center justify-between px-5 sm:px-6 py-4 bg-gradient-to-r from-slate-50 to-teal-50/40 border-b border-[#E2E8F0]">
+      {/* ── Modal Header ── */}
+      <div className="flex items-center justify-between px-5 sm:px-6 py-4 bg-white border-b border-[#E2E8F0]">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#CCFBF1] text-[#0F766E] shadow-xs">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F0FDF4] text-[#15803D] border border-[#15803D]/20 shadow-2xs">
             {isEditMode ? <Edit3 className="h-5 w-5" /> : <UserPlus className="h-5 w-5" />}
           </div>
           <div>
-            <h2 className="text-base sm:text-lg font-bold text-[#0F172A]">
+            <h2 className="text-base sm:text-lg font-bold text-[#17221B]">
               {isEditMode ? 'Edit Patient Information' : 'Register New Patient'}
             </h2>
             <p className="text-xs text-[#64748B]">
               {isEditMode
-                ? `Updating record for ${patientToEdit?.id || 'Patient'}`
-                : 'Enter patient demographic and admission details for OPD intake.'}
+                ? `Updating hospital demographic file for ${patientToEdit?.id || 'Patient'}`
+                : 'Enter patient demographic and admission details for OPD registration.'}
             </p>
           </div>
         </div>
@@ -175,7 +175,7 @@ const PatientFormInner = ({
         <button
           type="button"
           onClick={onClose}
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-[#64748B] hover:bg-slate-200/60 hover:text-[#0F172A] transition-colors"
+          className="flex h-8 w-8 items-center justify-center rounded-lg text-[#64748B] hover:bg-slate-100 hover:text-[#17221B] transition-colors cursor-pointer"
           aria-label="Close modal"
         >
           <X className="h-4 w-4" />
@@ -186,7 +186,7 @@ const PatientFormInner = ({
       <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 sm:space-y-5 max-h-[75vh] overflow-y-auto">
         {/* Section: Personal Information */}
         <div>
-          <div className="flex items-center gap-2 pb-2 mb-3 border-b border-slate-100 text-xs font-bold uppercase tracking-wider text-[#0F766E]">
+          <div className="flex items-center gap-2 pb-2 mb-3 border-b border-slate-100 text-xs font-bold uppercase tracking-wider text-[#15803D]">
             <User className="h-3.5 w-3.5" />
             <span>Personal Information</span>
           </div>
@@ -194,7 +194,7 @@ const PatientFormInner = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             {/* First Name */}
             <div>
-              <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+              <label className="block text-xs font-semibold text-[#17221B] mb-1">
                 First Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -205,8 +205,8 @@ const PatientFormInner = ({
                   if (errors.firstName) setErrors({ ...errors, firstName: undefined });
                 }}
                 placeholder="e.g. Rahul"
-                className={`w-full rounded-xl border px-3.5 py-2 text-xs sm:text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all ${
-                  errors.firstName ? 'border-red-400 bg-red-50/30' : 'border-[#E2E8F0] bg-slate-50/60'
+                className={`w-full rounded-lg border px-3.5 py-2 text-xs sm:text-sm text-[#17221B] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 transition-all ${
+                  errors.firstName ? 'border-red-400 bg-red-50/30' : 'border-[#E2E8F0] bg-[#F8FAFC]'
                 }`}
               />
               {errors.firstName && (
@@ -219,7 +219,7 @@ const PatientFormInner = ({
 
             {/* Last Name */}
             <div>
-              <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+              <label className="block text-xs font-semibold text-[#17221B] mb-1">
                 Last Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -230,8 +230,8 @@ const PatientFormInner = ({
                   if (errors.lastName) setErrors({ ...errors, lastName: undefined });
                 }}
                 placeholder="e.g. Kumar"
-                className={`w-full rounded-xl border px-3.5 py-2 text-xs sm:text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all ${
-                  errors.lastName ? 'border-red-400 bg-red-50/30' : 'border-[#E2E8F0] bg-slate-50/60'
+                className={`w-full rounded-lg border px-3.5 py-2 text-xs sm:text-sm text-[#17221B] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 transition-all ${
+                  errors.lastName ? 'border-red-400 bg-red-50/30' : 'border-[#E2E8F0] bg-[#F8FAFC]'
                 }`}
               />
               {errors.lastName && (
@@ -244,21 +244,21 @@ const PatientFormInner = ({
 
             {/* DOB */}
             <div>
-              <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+              <label className="block text-xs font-semibold text-[#17221B] mb-1">
                 Date of Birth
               </label>
               <input
                 type="date"
                 value={formData.dob}
                 onChange={(e) => handleDobChange(e.target.value)}
-                className="w-full rounded-xl border border-[#E2E8F0] bg-slate-50/60 px-3.5 py-2 text-xs sm:text-sm text-[#0F172A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all"
+                className="w-full rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3.5 py-2 text-xs sm:text-sm text-[#17221B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 transition-all"
               />
             </div>
 
             {/* Age & Gender */}
             <div className="grid grid-cols-2 gap-2.5">
               <div>
-                <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+                <label className="block text-xs font-semibold text-[#17221B] mb-1">
                   Age <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -271,8 +271,8 @@ const PatientFormInner = ({
                     if (errors.age) setErrors({ ...errors, age: undefined });
                   }}
                   placeholder="32"
-                  className={`w-full rounded-xl border px-3.5 py-2 text-xs sm:text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all ${
-                    errors.age ? 'border-red-400 bg-red-50/30' : 'border-[#E2E8F0] bg-slate-50/60'
+                  className={`w-full rounded-lg border px-3.5 py-2 text-xs sm:text-sm text-[#17221B] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 transition-all ${
+                    errors.age ? 'border-red-400 bg-red-50/30' : 'border-[#E2E8F0] bg-[#F8FAFC]'
                   }`}
                 />
                 {errors.age && (
@@ -281,13 +281,13 @@ const PatientFormInner = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+                <label className="block text-xs font-semibold text-[#17221B] mb-1">
                   Gender <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={formData.gender}
                   onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-slate-50/60 px-3 py-2 text-xs sm:text-sm font-semibold text-[#0F172A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all cursor-pointer"
+                  className="w-full rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-xs sm:text-sm font-semibold text-[#17221B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 transition-all cursor-pointer"
                 >
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
@@ -298,13 +298,13 @@ const PatientFormInner = ({
 
             {/* Blood Group */}
             <div>
-              <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+              <label className="block text-xs font-semibold text-[#17221B] mb-1">
                 Blood Group
               </label>
               <select
                 value={formData.bloodGroup}
                 onChange={(e) => setFormData({ ...formData, bloodGroup: e.target.value })}
-                className="w-full rounded-xl border border-[#E2E8F0] bg-slate-50/60 px-3.5 py-2 text-xs sm:text-sm text-[#0F172A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all cursor-pointer"
+                className="w-full rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3.5 py-2 text-xs sm:text-sm text-[#17221B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 transition-all cursor-pointer"
               >
                 <option value="A+">A+</option>
                 <option value="A-">A-</option>
@@ -319,7 +319,7 @@ const PatientFormInner = ({
 
             {/* Phone Number */}
             <div>
-              <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+              <label className="block text-xs font-semibold text-[#17221B] mb-1">
                 Phone Number <span className="text-red-500">*</span>
               </label>
               <input
@@ -330,8 +330,8 @@ const PatientFormInner = ({
                   if (errors.phone) setErrors({ ...errors, phone: undefined });
                 }}
                 placeholder="9876543210"
-                className={`w-full rounded-xl border px-3.5 py-2 text-xs sm:text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all ${
-                  errors.phone ? 'border-red-400 bg-red-50/30' : 'border-[#E2E8F0] bg-slate-50/60'
+                className={`w-full rounded-lg border px-3.5 py-2 text-xs sm:text-sm text-[#17221B] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 transition-all ${
+                  errors.phone ? 'border-red-400 bg-red-50/30' : 'border-[#E2E8F0] bg-[#F8FAFC]'
                 }`}
               />
               {errors.phone && (
@@ -346,10 +346,15 @@ const PatientFormInner = ({
 
         {/* Section: Contact & Address */}
         <div>
+          <div className="flex items-center gap-2 pb-2 mb-3 border-b border-slate-100 text-xs font-bold uppercase tracking-wider text-[#15803D]">
+            <MapPin className="h-3.5 w-3.5" />
+            <span>Contact & Address</span>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             {/* Email */}
             <div>
-              <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+              <label className="block text-xs font-semibold text-[#17221B] mb-1">
                 Email Address
               </label>
               <input
@@ -360,8 +365,8 @@ const PatientFormInner = ({
                   if (errors.email) setErrors({ ...errors, email: undefined });
                 }}
                 placeholder="patient@example.com"
-                className={`w-full rounded-xl border px-3.5 py-2 text-xs sm:text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all ${
-                  errors.email ? 'border-red-400 bg-red-50/30' : 'border-[#E2E8F0] bg-slate-50/60'
+                className={`w-full rounded-lg border px-3.5 py-2 text-xs sm:text-sm text-[#17221B] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 transition-all ${
+                  errors.email ? 'border-red-400 bg-red-50/30' : 'border-[#E2E8F0] bg-[#F8FAFC]'
                 }`}
               />
               {errors.email && (
@@ -371,7 +376,7 @@ const PatientFormInner = ({
 
             {/* Address */}
             <div>
-              <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+              <label className="block text-xs font-semibold text-[#17221B] mb-1">
                 Residential Address
               </label>
               <input
@@ -379,36 +384,37 @@ const PatientFormInner = ({
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                 placeholder="e.g. 14, Gandhi Road, Anna Nagar, Chennai"
-                className="w-full rounded-xl border border-[#E2E8F0] bg-slate-50/60 px-3.5 py-2 text-xs sm:text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all"
+                className="w-full rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3.5 py-2 text-xs sm:text-sm text-[#17221B] placeholder:text-[#94A3B8] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 transition-all"
               />
             </div>
           </div>
         </div>
 
         {/* Section: Emergency Contact */}
-        <div className="p-3.5 rounded-xl bg-slate-50/80 border border-[#E2E8F0] space-y-3">
-          <span className="text-xs font-bold text-[#0F172A] block">
-            Emergency Contact (Optional)
-          </span>
+        <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] space-y-2.5">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-[#17221B]">
+            <Phone className="h-3.5 w-3.5 text-[#15803D]" />
+            <span>Emergency Contact (Optional)</span>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
             <input
               type="text"
               value={formData.emergencyContactName}
               onChange={(e) => setFormData({ ...formData, emergencyContactName: e.target.value })}
               placeholder="Contact Name (e.g. Sunita)"
-              className="rounded-xl border border-[#E2E8F0] bg-white px-3 py-2 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20"
+              className="rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-xs text-[#17221B] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 focus:border-[#15803D]"
             />
             <input
               type="tel"
               value={formData.emergencyContactPhone}
               onChange={(e) => setFormData({ ...formData, emergencyContactPhone: e.target.value })}
               placeholder="Emergency Phone"
-              className="rounded-xl border border-[#E2E8F0] bg-white px-3 py-2 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20"
+              className="rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-xs text-[#17221B] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 focus:border-[#15803D]"
             />
             <select
               value={formData.emergencyRelation}
               onChange={(e) => setFormData({ ...formData, emergencyRelation: e.target.value })}
-              className="rounded-xl border border-[#E2E8F0] bg-white px-3 py-2 text-xs font-medium text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 cursor-pointer"
+              className="rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-xs font-medium text-[#17221B] focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 focus:border-[#15803D] cursor-pointer"
             >
               <option value="Spouse">Spouse</option>
               <option value="Father">Father</option>
@@ -424,7 +430,7 @@ const PatientFormInner = ({
 
         {/* Section: Department & Visit Assignment */}
         <div>
-          <div className="flex items-center gap-2 pb-2 mb-3 border-b border-slate-100 text-xs font-bold uppercase tracking-wider text-[#0F766E]">
+          <div className="flex items-center gap-2 pb-2 mb-3 border-b border-slate-100 text-xs font-bold uppercase tracking-wider text-[#15803D]">
             <Building2 className="h-3.5 w-3.5" />
             <span>Department & OPD Admission</span>
           </div>
@@ -432,13 +438,13 @@ const PatientFormInner = ({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
             {/* Department */}
             <div>
-              <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+              <label className="block text-xs font-semibold text-[#17221B] mb-1">
                 Assigned Department
               </label>
               <select
                 value={formData.department}
                 onChange={(e) => handleDepartmentChange(e.target.value)}
-                className="w-full rounded-xl border border-[#E2E8F0] bg-slate-50/60 px-3 py-2 text-xs sm:text-sm font-semibold text-[#0F172A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all cursor-pointer"
+                className="w-full rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-xs sm:text-sm font-semibold text-[#17221B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 focus:border-[#15803D] transition-all cursor-pointer"
               >
                 <option value="General Medicine">General Medicine</option>
                 <option value="Cardiology">Cardiology</option>
@@ -450,13 +456,13 @@ const PatientFormInner = ({
 
             {/* Doctor */}
             <div>
-              <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+              <label className="block text-xs font-semibold text-[#17221B] mb-1">
                 Consulting Doctor
               </label>
               <select
                 value={formData.doctor}
                 onChange={(e) => setFormData({ ...formData, doctor: e.target.value })}
-                className="w-full rounded-xl border border-[#E2E8F0] bg-slate-50/60 px-3 py-2 text-xs sm:text-sm font-semibold text-[#0F172A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all cursor-pointer"
+                className="w-full rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-xs sm:text-sm font-semibold text-[#17221B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 focus:border-[#15803D] transition-all cursor-pointer"
               >
                 <option value="Dr. Kumar">Dr. Kumar (Gen Med)</option>
                 <option value="Dr. Sharma">Dr. Sharma (Cardio)</option>
@@ -468,13 +474,13 @@ const PatientFormInner = ({
 
             {/* Status */}
             <div>
-              <label className="block text-xs font-semibold text-[#0F172A] mb-1">
+              <label className="block text-xs font-semibold text-[#17221B] mb-1">
                 Queue / Visit Status
               </label>
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                className="w-full rounded-xl border border-[#E2E8F0] bg-slate-50/60 px-3 py-2 text-xs sm:text-sm font-semibold text-[#0F172A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/20 transition-all cursor-pointer"
+                className="w-full rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-xs sm:text-sm font-semibold text-[#17221B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#15803D]/15 focus:border-[#15803D] transition-all cursor-pointer"
               >
                 <option value="Waiting">Waiting in OPD</option>
                 <option value="Upcoming">Upcoming Appointment</option>
@@ -486,18 +492,18 @@ const PatientFormInner = ({
         </div>
 
         {/* ── Footer Actions ── */}
-        <div className="pt-4 border-t border-[#E2E8F0] flex items-center justify-end gap-3">
+        <div className="pt-4 border-t border-[#E2E8F0] flex items-center justify-end gap-2.5">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A] transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-lg border border-[#E2E8F0] text-xs sm:text-sm font-semibold text-[#64748B] hover:bg-slate-50 hover:text-[#17221B] transition-colors cursor-pointer"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0F766E] hover:bg-[#115E59] text-white text-xs sm:text-sm font-bold shadow-xs active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-xs sm:text-sm font-bold shadow-2xs active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50"
           >
             {isEditMode ? (
               <>
@@ -527,7 +533,7 @@ export const PatientFormModal = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-150"
       onClick={onClose}
       aria-modal="true"
       role="dialog"

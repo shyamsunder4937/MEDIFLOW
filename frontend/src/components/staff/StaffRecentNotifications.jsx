@@ -21,76 +21,81 @@ export const StaffRecentNotifications = ({
     switch (type) {
       case 'doctor':
         return (
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-50 text-[#0F766E] flex-shrink-0">
-            <Stethoscope className="h-4 w-4" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F0FDF4] text-[#15803D] border border-[#DCFCE7] flex-shrink-0">
+            <Stethoscope className="h-3.5 w-3.5" />
           </div>
         );
       case 'lab':
         return (
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-purple-600 flex-shrink-0">
-            <FlaskConical className="h-4 w-4" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-[#475569] border border-[#E2E8F0] flex-shrink-0">
+            <FlaskConical className="h-3.5 w-3.5" />
           </div>
         );
       case 'pharmacy':
         return (
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 flex-shrink-0">
-            <Pill className="h-4 w-4" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-[#475569] border border-[#E2E8F0] flex-shrink-0">
+            <Pill className="h-3.5 w-3.5" />
           </div>
         );
       case 'appointment':
         return (
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 flex-shrink-0">
-            <Calendar className="h-4 w-4" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F0FDF4] text-[#15803D] border border-[#DCFCE7] flex-shrink-0">
+            <Calendar className="h-3.5 w-3.5" />
           </div>
         );
       case 'queue':
       default:
         return (
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-amber-600 flex-shrink-0">
-            <UserCheck className="h-4 w-4" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-amber-700 border border-amber-200 flex-shrink-0">
+            <UserCheck className="h-3.5 w-3.5" />
           </div>
         );
     }
   };
 
   return (
-    <section className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs space-y-4">
+    <section className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden">
       {/* ── Section Header ── */}
-      <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
+      <div className="p-4 sm:p-5 border-b border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#CCFBF1] text-[#0F766E]">
-            <Bell className="h-4.5 w-4.5" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F0FDF4] text-[#15803D] border border-[#DCFCE7] flex-shrink-0">
+            <Bell className="h-4 w-4" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-[#0F172A]">Recent Notifications</h2>
-            <p className="text-xs text-[#64748B]">Real-time operational alerts & updates</p>
+            <div className="flex items-center gap-2">
+              <h2 className="text-base sm:text-lg font-bold text-[#17221B]">Recent Notifications</h2>
+              <span className="px-2 py-0.5 rounded-md bg-[#F0FDF4] text-[#15803D] text-[10px] font-bold border border-[#DCFCE7]">
+                {notifications.filter((n) => n.unread).length} New
+              </span>
+            </div>
+            <p className="text-xs text-[#64748B] mt-0.5">Real-time operational alerts & updates</p>
           </div>
         </div>
 
         <button
           type="button"
           onClick={() => navigate('/staff/notifications')}
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0F766E] hover:text-[#115E59] hover:underline transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#15803D] hover:text-[#166534] hover:underline transition-colors cursor-pointer self-start sm:self-auto"
         >
-          <span>View All Notifications</span>
+          <span>View All</span>
           <ArrowRight className="h-3.5 w-3.5" />
         </button>
       </div>
 
       {/* ── Notifications List ── */}
-      <div className="divide-y divide-[#E2E8F0] -mx-2">
+      <div className="divide-y divide-[#E2E8F0]">
         {notifications.map((item) => (
           <div
             key={item.id}
-            className={`p-3 rounded-xl transition-colors flex items-start gap-3 ${
-              item.unread ? 'bg-[#CCFBF1]/20' : 'hover:bg-slate-50'
+            className={`p-3.5 sm:p-4 transition-colors flex items-start gap-3 ${
+              item.unread ? 'bg-[#F0FDF4]/30' : 'hover:bg-slate-50/60'
             }`}
           >
             {getNotificationIcon(item.type)}
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-2">
-                <span className="font-bold text-xs text-[#0F172A] truncate">
+                <span className="font-bold text-xs text-[#17221B] truncate">
                   {item.message}
                 </span>
                 <span className="text-[10px] text-[#94A3B8] font-medium whitespace-nowrap flex items-center gap-1">
@@ -104,7 +109,7 @@ export const StaffRecentNotifications = ({
             </div>
 
             {item.unread && (
-              <span className="h-2 w-2 rounded-full bg-[#0F766E] flex-shrink-0 mt-2" title="Unread" />
+              <span className="h-2 w-2 rounded-full bg-[#15803D] flex-shrink-0 mt-1.5" title="Unread" />
             )}
           </div>
         ))}
@@ -114,3 +119,4 @@ export const StaffRecentNotifications = ({
 };
 
 export default StaffRecentNotifications;
+

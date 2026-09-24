@@ -19,8 +19,8 @@ const DOCTOR_NAV_ITEMS = [
   { label: 'Dashboard',     icon: LayoutDashboard, href: '/doctor/dashboard' },
   { label: 'Queue',         icon: ListOrdered,     href: '/doctor/queue', badge: 8 },
   { label: 'Patients',      icon: Users,           href: '/doctor/patients' },
-  { label: 'Lab Results',   icon: FlaskConical,    href: '/doctor/lab-results', badge: 4 },
   { label: 'Consultations', icon: ClipboardList,   href: '/doctor/consultations' },
+  { label: 'Lab Results',   icon: FlaskConical,    href: '/doctor/lab-results', badge: 4 },
   { label: 'Profile',       icon: UserCircle,      href: '/doctor/profile' },
 ];
 
